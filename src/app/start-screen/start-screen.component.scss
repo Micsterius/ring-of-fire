@@ -1,0 +1,48 @@
+.start-screen {
+    background-color: #404040;
+    width: 100vw;
+    height: 100vh;
+    max-width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+        height: 100vh;
+        width: 100vw;
+        object-fit: cover;
+    }
+}
+
+.img-start-screen4 {
+    height: 400px;
+    position: absolute;
+    left: 50%;
+    top: 20%;
+    transform: translate(-50%) rotate(25deg);
+}
+
+.img-start-screen2 {
+    height: 400px;
+    position: absolute;
+    left: 60%;
+    top: 20%;
+    transform: translate(-50%) rotate(-25deg);
+}
+
+.img-start-screen3 {
+    height: 400px;
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%) rotate(185deg);
+}
+
+.img-start-screen1 {
+    height: 400px;
+    position: absolute;
+    left: 45%;
+    top: 30%;
+    transform: translate(-50%) rotate(105deg);
+}
