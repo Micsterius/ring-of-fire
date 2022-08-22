@@ -35,7 +35,7 @@
     height: 400px;
     position: absolute;
     left: 50%;
-    top: 40%;
+    top: 35%;
     transform: translate(-50%) rotate(185deg);
 }
 
@@ -45,4 +45,56 @@
     left: 45%;
     top: 30%;
     transform: translate(-50%) rotate(105deg);
+}
+
+.btn-start {
+    position: absolute;
+    top: 15%;
+    right: 15%;
+    transform: translate(50%);
+
+
+    button {
+        background-color: gold;
+        border: 1px solid black;
+        color: black;
+        font-size: 36px;
+
+        padding-top: 12px;
+        padding-bottom: 12px;
+        padding-left: 24px;
+        padding-right: 24px;
+
+        &:hover {
+            cursor: pointer;
+            color: white;
+            filter: brightness(1.75);
+        }
+    }
+}
+
+.btn-rules {
+    position: absolute;
+    top: 15%;
+    left: 15%;
+    transform: translate(-50%);
+
+
+    button {
+        background-color: gold;
+        border: 1px solid black;
+        color: black;
+        font-size: 36px;
+
+        padding-top: 12px;
+        padding-bottom: 12px;
+        padding-left: 24px;
+        padding-right: 24px;
+
+        &:hover {
+            cursor: pointer;
+            color: white;
+            filter: brightness(1.75);
+        }
+    }
 }
