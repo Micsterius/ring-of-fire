@@ -11,17 +11,13 @@ export class PlayerComponent implements OnInit {
   @Input() nbrOfPlayers: number | any;
   @Input() playerActive: boolean = false;
 
-  
+
   imagePlayer: string = '';
 
   userImages = ['user-img-1.jpg', 'user-img-4.svg', 'user-img-3.svg', 'user-img-5.svg', 'user-img-2.svg', 'user-img-6.svg']
- 
 
-  constructor() {
-    console.log(this.nbrOfPlayers)
-    console.log(this.name)
-    
-   }
+
+  constructor() { }
 
   ngOnInit(): void {
   }
