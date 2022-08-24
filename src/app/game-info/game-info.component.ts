@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges } from '@angular/core';
 
 @Component({
   selector: 'app-game-info',
@@ -27,11 +27,15 @@ export class GameInfoComponent implements OnInit, OnChanges {
   description = '';
 
   @Input() card: string | any;
-  constructor() { }
-  ngOnChanges(): void {
-    let cardNumber = this.card.split('_')[1];
-    this.title = this.cardAction[cardNumber - 1].title;
-    this.description = this.cardAction[cardNumber - 1].description;
+  constructor() {
+  }
+  ngOnChanges(changes: any): void {
+    if (changes['card'] && this.card) {
+      let cardNumber = this.card.split('_')[1];
+      this.title = this.cardAction[cardNumber - 1].title;
+      this.description = this.cardAction[cardNumber - 1].description;
+    }
+
   }
 
   ngOnInit(): void {
