@@ -14,11 +14,11 @@
             src="./../../assets/img/cards/card_cover.png" alt="">
 
         <!-- Stack for played cards -->
-        <img *ngFor="let card of game.playedCards" src="./../../assets/img/cards/{{ card }}.png" class="played-card">
+        <img *ngFor="let card of game.playedCards" src="./../../assets/img/cards/{{ card }}.svg" class="played-card">
 
         <!-- Current card (animation) -->
         <img (click)="takeCard()" *ngIf="pickCardAnimation" class="pick-card" style="right: 25px;"
-            src="./../../assets/img/cards/{{ currentCard }}.png" alt="">
+            src="./../../assets/img/cards/{{ currentCard }}.svg" alt="">
 
     </div>
 </div>
