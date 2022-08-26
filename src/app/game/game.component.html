@@ -10,13 +10,18 @@
         <img [ngStyle]="{ 'right.px' : i*5}" *ngFor="let c of [0,1,2,3,4]; let i = index;"
             src="assets/img/cards/card_cover.png" alt="">
         <img (click)="takeCard()" [class.pick-card]="pickCardAnimation" class="top-card" style="right: 25px;"
-            src="assets/img/cards/card_cover.png" alt="">
+            src="assets/img/cards/card_cover.png">
 
+        <!-- Stack for last card -->
+        <img *ngIf="lastCard != ''"
+        src="assets/img/cards/{{ lastCard }}.svg" class="played-card-{{nbrOfRotation+1}}">
+        
         <!-- Stack for played cards -->
-        <img *ngFor="let card of game.playedCards" src="assets/img/cards/{{ card }}.svg" class="played-card">
+        <img *ngFor="let card of game.playedCards;"
+            src="assets/img/cards/{{ card }}.svg" class="played-card-{{nbrOfRotation}}">
 
         <!-- Current card (animation) -->
-        <img (click)="takeCard()" *ngIf="pickCardAnimation" class="pick-card" style="right: 25px;"
+        <img (click)="takeCard()" *ngIf="pickCardAnimation" class="pick-card-{{nbrOfRotation+1}}" style="right: 25px;"
             src="assets/img/cards/{{ currentCard }}.svg" alt="">
 
     </div>
