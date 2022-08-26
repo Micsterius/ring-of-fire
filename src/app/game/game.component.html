@@ -1,6 +1,5 @@
 <app-player *ngFor="let player of game.players; let i = index" [ngStyle]="{'top.px': 100 + (i * 80)}" [name]="player"
-[playerActive]="i == game.currentPlayer" [nbrOfPlayers]="i" 
-    class="player-position">
+    [playerActive]="i == game.currentPlayer" [nbrOfPlayers]="i" class="player-position">
 </app-player>
 
 <div class="field">
@@ -28,3 +27,7 @@
 <button mat-fab color="accent" class="btn-add" (click)="openDialog()">
     <mat-icon>add</mat-icon>
 </button>
+
+<div class="alert-add-player" *ngIf="game.players.length < 2">
+    <p>Please add a player. You need at least minimum 2 players.</p>
+</div>
