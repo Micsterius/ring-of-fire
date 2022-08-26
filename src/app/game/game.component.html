@@ -12,18 +12,17 @@
         <img (click)="takeCard()" [class.pick-card]="pickCardAnimation" class="top-card" style="right: 25px;"
             src="assets/img/cards/card_cover.png">
 
-        <!-- Stack for last card -->
+        <!-- Stack for last card 
         <img *ngIf="lastCard != ''"
-        src="assets/img/cards/{{ lastCard }}.svg" class="played-card-{{nbrOfRotation+1}}">
+        src="assets/img/cards/{{ lastCard }}.svg" class="played-card-{{nbrOfRotation+1}}">-->
         
         <!-- Stack for played cards -->
         <img *ngFor="let card of game.playedCards;"
-            src="assets/img/cards/{{ card }}.svg" class="played-card-{{nbrOfRotation}}">
+            src="assets/img/cards/{{ card.card }}.svg" [ngClass]="{'played-card-0' :card.position === 0, 'played-card-1' :card.position === 1, 'played-card-2' :card.position === 2}">
 
         <!-- Current card (animation) -->
-        <img (click)="takeCard()" *ngIf="pickCardAnimation" class="pick-card-{{nbrOfRotation+1}}" style="right: 25px;"
-            src="assets/img/cards/{{ currentCard }}.svg" alt="">
-
+        <img (click)="takeCard()" *ngIf="pickCardAnimation" [ngClass]="{'pick-card-0' :nbrOfRotation === 0, 'pick-card-1' :nbrOfRotation === 1, 'pick-card-2' :nbrOfRotation === 2}" style="right: 25px;"
+            src="assets/img/cards/{{ currentCard }}.svg">
     </div>
 </div>
 

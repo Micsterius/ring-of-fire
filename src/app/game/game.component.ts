@@ -42,15 +42,21 @@ export class GameComponent implements OnInit {
 
       this.pickCardAnimation = true;
       console.log(this.game.playedCards)
+      let cardWithPosition = {
+        'card': this.currentCard,
+        'position': this.nbrOfRotation
+      }
+
+      console.log(this.nbrOfRotation)
 
 
       setTimeout(() => {
         //   this.getData()
         this.nbrOfRotation++
-        this.nbrOfRotation = this.nbrOfRotation % 2;
+        this.nbrOfRotation = this.nbrOfRotation % 3;
         this.game.currentPlayer++;
         this.game.currentPlayer = this.game.currentPlayer % this.game.players.length;
-        this.game.playedCards.push(this.currentCard);
+        this.game.playedCards.push(cardWithPosition);
         this.lastCard = this.lastCardPuffer
         this.pickCardAnimation = false;
       }, 1000);
