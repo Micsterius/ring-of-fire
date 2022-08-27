@@ -11,25 +11,34 @@ export class Game {
             this.stack.push('purple_' + i)
             this.stack.push('green_' + i)
         }
-        
+
         shuffle(this.stack)
+    }
+
+    public toJson() {
+        return {
+            players: this.players,
+            stack: this.stack,
+            playedCards: this.playedCards,
+            currentPlayer: this.currentPlayer
+        }
     }
 }
 
 function shuffle(stack: string[]) {
-    let currentIndex = stack.length,  randomIndex;
-  
+    let currentIndex = stack.length, randomIndex;
+
     // While there remain elements to shuffle.
     while (currentIndex != 0) {
-  
-      // Pick a remaining element.
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex--;
-  
-      // And swap it with the current element.
-      [stack[currentIndex], stack[randomIndex]] = [
-        stack[randomIndex], stack[currentIndex]];
+
+        // Pick a remaining element.
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+
+        // And swap it with the current element.
+        [stack[currentIndex], stack[randomIndex]] = [
+            stack[randomIndex], stack[currentIndex]];
     }
-  
+
     return stack;
-  }
+}
