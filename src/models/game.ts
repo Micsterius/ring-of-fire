@@ -3,6 +3,8 @@ export class Game {
     public stack: string[] = [];
     public playedCards: any[] = []; // card and position will be saved
     public currentPlayer: number = 0;
+    public pickCardAnimation = false;
+    public currentCard: string | any = '';
 
     constructor() {
         for (let i = 1; i < 14; i++) {
@@ -20,7 +22,9 @@ export class Game {
             players: this.players,
             stack: this.stack,
             playedCards: this.playedCards,
-            currentPlayer: this.currentPlayer
+            currentPlayer: this.currentPlayer,
+            pickCardAnimation: this.pickCardAnimation,
+            currentCard: this.currentCard
         }
     }
 }

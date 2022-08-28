@@ -9,7 +9,7 @@
         <!-- Card stack -->
         <img [ngStyle]="{ 'right.px' : i*5}" *ngFor="let c of [0,1,2,3,4]; let i = index;"
             src="assets/img/cards/card_cover.png" alt="">
-        <img (click)="takeCard()" [class.pick-card]="pickCardAnimation" class="top-card" style="right: 25px;"
+        <img (click)="takeCard()" [class.pick-card]="game.pickCardAnimation" class="top-card" style="right: 25px;"
             src="assets/img/cards/card_cover.png">
 
         <!-- Stack for last card 
@@ -21,17 +21,17 @@
             src="assets/img/cards/{{ card.card }}.svg" [ngClass]="{'played-card-0' :card.position === 0, 'played-card-1' :card.position === 1, 'played-card-2' :card.position === 2}">
 
         <!-- Current card (animation) -->
-        <img (click)="takeCard()" *ngIf="pickCardAnimation" [ngClass]="{'pick-card-0' :nbrOfRotation === 0, 'pick-card-1' :nbrOfRotation === 1, 'pick-card-2' :nbrOfRotation === 2}" style="right: 25px;"
-            src="assets/img/cards/{{ currentCard }}.svg">
+        <img (click)="takeCard()" *ngIf="game.pickCardAnimation" [ngClass]="{'pick-card-0' :nbrOfRotation === 0, 'pick-card-1' :nbrOfRotation === 1, 'pick-card-2' :nbrOfRotation === 2}" style="right: 25px;"
+            src="assets/img/cards/{{ game.currentCard }}.svg">
     </div>
 </div>
 
-<app-game-info [card]="currentCard" class="pin-bottom"></app-game-info>
+<app-game-info [card]="game.currentCard" class="pin-bottom"></app-game-info>
 
 <button mat-fab color="accent" class="btn-add" (click)="openDialog()">
     <mat-icon>add</mat-icon>
 </button>
 
-<div class="alert-add-player" *ngIf="game.players.length < 2 ">
+<div class="alert-add-player" *ngIf="game.players.length < 2">
     <p>Please add a player. You need at least minimum 2 players.</p>
 </div>
