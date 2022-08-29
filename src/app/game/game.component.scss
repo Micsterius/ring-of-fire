@@ -166,3 +166,39 @@
         }
     }
 }
+
+.player-1{
+    position: absolute;
+    top: 10%;
+    right: 50%;
+    img {
+        width: 140px;
+    }
+}
+
+.player-2{
+    position: absolute;
+    top: 50%;
+    right: 20%;
+    img {
+        width: 140px;
+    }
+}
+
+.player-3{
+    position: absolute;
+    top: 50%;
+    left: 20%;
+    img {
+        width: 140px;
+    }
+}
+
+.player-4{
+    position: absolute;
+    bottom: 10%;
+    right: 50%;
+    img {
+        width: 140px;
+    }
+}

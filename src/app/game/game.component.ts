@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ActivatedRoute } from '@angular/router';
+import { Player } from 'src/models/player';
 
 @Component({
   selector: 'app-game',
@@ -11,12 +12,13 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./game.component.scss']
 })
 export class GameComponent implements OnInit {
-  
+
   lastCard: string | any = '';
   game: Game;
   nbrOfRotation: number = 0;
   lastCardPuffer: string = '';
   gameId: string;
+  cardsForPlayers: string[] = [];
 
   /*name = "Angular " + VERSION.major;
   @ViewChild("cardsOntable") cardsOntable: ElementRef | any;
@@ -55,6 +57,17 @@ export class GameComponent implements OnInit {
     });
   }
 
+  startPokerGame() {
+    this.giveCardsToPlayers()
+  }
+
+  giveCardsToPlayers() {
+    for (let i = 0; i < this.game.players.length * 2; i++) {
+      const card = this.game.stack[i];
+      this.cardsForPlayers.push(card)
+    }
+  }
+
   newGame() {
     this.game = new Game();
     // this.firestore.collection('games').add( {... this.game.toJson()});
@@ -91,10 +104,11 @@ export class GameComponent implements OnInit {
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogAddPlayerComponent);
-
+    console.log(this.game.players)
     dialogRef.afterClosed().subscribe((name: string) => {
       if (name && name.length > 0) {
-        this.game.players.push(name);
+        let player = new Player(name, this.game.userImages[1]);
+        this.game.players.push(player);
         this.saveGame();
       }
     });

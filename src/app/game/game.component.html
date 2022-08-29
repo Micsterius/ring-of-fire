@@ -1,4 +1,4 @@
-<app-player *ngFor="let player of game.players; let i = index" [ngStyle]="{'top.px': 100 + (i * 80)}" [name]="player"
+<app-player *ngFor="let player of game.players; let i = index" [ngStyle]="{'top.px': 100 + (i * 80)}" [name]="player.playerName"
     [playerActive]="i == game.currentPlayer" [nbrOfPlayers]="i" class="player-position">
 </app-player>
 
@@ -34,4 +34,28 @@
 
 <div class="alert-add-player" *ngIf="game.players.length < 2">
     <p>Please add a player. You need at least minimum 2 players.</p>
+</div>
+
+<div class="alert-add-player">
+    <button (click)="startPokerGame()">Start Game</button>
+</div>
+
+<div class="player-1">
+    <img src="assets/img/cards/{{game.stack[1]}}.svg">
+    <img src="assets/img/cards/{{game.stack[5]}}.svg">
+</div>
+
+<div class="player-2">
+    <img src="assets/img/cards/{{game.stack[2]}}.svg">
+    <img src="assets/img/cards/{{game.stack[6]}}.svg">
+</div>
+
+<div class="player-3">
+    <img src="assets/img/cards/{{game.stack[3]}}.svg">
+    <img src="assets/img/cards/{{game.stack[7]}}.svg">
+</div>
+
+<div class="player-4">
+    <img src="assets/img/cards/{{game.stack[4]}}.svg">
+    <img src="assets/img/cards/{{game.stack[8]}}.svg">
 </div>

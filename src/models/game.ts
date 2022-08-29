@@ -1,10 +1,11 @@
 export class Game {
-    public players: string[] = [];
+    public players: any[] = [];
     public stack: string[] = [];
     public playedCards: any[] = []; // card and position will be saved
     public currentPlayer: number = 0;
     public pickCardAnimation = false;
     public currentCard: string | any = '';
+    public userImages: string[] = ['user-img-1.jpg', 'user-img-4.svg', 'user-img-3.svg', 'user-img-5.svg', 'user-img-2.svg', 'user-img-6.svg'];
 
     constructor() {
         for (let i = 1; i < 14; i++) {
@@ -24,7 +25,8 @@ export class Game {
             playedCards: this.playedCards,
             currentPlayer: this.currentPlayer,
             pickCardAnimation: this.pickCardAnimation,
-            currentCard: this.currentCard
+            currentCard: this.currentCard,
+            userImages: this.userImages
         }
     }
 }
