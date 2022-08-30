@@ -2,7 +2,7 @@ export class Game {
     public players: any[] = [];
     public stack: string[] = [];
     public playedCards: any[] = []; // card and position will be saved
-    public currentPlayer: number = 0;
+    public currentPlayerId: number = 0;
     public pickCardAnimation = false;
     public currentCard: string | any = '';
     public userImages: string[] = ['user-img-1.jpg', 'user-img-4.svg', 'user-img-3.svg', 'user-img-5.svg', 'user-img-2.svg', 'user-img-6.svg'];
@@ -25,7 +25,7 @@ export class Game {
             players: players,
             stack: this.stack,
             playedCards: this.playedCards,
-            currentPlayer: this.currentPlayer,
+            currentPlayerId: this.currentPlayerId,
             pickCardAnimation: this.pickCardAnimation,
             currentCard: this.currentCard,
             userImages: this.userImages

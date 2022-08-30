@@ -21,7 +21,10 @@ export class GameComponent implements OnInit {
   cardsForPlayers: string[] = [];
   pokerGameIsStarted: boolean = false;
   showQuestionForJackpot: boolean = false;
-  arrayOfPlayers: any[] = [];;
+  allChipsInPot: number = 0;
+  gameStarted: boolean = false;
+  playerInGame: any[] = [];
+  currentPlayer: any;
 
   constructor(private route: ActivatedRoute, private firestore: AngularFirestore, public dialog: MatDialog) {
   }
@@ -41,7 +44,7 @@ export class GameComponent implements OnInit {
         .subscribe((game: any) => {
           console.log('update game:', game)
           let gamePlayers = game.players
-          this.game.currentPlayer = game.currentPlayer;
+          this.game.currentPlayerId = game.currentPlayerId;
           this.game.playedCards = game.playedCards;
           this.game.players = this.recreatePlayer(gamePlayers)
           this.game.pickCardAnimation = game.pickCardAnimation;
@@ -64,13 +67,9 @@ export class GameComponent implements OnInit {
 
       let player = new Player(name, playerImage, playerId, playerCards, playersTurn, numberOfChips, folded)
       temporaryArrayOfAllPlayers.push(player)
+      console.log(temporaryArrayOfAllPlayers)
     }
-    /*this.game.players.length = 0;
-    for (let i = 0; i < temporaryArrayOfAllPlayers.length; i++) {
-      const player = temporaryArrayOfAllPlayers[i];
-      this.game.players.push(player)
-      console.log(this.game.players)
-    }*/
+
     return temporaryArrayOfAllPlayers;
   }
 
@@ -78,10 +77,29 @@ export class GameComponent implements OnInit {
     this.giveCardsToPlayers()
     this.giveCardsToPlayers()
     this.pokerGameIsStarted = true;
-    this.game.players[this.findPlayerWhoStartsRandomized()].playersTurn = true;
+    this.setAllPlayerTurnFalse();
+    this.game.currentPlayerId = this.findPlayerWhoStartsRandomized();
+    this.currentPlayer = this.game.players[this.game.currentPlayerId];
+    this.currentPlayer.playersTurn = true;
     //this.firestore.collection('games').add({ ... this.game.toJson() });
     this.saveGame();
+    this.loadAllPlayersInGameArray();
     this.showQuestionForJackpot = true;
+    this.gameStarted = true;
+  }
+
+  loadAllPlayersInGameArray() {
+    for (let i = 0; i < this.game.players.length; i++) {
+      const player = this.game.players[i];
+      this.playerInGame.push(player)
+    }
+  }
+
+  setAllPlayerTurnFalse() {
+    for (let i = 0; i < this.game.players.length; i++) {
+      const player = this.game.players[i];
+      player.playersTurn = false;
+    }
   }
 
   findPlayerWhoStartsRandomized() {
@@ -91,51 +109,122 @@ export class GameComponent implements OnInit {
 
   playerFolded() {
     this.showQuestionForJackpot = false;
-    this.game.players.find((player) => {
-      if (player.playersTurn && !player.folded) {
+    this.game.players[this.game.currentPlayerId].folded = true;
+    this.game.players[this.game.currentPlayerId].playersTurn = false;
+    this.checkNumberOfFoldedPlayers();
+  }
 
-        if (player.playerId < this.game.players.length) {
-          let idOfNextPlayer = player.playerId + 1;
-          console.log(idOfNextPlayer);
-          player.playersTurn = false;
-          this.game.players[idOfNextPlayer].playersTurn = true;
-        }
-        else {
-          player.playersTurn = false;
-          this.game.players[0].playersTurn = true;
-        }
-        player.folded = true
-      }
-    })
+  checkNumberOfFoldedPlayers(){
+    let allFoldedPlayers:any = this.game.players.filter(player => !player.folded)
+    if(allFoldedPlayers.length == 1){
+      let player = allFoldedPlayers[0]
+      alert('look in console')
+      console.log('Es gewinnt:', player)
+    }
+    else {
+      console.log('2', this.currentPlayer)
+      this.goToNextPlayer();
+    }
+  }
+
+  goToNextPlayer() {
+    console.log('3', this.currentPlayer)
+    this.game.currentPlayerId++
+    this.game.currentPlayerId = this.game.currentPlayerId % this.game.players.length
+    this.checkIfPlayerIsOnTheTable();
+  }
+
+  checkIfPlayerIsOnTheTable() {
+    if (this.game.players[this.game.currentPlayerId].folded) {
+      this.goToNextPlayer();
+    }
+    else {  
+      this.game.players[this.game.currentPlayerId].playersTurn = true;
+    }
     this.showQuestionForJackpot = true;
   }
 
+
+
+  playerFoldedOld() {
+    this.showQuestionForJackpot = false;
+    let idOfNextPlayer;
+    let player;
+    if (this.gameStarted) {
+      player = this.game.players.find(player => player.playersTurn);
+      console.log(player)
+      this.gameStarted = false;
+      player.playersTurn = false;
+      player.folded = true;
+    }
+    player.playersTurn = false;
+    player.folded = true;
+    this.playerInGame.splice(this.playerInGame.indexOf(player), 1)
+    console.log(this.playerInGame)
+
+
+    /*if (player.playerId < this.game.players.length - 1) {
+      idOfNextPlayer = this.findNextPlayer(player.playerId)
+    }
+    else {
+      this.game.players[0].playersTurn = true;
+    }
+*/
+    this.showQuestionForJackpot = true;
+  }
+
+  findNextPlayer(id) {
+    for (let i = id + 1; i < this.game.players.length; i++) {
+      const nextPlayer = this.game.players[i];
+      if (!nextPlayer.folded) {
+        return i;
+      }
+    }
+  }
+
+  nextRoundOnBetting() {
+    let playersInGame = this.game.players.filter(player => !player.folded)
+    if (playersInGame.length > 1) {
+      let nextPlayer = this.game.players.find(player => !player.folded)
+      nextPlayer.playersTurn = true;
+    }
+  }
+
   playerSetMoney() {
-    this.game.players.find((player) => {
+    this.showQuestionForJackpot = false;
+    let idOfNextPlayer;
+    for (let i = 0; i < this.game.players.length; i++) {
+      const player = this.game.players[i];
       if (player.playersTurn && !player.folded) {
+        player.playersTurn = false;
         player.numberOfChips -= 5;
-        if (player.playerId < this.game.players.length) {
-          let idOfNextPlayer = player.playerId + 1;
-          player.playersTurn = false;
-          this.game.players[idOfNextPlayer].playersTurn = true;
+        this.allChipsInPot += 5;
+        if (i == this.game.players.length - 1) {
+          idOfNextPlayer = 0;
         }
         else {
-          this.game.players[0].playersTurn = true;
+          idOfNextPlayer = i + 1;
         }
       }
-    })
+    }
+    if (!this.game.players[idOfNextPlayer].folded) {
+      this.game.players[idOfNextPlayer].playersTurn = true;
+    }
+
+    this.showQuestionForJackpot = true;
   }
 
   giveCardsToPlayers() {
-    for (let i = 0; i < this.game.players.length; i++) {
-      let newCard = this.game.stack.pop();
-      this.game.players[i].playerCards.push(newCard);
+    if (this.game.players[0].playerCards.length < 2) {
+      for (let i = 0; i < this.game.players.length; i++) {
+        let newCard = this.game.stack.pop();
+        this.game.players[i].playerCards.push(newCard);
+      }
     }
   }
 
   newGame() {
     this.game = new Game();
-
   }
 
   openDialog(): void {
