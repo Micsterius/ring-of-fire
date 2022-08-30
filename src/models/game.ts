@@ -7,6 +7,7 @@ export class Game {
     public currentCard: string | any = '';
     public userImages: string[] = ['user-img-1.jpg', 'user-img-4.svg', 'user-img-3.svg', 'user-img-5.svg', 'user-img-2.svg', 'user-img-6.svg'];
 
+
     constructor() {
         for (let i = 1; i < 14; i++) {
             this.stack.push('red_' + i)
@@ -19,8 +20,9 @@ export class Game {
     }
 
     public toJson() {
+        let players = createArrayPlayers(this.players);
         return {
-            players: this.players,
+            players: players,
             stack: this.stack,
             playedCards: this.playedCards,
             currentPlayer: this.currentPlayer,
@@ -29,6 +31,28 @@ export class Game {
             userImages: this.userImages
         }
     }
+
+}
+
+
+function createArrayPlayers(players) {
+    let arr = []
+    for (let i = 0; i < players.length; i++) {
+        const player = players[i];
+        arr.push(player.playerName);
+        arr.push(player.playerImage);
+        arr.push(player.playerId);
+        if (player.playerCards.length != 0) {
+            for (let i = 0; i < player.playerCards.length; i++) {
+                const card = player.playerCards[i];
+                arr.push(card);
+            }
+        }
+        arr.push(player.playersTurn);
+        arr.push(player.numberOfChips);
+        arr.push(player.folded);
+    }
+    return arr;
 }
 
 function shuffle(stack: string[]) {

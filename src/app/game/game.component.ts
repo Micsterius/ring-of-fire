@@ -19,24 +19,16 @@ export class GameComponent implements OnInit {
   lastCardPuffer: string = '';
   gameId: string;
   cardsForPlayers: string[] = [];
-
-  /*name = "Angular " + VERSION.major;
-  @ViewChild("cardsOntable") cardsOntable: ElementRef | any;
-  getData() {
-    let img = `<img src="assets/img/cards/${this.currentCard}.svg" class="played-card-${this.nbrForRotation}" style="width: 180px;">`
-    this.cardsOntable.nativeElement.innerHTML += img;
-  }*/
+  pokerGameIsStarted: boolean = false;
+  showQuestionForJackpot: boolean = false;
+  arrayOfPlayers: any[] = [];;
 
   constructor(private route: ActivatedRoute, private firestore: AngularFirestore, public dialog: MatDialog) {
-
   }
+
 
   ngOnInit(): void {
     this.newGame();
-
-    /* this.firestore.collection('games').valueChanges().subscribe((game)=>{
-       console.log('Game update', game)
-     })*/
 
     this.route.params.subscribe((params) => {
       console.log(params['id'])
@@ -47,59 +39,103 @@ export class GameComponent implements OnInit {
         .doc(params['id'])
         .valueChanges()
         .subscribe((game: any) => {
-          console.log('Game update', game)
+          console.log('update game:', game)
+          let gamePlayers = game.players
           this.game.currentPlayer = game.currentPlayer;
           this.game.playedCards = game.playedCards;
-          this.game.players = game.players;
+          this.game.players = this.recreatePlayer(gamePlayers)
           this.game.pickCardAnimation = game.pickCardAnimation;
           this.game.currentCard = game.currentCard;
+          this.game.userImages = game.userImages;
         })
     });
   }
 
+  recreatePlayer(gamePlayers) {
+    let temporaryArrayOfAllPlayers = [];
+    for (let i = 0; i < gamePlayers.length; i++) {
+      let name = gamePlayers.shift()
+      let playerImage = gamePlayers.shift()
+      let playerId = gamePlayers.shift()
+      let playerCards = [gamePlayers.shift(), gamePlayers.shift()]
+      let playersTurn = gamePlayers.shift()
+      let numberOfChips = gamePlayers.shift()
+      let folded = gamePlayers.shift()
+
+      let player = new Player(name, playerImage, playerId, playerCards, playersTurn, numberOfChips, folded)
+      temporaryArrayOfAllPlayers.push(player)
+    }
+    /*this.game.players.length = 0;
+    for (let i = 0; i < temporaryArrayOfAllPlayers.length; i++) {
+      const player = temporaryArrayOfAllPlayers[i];
+      this.game.players.push(player)
+      console.log(this.game.players)
+    }*/
+    return temporaryArrayOfAllPlayers;
+  }
+
   startPokerGame() {
     this.giveCardsToPlayers()
+    this.giveCardsToPlayers()
+    this.pokerGameIsStarted = true;
+    this.game.players[this.findPlayerWhoStartsRandomized()].playersTurn = true;
+    //this.firestore.collection('games').add({ ... this.game.toJson() });
+    this.saveGame();
+    this.showQuestionForJackpot = true;
+  }
+
+  findPlayerWhoStartsRandomized() {
+    let number = Math.floor(Math.random() * this.game.players.length);
+    return number;
+  }
+
+  playerFolded() {
+    this.showQuestionForJackpot = false;
+    this.game.players.find((player) => {
+      if (player.playersTurn && !player.folded) {
+
+        if (player.playerId < this.game.players.length) {
+          let idOfNextPlayer = player.playerId + 1;
+          console.log(idOfNextPlayer);
+          player.playersTurn = false;
+          this.game.players[idOfNextPlayer].playersTurn = true;
+        }
+        else {
+          player.playersTurn = false;
+          this.game.players[0].playersTurn = true;
+        }
+        player.folded = true
+      }
+    })
+    this.showQuestionForJackpot = true;
+  }
+
+  playerSetMoney() {
+    this.game.players.find((player) => {
+      if (player.playersTurn && !player.folded) {
+        player.numberOfChips -= 5;
+        if (player.playerId < this.game.players.length) {
+          let idOfNextPlayer = player.playerId + 1;
+          player.playersTurn = false;
+          this.game.players[idOfNextPlayer].playersTurn = true;
+        }
+        else {
+          this.game.players[0].playersTurn = true;
+        }
+      }
+    })
   }
 
   giveCardsToPlayers() {
-    for (let i = 0; i < this.game.players.length * 2; i++) {
-      const card = this.game.stack[i];
-      this.cardsForPlayers.push(card)
+    for (let i = 0; i < this.game.players.length; i++) {
+      let newCard = this.game.stack.pop();
+      this.game.players[i].playerCards.push(newCard);
     }
   }
 
   newGame() {
     this.game = new Game();
-    // this.firestore.collection('games').add( {... this.game.toJson()});
-  }
 
-  takeCard() {
-    if (!this.game.pickCardAnimation && this.game.players.length > 1) {
-
-      if (this.game.playedCards.length > 0) {
-        this.lastCardPuffer = this.game.currentCard
-      }
-      this.game.currentCard = this.game.stack.pop();
-
-      this.game.pickCardAnimation = true;
-      this.saveGame();
-      let cardWithPosition = {
-        'card': this.game.currentCard,
-        'position': this.nbrOfRotation
-      }
-
-      setTimeout(() => {
-        //   this.getData()
-        this.nbrOfRotation++
-        this.nbrOfRotation = this.nbrOfRotation % 3;
-        this.game.currentPlayer++;
-        this.game.currentPlayer = this.game.currentPlayer % this.game.players.length;
-        this.game.playedCards.push(cardWithPosition);
-        this.lastCard = this.lastCardPuffer
-        this.game.pickCardAnimation = false;
-        this.saveGame()
-      }, 1000);
-    }
   }
 
   openDialog(): void {
@@ -107,9 +143,14 @@ export class GameComponent implements OnInit {
     console.log(this.game.players)
     dialogRef.afterClosed().subscribe((name: string) => {
       if (name && name.length > 0) {
-        let player = new Player(name, this.game.userImages[1]);
+        let playerId: number = this.game.players.length
+        let playerCards: string[] = [];
+        let playersTurn: boolean = false;
+        let numberOfChips: number = 100;
+        let folded: boolean = false;
+
+        let player = new Player(name, this.game.userImages[playerId], playerId, playerCards, playersTurn, numberOfChips, folded);
         this.game.players.push(player);
-        this.saveGame();
       }
     });
   }
@@ -120,9 +161,8 @@ export class GameComponent implements OnInit {
       .firestore
       .collection('games')
       .doc(this.gameId)
-      .update({ ... this.game.toJson() })
+      .update({ ... this.game.toJson() });
   }
-
 }
 
 
