@@ -24,7 +24,14 @@ export class GameComponent implements OnInit {
   allChipsInPot: number = 0;
   gameStarted: boolean = false;
   playerInGame: any[] = [];
+  arrayOfPlayerWhoChecked: any[] = [];
+  arrayOfPlayerWhoCalled: any[] = [];
   checkIsPossible: boolean = true;
+  showFlop: boolean = false;
+  showTurn: boolean = false;
+  showRiver: boolean = false;
+  flop: string[] = [];
+
 
   constructor(private route: ActivatedRoute, private firestore: AngularFirestore, public dialog: MatDialog) {
   }
@@ -34,7 +41,6 @@ export class GameComponent implements OnInit {
     this.newGame();
 
     this.route.params.subscribe((params) => {
-      console.log(params['id'])
       this.gameId = params['id']
       this
         .firestore
@@ -42,7 +48,6 @@ export class GameComponent implements OnInit {
         .doc(params['id'])
         .valueChanges()
         .subscribe((game: any) => {
-          console.log('update game:', game)
           let gamePlayers = game.players
           this.game.currentPlayerId = game.currentPlayerId;
           this.game.playedCards = game.playedCards;
@@ -68,14 +73,12 @@ export class GameComponent implements OnInit {
 
       let player = new Player(name, playerImage, playerId, playerCards, playersTurn, numberOfChips, folded, setMoney)
       temporaryArrayOfAllPlayers.push(player)
-      console.log(temporaryArrayOfAllPlayers)
     }
 
     return temporaryArrayOfAllPlayers;
   }
 
   startPokerGame() {
-    this.giveCardsToPlayers()
     this.giveCardsToPlayers()
     this.pokerGameIsStarted = true;
     this.setAllPlayerTurnFalse();
@@ -84,8 +87,16 @@ export class GameComponent implements OnInit {
     //this.firestore.collection('games').add({ ... this.game.toJson() });
     this.saveGame();
     this.loadAllPlayersInGameArray();
+    this.fillFlop();
     this.showQuestionForJackpot = true;
     this.gameStarted = true;
+  }
+
+  fillFlop() {
+    for (let i = 0; i < 3; i++) {
+      const card = this.game.stack.pop()
+      this.flop.push(card)
+    }
   }
 
   loadAllPlayersInGameArray() {
@@ -108,26 +119,28 @@ export class GameComponent implements OnInit {
   }
 
   playerChecks() {
-    //
+    this.game.players[this.game.currentPlayerId].playersTurn = false;
+    this.arrayOfPlayerWhoChecked.push(this.game.players[this.game.currentPlayerId]);
+    this.goToNextPlayer();
   }
 
-  playerSetMoney() {
+  playerCalled() {
     this.showQuestionForJackpot = false;
     this.game.players[this.game.currentPlayerId].numberOfChips -= 5;
     this.allChipsInPot += 5;
     this.game.players[this.game.currentPlayerId].setMoney += 5;//row for raise
     this.game.players[this.game.currentPlayerId].playersTurn = false;
+    this.arrayOfPlayerWhoCalled.push(this.game.players[this.game.currentPlayerId])
     this.goToNextPlayer();
-    this.checkTheJackpotOfTheNextPlayer()
+    this.checkTheJackpotOfTheNextPlayer();
     this.showQuestionForJackpot = true;
   }
-
-
 
   playerFolded() {
     this.showQuestionForJackpot = false;
     this.game.players[this.game.currentPlayerId].folded = true;
     this.game.players[this.game.currentPlayerId].playersTurn = false;
+    this.playerInGame.splice(this.playerInGame.indexOf(this.game.players[this.game.currentPlayerId]), 2)
     this.checkNumberOfFoldedPlayers();
   }
 
@@ -149,13 +162,68 @@ export class GameComponent implements OnInit {
     this.checkIfPlayerIsOnTheTable();
   }
 
+  checkIfAllPlayersChecked() {
+    if (this.playerInGame.length == this.arrayOfPlayerWhoChecked.length) {
+      if (this.showTurn && this.showRiver) {
+        this.checkWinConditions();
+      }
+      if (this.showTurn && !this.showRiver) {
+        this.showRiver = true;
+        this.flop.push(this.game.stack.pop())
+      }
+      if (this.showFlop && !this.showTurn) {
+        this.showTurn = true;
+        this.flop.push(this.game.stack.pop())
+      }
+      this.showFlop = true
+      this.arrayOfPlayerWhoChecked.length = 0;
+      this.arrayOfPlayerWhoCalled.length = 0;
+    }
+  }
+
+  checkWinConditions() {
+    let cardsOfPlayers = '';
+    for (let i = 0; i < this.arrayOfPlayerWhoCalled.length; i++) {
+      const player = this.arrayOfPlayerWhoCalled[i];
+      cardsOfPlayers += `&pc[]=${player.playerCards[0]},${player.playerCards[1]}`
+    }
+
+    //API from https://www.pokerapi.dev/ ### by Gareth Fuller
+    let url = `https://api.pokerapi.dev/v1/winner/texas_holdem?cc=${this.flop[0]},${this.flop[1]},${this.flop[2]},${this.flop[3]},${this.flop[4]}${cardsOfPlayers}`
+
+    fetch(url)
+      .then(response => response.json())
+      .then(price => console.log(price))
+  }
+
+  checkIfAllPlayersCalled() {
+    if (this.playerInGame.length == this.arrayOfPlayerWhoCalled.length) {
+      if (this.showTurn && this.showRiver) {
+        this.checkWinConditions();
+      }
+      if (this.showTurn && !this.showRiver) {
+        this.showRiver = true;
+        this.flop.push(this.game.stack.pop())
+      }
+      if (this.showFlop && !this.showTurn) {
+        this.showTurn = true;
+        this.flop.push(this.game.stack.pop())
+      }
+      this.showFlop = true
+      this.arrayOfPlayerWhoChecked.length = 0;
+      this.arrayOfPlayerWhoCalled.length = 0;
+    }
+  }
+
   checkIfPlayerIsOnTheTable() {
     if (this.game.players[this.game.currentPlayerId].folded) {
       this.goToNextPlayer();
     }
     else {
       this.game.players[this.game.currentPlayerId].playersTurn = true;
-      this.checkIsPossible = this.proofIfMoveCheckIsPossibile()
+      this.checkIsPossible = this.proofIfMoveCheckIsPossibile();
+      this.checkIfAllPlayersChecked();
+      this.checkIfAllPlayersCalled();
     }
     this.showQuestionForJackpot = true;
   }
@@ -171,24 +239,24 @@ export class GameComponent implements OnInit {
 
   checkTheJackpotOfTheNextPlayer() {
     let allPlayersJackpots = this.game.players.map((player) => player.setMoney)
-    console.log(allPlayersJackpots)
     let temporary = -1;
     allPlayersJackpots.forEach((setMoney) => {
       if (temporary < setMoney) {
         temporary = setMoney;
       }
     })
-    console.log(temporary)
     return temporary
   }
 
   giveCardsToPlayers() {
-    if (this.game.players[0].playerCards.length < 2) {
       for (let i = 0; i < this.game.players.length; i++) {
-        let newCard = this.game.stack.pop();
-        this.game.players[i].playerCards.push(newCard);
+        const player = this.game.players[i];
+        player.playerCards.length = 0;
+        let newCard1 = this.game.stack.pop();
+        let newCard2 = this.game.stack.pop();
+        this.game.players[i].playerCards.push(newCard1);
+        this.game.players[i].playerCards.push(newCard2);
       }
-    }
   }
 
   newGame() {
@@ -197,7 +265,6 @@ export class GameComponent implements OnInit {
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogAddPlayerComponent);
-    console.log(this.game.players)
     dialogRef.afterClosed().subscribe((name: string) => {
       if (name && name.length > 0) {
         let playerId: number = this.game.players.length

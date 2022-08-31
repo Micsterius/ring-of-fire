@@ -9,12 +9,29 @@ export class Game {
 
 
     constructor() {
-        for (let i = 1; i < 14; i++) {
-            this.stack.push('red_' + i)
-            this.stack.push('blue_' + i)
-            this.stack.push('purple_' + i)
-            this.stack.push('green_' + i)
+        for (let i = 2; i < 11; i++) {
+            this.stack.push(`${i}H`)
+            this.stack.push(`${i}S`)
+            this.stack.push(`${i}C`)
+            this.stack.push(`${i}D`)
         }
+            this.stack.push(`AH`)
+            this.stack.push(`AS`)
+            this.stack.push(`AC`)
+            this.stack.push(`AD`)
+            this.stack.push(`KH`)
+            this.stack.push(`KS`)
+            this.stack.push(`KC`)
+            this.stack.push(`KD`)
+            this.stack.push(`QH`)
+            this.stack.push(`QS`)
+            this.stack.push(`QC`)
+            this.stack.push(`QD`)
+            this.stack.push(`JH`)
+            this.stack.push(`JS`)
+            this.stack.push(`JC`)
+            this.stack.push(`JD`)
+        
 
         shuffle(this.stack)
     }
