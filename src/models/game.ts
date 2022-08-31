@@ -51,6 +51,7 @@ function createArrayPlayers(players) {
         arr.push(player.playersTurn);
         arr.push(player.numberOfChips);
         arr.push(player.folded);
+        arr.push(player.setMoney);
     }
     return arr;
 }

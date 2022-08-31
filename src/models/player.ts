@@ -6,8 +6,9 @@ export class Player {
     public playersTurn:boolean = false;
     public numberOfChips:number = 100;
     public folded:boolean = false;
+    public setMoney:number = 0;
 
-    constructor(name, playerImage, playerId, playerCards, playersTurn, numberOfChips, folded) {
+    constructor(name, playerImage, playerId, playerCards, playersTurn, numberOfChips, folded, setMoney) {
         this.playerName = name;
         this.playerImage = playerImage;
         this.playerId = playerId;
@@ -15,6 +16,7 @@ export class Player {
         this.playersTurn = playersTurn;
         this.numberOfChips = numberOfChips;
         this.folded = folded;
+        this.setMoney = setMoney;
     }
 
     public playerToJson() {
@@ -25,7 +27,8 @@ export class Player {
             playerCards: this.playerName,
             playersTurn: this.playerImage,
             numberOfChips: this.playerId,
-            folded: this.folded
+            folded: this.folded,
+            setMoney: this.setMoney
         }
     }
 }

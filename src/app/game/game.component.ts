@@ -24,7 +24,7 @@ export class GameComponent implements OnInit {
   allChipsInPot: number = 0;
   gameStarted: boolean = false;
   playerInGame: any[] = [];
-  currentPlayer: any;
+  checkIsPossible: boolean = true;
 
   constructor(private route: ActivatedRoute, private firestore: AngularFirestore, public dialog: MatDialog) {
   }
@@ -57,15 +57,16 @@ export class GameComponent implements OnInit {
   recreatePlayer(gamePlayers) {
     let temporaryArrayOfAllPlayers = [];
     for (let i = 0; i < gamePlayers.length; i++) {
-      let name = gamePlayers.shift()
-      let playerImage = gamePlayers.shift()
-      let playerId = gamePlayers.shift()
-      let playerCards = [gamePlayers.shift(), gamePlayers.shift()]
-      let playersTurn = gamePlayers.shift()
-      let numberOfChips = gamePlayers.shift()
-      let folded = gamePlayers.shift()
+      let name = gamePlayers.shift();
+      let playerImage = gamePlayers.shift();
+      let playerId = gamePlayers.shift();
+      let playerCards = [gamePlayers.shift(), gamePlayers.shift()];
+      let playersTurn = gamePlayers.shift();
+      let numberOfChips = gamePlayers.shift();
+      let folded = gamePlayers.shift();
+      let setMoney = gamePlayers.shift();
 
-      let player = new Player(name, playerImage, playerId, playerCards, playersTurn, numberOfChips, folded)
+      let player = new Player(name, playerImage, playerId, playerCards, playersTurn, numberOfChips, folded, setMoney)
       temporaryArrayOfAllPlayers.push(player)
       console.log(temporaryArrayOfAllPlayers)
     }
@@ -79,8 +80,7 @@ export class GameComponent implements OnInit {
     this.pokerGameIsStarted = true;
     this.setAllPlayerTurnFalse();
     this.game.currentPlayerId = this.findPlayerWhoStartsRandomized();
-    this.currentPlayer = this.game.players[this.game.currentPlayerId];
-    this.currentPlayer.playersTurn = true;
+    this.game.players[this.game.currentPlayerId].playersTurn = true;
     //this.firestore.collection('games').add({ ... this.game.toJson() });
     this.saveGame();
     this.loadAllPlayersInGameArray();
@@ -107,6 +107,23 @@ export class GameComponent implements OnInit {
     return number;
   }
 
+  playerChecks() {
+    //
+  }
+
+  playerSetMoney() {
+    this.showQuestionForJackpot = false;
+    this.game.players[this.game.currentPlayerId].numberOfChips -= 5;
+    this.allChipsInPot += 5;
+    this.game.players[this.game.currentPlayerId].setMoney += 5;//row for raise
+    this.game.players[this.game.currentPlayerId].playersTurn = false;
+    this.goToNextPlayer();
+    this.checkTheJackpotOfTheNextPlayer()
+    this.showQuestionForJackpot = true;
+  }
+
+
+
   playerFolded() {
     this.showQuestionForJackpot = false;
     this.game.players[this.game.currentPlayerId].folded = true;
@@ -114,21 +131,19 @@ export class GameComponent implements OnInit {
     this.checkNumberOfFoldedPlayers();
   }
 
-  checkNumberOfFoldedPlayers(){
-    let allFoldedPlayers:any = this.game.players.filter(player => !player.folded)
-    if(allFoldedPlayers.length == 1){
+  checkNumberOfFoldedPlayers() {
+    let allFoldedPlayers: any = this.game.players.filter(player => !player.folded)
+    if (allFoldedPlayers.length == 1) {
       let player = allFoldedPlayers[0]
       alert('look in console')
       console.log('Es gewinnt:', player)
     }
     else {
-      console.log('2', this.currentPlayer)
       this.goToNextPlayer();
     }
   }
 
   goToNextPlayer() {
-    console.log('3', this.currentPlayer)
     this.game.currentPlayerId++
     this.game.currentPlayerId = this.game.currentPlayerId % this.game.players.length
     this.checkIfPlayerIsOnTheTable();
@@ -138,80 +153,33 @@ export class GameComponent implements OnInit {
     if (this.game.players[this.game.currentPlayerId].folded) {
       this.goToNextPlayer();
     }
-    else {  
-      this.game.players[this.game.currentPlayerId].playersTurn = true;
-    }
-    this.showQuestionForJackpot = true;
-  }
-
-
-
-  playerFoldedOld() {
-    this.showQuestionForJackpot = false;
-    let idOfNextPlayer;
-    let player;
-    if (this.gameStarted) {
-      player = this.game.players.find(player => player.playersTurn);
-      console.log(player)
-      this.gameStarted = false;
-      player.playersTurn = false;
-      player.folded = true;
-    }
-    player.playersTurn = false;
-    player.folded = true;
-    this.playerInGame.splice(this.playerInGame.indexOf(player), 1)
-    console.log(this.playerInGame)
-
-
-    /*if (player.playerId < this.game.players.length - 1) {
-      idOfNextPlayer = this.findNextPlayer(player.playerId)
-    }
     else {
-      this.game.players[0].playersTurn = true;
+      this.game.players[this.game.currentPlayerId].playersTurn = true;
+      this.checkIsPossible = this.proofIfMoveCheckIsPossibile()
     }
-*/
     this.showQuestionForJackpot = true;
   }
 
-  findNextPlayer(id) {
-    for (let i = id + 1; i < this.game.players.length; i++) {
-      const nextPlayer = this.game.players[i];
-      if (!nextPlayer.folded) {
-        return i;
-      }
+  proofIfMoveCheckIsPossibile() {
+    let moneyFromCurrentPlayer = this.game.players[this.game.currentPlayerId].setMoney;
+    let highestJackpotFormAllPlayers = this.checkTheJackpotOfTheNextPlayer();
+    if (moneyFromCurrentPlayer >= highestJackpotFormAllPlayers) {
+      return true
     }
+    else { return false }
   }
 
-  nextRoundOnBetting() {
-    let playersInGame = this.game.players.filter(player => !player.folded)
-    if (playersInGame.length > 1) {
-      let nextPlayer = this.game.players.find(player => !player.folded)
-      nextPlayer.playersTurn = true;
-    }
-  }
-
-  playerSetMoney() {
-    this.showQuestionForJackpot = false;
-    let idOfNextPlayer;
-    for (let i = 0; i < this.game.players.length; i++) {
-      const player = this.game.players[i];
-      if (player.playersTurn && !player.folded) {
-        player.playersTurn = false;
-        player.numberOfChips -= 5;
-        this.allChipsInPot += 5;
-        if (i == this.game.players.length - 1) {
-          idOfNextPlayer = 0;
-        }
-        else {
-          idOfNextPlayer = i + 1;
-        }
+  checkTheJackpotOfTheNextPlayer() {
+    let allPlayersJackpots = this.game.players.map((player) => player.setMoney)
+    console.log(allPlayersJackpots)
+    let temporary = -1;
+    allPlayersJackpots.forEach((setMoney) => {
+      if (temporary < setMoney) {
+        temporary = setMoney;
       }
-    }
-    if (!this.game.players[idOfNextPlayer].folded) {
-      this.game.players[idOfNextPlayer].playersTurn = true;
-    }
-
-    this.showQuestionForJackpot = true;
+    })
+    console.log(temporary)
+    return temporary
   }
 
   giveCardsToPlayers() {
@@ -237,8 +205,9 @@ export class GameComponent implements OnInit {
         let playersTurn: boolean = false;
         let numberOfChips: number = 100;
         let folded: boolean = false;
+        let setMoney: number = 0;
 
-        let player = new Player(name, this.game.userImages[playerId], playerId, playerCards, playersTurn, numberOfChips, folded);
+        let player = new Player(name, this.game.userImages[playerId], playerId, playerCards, playersTurn, numberOfChips, folded, setMoney);
         this.game.players.push(player);
       }
     });
