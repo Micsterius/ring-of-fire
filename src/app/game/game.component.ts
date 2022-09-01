@@ -26,12 +26,14 @@ export class GameComponent implements OnInit {
   playerInGame: any[] = [];
   arrayOfPlayerWhoChecked: any[] = [];
   arrayOfPlayerWhoCalled: any[] = [];
-  checkIsPossible: boolean = true;
+  checkIsPossible: boolean = false;
   raiseIsPossible: boolean = false;
   showFlop: boolean = false;
   showTurn: boolean = false;
   showRiver: boolean = false;
   flop: string[] = [];
+  temporarySaveOfBigblind: number;
+  playerWithBigBlindId: number;
 
 
   constructor(private route: ActivatedRoute, private firestore: AngularFirestore, public dialog: MatDialog) {
@@ -90,11 +92,45 @@ export class GameComponent implements OnInit {
     this.game.currentPlayerId = this.findPlayerWhoStartsRandomized();
     this.currentPlayer().playersTurn = true;
     //this.firestore.collection('games').add({ ... this.game.toJson() });
-    this.saveGame();
+
     this.loadAllPlayersInGameArray();
     this.fillFlop();
     this.showQuestionForJackpot = true;
     this.gameStarted = true;
+    this.setBlinds();
+    console.log(this.game.players)
+    console.log('0:', this.getHighestJackpot())
+    this.temporarySaveOfBigblind = this.getHighestJackpot();
+    this.saveGame();
+  }
+
+  setBlinds() {
+    this.setSmallBlind();
+    this.setBigBlind();
+  }
+
+  setSmallBlind() {
+    let a = this.game.currentPlayerId
+    for (let i = 0; i < this.game.players.length - 2; i++) {
+      a++
+      a = a % this.game.players.length
+    }
+    this.game.players[a].setMoney += 5;
+    this.game.players[a].numberOfChips -= 5;
+    this.allChipsInPot += 5;
+    console.log('1:', this.getHighestJackpot())
+  }
+
+  setBigBlind() {
+    let a = this.game.currentPlayerId
+    for (let i = 0; i < this.game.players.length - 1; i++) {
+      a++
+      a = a % this.game.players.length
+    }
+    this.game.players[a].setMoney += 10;
+    this.game.players[a].numberOfChips -= 10;
+    this.allChipsInPot += 10;
+    this.playerWithBigBlindId = a;
   }
 
   fillFlop() {
@@ -131,14 +167,20 @@ export class GameComponent implements OnInit {
 
   playerCalled() {
     this.showQuestionForJackpot = false;
-    this.currentPlayer().numberOfChips -= 5;
-    this.allChipsInPot += 5;
+    if (this.getHighestJackpot() == 0) {
+      this.currentPlayer().setMoney += 10;
+      this.currentPlayer().numberOfChips -= 10;
+      this.allChipsInPot += 10;
+    }
+    else {
+      this.currentPlayer().numberOfChips -= this.getHighestJackpot() - this.currentPlayer().setMoney;
+      this.allChipsInPot += this.getHighestJackpot() - this.currentPlayer().setMoney;
+      this.currentPlayer().setMoney += this.getHighestJackpot() - this.currentPlayer().setMoney;
+    }
     this.raiseIsPossible = true;
-    this.currentPlayer().setMoney += 5;//row for raise
     this.currentPlayer().playersTurn = false;
     this.arrayOfPlayerWhoCalled.push(this.currentPlayer())
     this.goToNextPlayer();
-    this.getHighestJackpot();
     this.showQuestionForJackpot = true;
   }
 
@@ -184,23 +226,34 @@ export class GameComponent implements OnInit {
   }
 
   checkIfAllPlayersCheckedOrCalled() {
-    if (this.allPlayersChecked() || this.allPlayersCalled()) {
+    if (this.allPlayersChecked() || this.allPlayersCalled() ) {
       if (this.showTurn && this.showRiver) {
         this.checkWinConditions();
+        this.clearAllPlayersSetMoney();
       }
       if (this.showTurn && !this.showRiver) {
         this.showRiver = true;
         this.showNextCard()
+        this.clearAllPlayersSetMoney();
       }
       if (this.showFlop && !this.showTurn) {
         this.showTurn = true;
         this.showNextCard()
-
+        this.clearAllPlayersSetMoney();
       }
       this.showFlop = true
       this.raiseIsPossible = false;
+      this.clearAllPlayersSetMoney();
       this.arrayOfPlayerWhoChecked.length = 0;
       this.arrayOfPlayerWhoCalled.length = 0;
+
+    }
+  }
+
+  clearAllPlayersSetMoney() {
+    for (let i = 0; i < this.game.players.length; i++) {
+      const player = this.game.players[i];
+      player.setMoney = 0
     }
   }
 
@@ -249,8 +302,6 @@ export class GameComponent implements OnInit {
   proofIfMoveCheckIsPossibile() {
     let moneyFromCurrentPlayer = this.currentPlayer().setMoney;
     let highestJackpotFormAllPlayers = this.getHighestJackpot();
-    console.log(moneyFromCurrentPlayer)
-    console.log(highestJackpotFormAllPlayers)
     if (moneyFromCurrentPlayer >= highestJackpotFormAllPlayers) {
       return true
     }
@@ -258,13 +309,17 @@ export class GameComponent implements OnInit {
   }
 
   getHighestJackpot() {
+    console.log('4:', this.game.players)
     let allPlayersJackpots = this.game.players.map((player) => player.setMoney)
     let temporary = -1;
+
     allPlayersJackpots.forEach((setMoney) => {
       if (temporary < setMoney) {
         temporary = setMoney;
       }
     })
+    console.log('5:', allPlayersJackpots)
+    console.log('6:', temporary)
     return temporary
   }
 

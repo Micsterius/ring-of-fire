@@ -1,5 +1,5 @@
 <app-player *ngFor="let player of game.players; let i = index" [ngStyle]="{'top.px': 100 + (i * 80)}"
-    [name]="player.playerName" [playerActive]="player.playersTurn" [nbrOfPlayers]="i" class="player-position">
+    [name]="player.playerName" [userImages]="player.playerImage" [moneyJackpot]="player.setMoney" [playerActive]="player.playersTurn" class="player-position">
 </app-player>
 
 <div class="field">
@@ -52,7 +52,6 @@
 <div class="ask-for-set-money" *ngIf="showQuestionForJackpot">
     <p>Do you want to set money?</p>
     <button (click)="playerCalled()">Call</button>
-    <!---->
     <button (click)="playerRaise()" *ngIf="raiseIsPossible">Raise</button>
     <button (click)="playerChecks()" *ngIf="checkIsPossible">Check</button>
     <button (click)="playerFolded()">Fold</button>

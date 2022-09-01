@@ -10,11 +10,13 @@ export class PlayerComponent implements OnInit {
   @Input() name: any;
   @Input() nbrOfPlayers: number | any;
   @Input() playerActive: boolean = false;
-
+  @Input() userImages: any;
+  @Input() moneyJackpot: number;
+  
 
   imagePlayer: string = '';
 
-  userImages = ['user-img-1.jpg', 'user-img-4.svg', 'user-img-3.svg', 'user-img-5.svg', 'user-img-2.svg', 'user-img-6.svg']
+  //game.userImages = ['user-img-1.jpg', 'user-img-4.svg', 'user-img-3.svg', 'user-img-5.svg', 'user-img-2.svg', 'user-img-6.svg']
 
 
   constructor() { }
