@@ -27,6 +27,7 @@ export class GameComponent implements OnInit {
   arrayOfPlayerWhoChecked: any[] = [];
   arrayOfPlayerWhoCalled: any[] = [];
   checkIsPossible: boolean = true;
+  raiseIsPossible: boolean = false;
   showFlop: boolean = false;
   showTurn: boolean = false;
   showRiver: boolean = false;
@@ -78,12 +79,16 @@ export class GameComponent implements OnInit {
     return temporaryArrayOfAllPlayers;
   }
 
+  currentPlayer() {
+    return this.game.players[this.game.currentPlayerId]
+  }
+
   startPokerGame() {
     this.giveCardsToPlayers()
     this.pokerGameIsStarted = true;
     this.setAllPlayerTurnFalse();
     this.game.currentPlayerId = this.findPlayerWhoStartsRandomized();
-    this.game.players[this.game.currentPlayerId].playersTurn = true;
+    this.currentPlayer().playersTurn = true;
     //this.firestore.collection('games').add({ ... this.game.toJson() });
     this.saveGame();
     this.loadAllPlayersInGameArray();
@@ -119,28 +124,44 @@ export class GameComponent implements OnInit {
   }
 
   playerChecks() {
-    this.game.players[this.game.currentPlayerId].playersTurn = false;
-    this.arrayOfPlayerWhoChecked.push(this.game.players[this.game.currentPlayerId]);
+    this.currentPlayer().playersTurn = false;
+    this.arrayOfPlayerWhoChecked.push(this.currentPlayer());
     this.goToNextPlayer();
   }
 
   playerCalled() {
     this.showQuestionForJackpot = false;
-    this.game.players[this.game.currentPlayerId].numberOfChips -= 5;
+    this.currentPlayer().numberOfChips -= 5;
     this.allChipsInPot += 5;
-    this.game.players[this.game.currentPlayerId].setMoney += 5;//row for raise
-    this.game.players[this.game.currentPlayerId].playersTurn = false;
-    this.arrayOfPlayerWhoCalled.push(this.game.players[this.game.currentPlayerId])
+    this.raiseIsPossible = true;
+    this.currentPlayer().setMoney += 5;//row for raise
+    this.currentPlayer().playersTurn = false;
+    this.arrayOfPlayerWhoCalled.push(this.currentPlayer())
     this.goToNextPlayer();
-    this.checkTheJackpotOfTheNextPlayer();
+    this.getHighestJackpot();
+    this.showQuestionForJackpot = true;
+  }
+
+  playerRaise() {
+    this.showQuestionForJackpot = false;
+    let currentHighestJackpot = this.getHighestJackpot();
+    this.currentPlayer().numberOfChips -= currentHighestJackpot * 2;
+    this.allChipsInPot += currentHighestJackpot * 2;
+    this.raiseIsPossible = true;
+    this.currentPlayer().setMoney += currentHighestJackpot * 2;
+    this.currentPlayer().playersTurn = false;
+    this.arrayOfPlayerWhoCalled.length = 0;
+    this.arrayOfPlayerWhoCalled.push(this.currentPlayer())
+    this.goToNextPlayer();
     this.showQuestionForJackpot = true;
   }
 
   playerFolded() {
     this.showQuestionForJackpot = false;
-    this.game.players[this.game.currentPlayerId].folded = true;
-    this.game.players[this.game.currentPlayerId].playersTurn = false;
-    this.playerInGame.splice(this.playerInGame.indexOf(this.game.players[this.game.currentPlayerId]), 2)
+    this.currentPlayer().folded = true;
+    this.currentPlayer().playersTurn = false;
+    this.playerInGame.splice(this.playerInGame.indexOf(this.currentPlayer()), 2)
+    console.log(this.playerInGame)
     this.checkNumberOfFoldedPlayers();
   }
 
@@ -162,29 +183,46 @@ export class GameComponent implements OnInit {
     this.checkIfPlayerIsOnTheTable();
   }
 
-  checkIfAllPlayersChecked() {
-    if (this.playerInGame.length == this.arrayOfPlayerWhoChecked.length) {
+  checkIfAllPlayersCheckedOrCalled() {
+    if (this.allPlayersChecked() || this.allPlayersCalled()) {
       if (this.showTurn && this.showRiver) {
         this.checkWinConditions();
       }
       if (this.showTurn && !this.showRiver) {
         this.showRiver = true;
-        this.flop.push(this.game.stack.pop())
+        this.showNextCard()
       }
       if (this.showFlop && !this.showTurn) {
         this.showTurn = true;
-        this.flop.push(this.game.stack.pop())
+        this.showNextCard()
+
       }
       this.showFlop = true
+      this.raiseIsPossible = false;
       this.arrayOfPlayerWhoChecked.length = 0;
       this.arrayOfPlayerWhoCalled.length = 0;
     }
   }
 
+  showNextCard() {
+    this.flop.push(this.game.stack.pop())
+    this.raiseIsPossible = false;
+    this.checkIsPossible = true;
+  }
+
+  allPlayersChecked() {
+    return this.playerInGame.length == this.arrayOfPlayerWhoChecked.length
+  }
+
+  allPlayersCalled() {
+    return this.playerInGame.length == this.arrayOfPlayerWhoCalled.length
+  }
+
   checkWinConditions() {
     let cardsOfPlayers = '';
-    for (let i = 0; i < this.arrayOfPlayerWhoCalled.length; i++) {
-      const player = this.arrayOfPlayerWhoCalled[i];
+    console.log(this.playerInGame)
+    for (let i = 0; i < this.playerInGame.length; i++) {
+      const player = this.playerInGame[i];
       cardsOfPlayers += `&pc[]=${player.playerCards[0]},${player.playerCards[1]}`
     }
 
@@ -196,48 +234,30 @@ export class GameComponent implements OnInit {
       .then(price => console.log(price))
   }
 
-  checkIfAllPlayersCalled() {
-    if (this.playerInGame.length == this.arrayOfPlayerWhoCalled.length) {
-      if (this.showTurn && this.showRiver) {
-        this.checkWinConditions();
-      }
-      if (this.showTurn && !this.showRiver) {
-        this.showRiver = true;
-        this.flop.push(this.game.stack.pop())
-      }
-      if (this.showFlop && !this.showTurn) {
-        this.showTurn = true;
-        this.flop.push(this.game.stack.pop())
-      }
-      this.showFlop = true
-      this.arrayOfPlayerWhoChecked.length = 0;
-      this.arrayOfPlayerWhoCalled.length = 0;
-    }
-  }
-
   checkIfPlayerIsOnTheTable() {
-    if (this.game.players[this.game.currentPlayerId].folded) {
+    if (this.currentPlayer().folded) {
       this.goToNextPlayer();
     }
     else {
-      this.game.players[this.game.currentPlayerId].playersTurn = true;
+      this.currentPlayer().playersTurn = true;
       this.checkIsPossible = this.proofIfMoveCheckIsPossibile();
-      this.checkIfAllPlayersChecked();
-      this.checkIfAllPlayersCalled();
+      this.checkIfAllPlayersCheckedOrCalled();
     }
     this.showQuestionForJackpot = true;
   }
 
   proofIfMoveCheckIsPossibile() {
-    let moneyFromCurrentPlayer = this.game.players[this.game.currentPlayerId].setMoney;
-    let highestJackpotFormAllPlayers = this.checkTheJackpotOfTheNextPlayer();
+    let moneyFromCurrentPlayer = this.currentPlayer().setMoney;
+    let highestJackpotFormAllPlayers = this.getHighestJackpot();
+    console.log(moneyFromCurrentPlayer)
+    console.log(highestJackpotFormAllPlayers)
     if (moneyFromCurrentPlayer >= highestJackpotFormAllPlayers) {
       return true
     }
     else { return false }
   }
 
-  checkTheJackpotOfTheNextPlayer() {
+  getHighestJackpot() {
     let allPlayersJackpots = this.game.players.map((player) => player.setMoney)
     let temporary = -1;
     allPlayersJackpots.forEach((setMoney) => {
@@ -249,14 +269,14 @@ export class GameComponent implements OnInit {
   }
 
   giveCardsToPlayers() {
-      for (let i = 0; i < this.game.players.length; i++) {
-        const player = this.game.players[i];
-        player.playerCards.length = 0;
-        let newCard1 = this.game.stack.pop();
-        let newCard2 = this.game.stack.pop();
-        this.game.players[i].playerCards.push(newCard1);
-        this.game.players[i].playerCards.push(newCard2);
-      }
+    for (let i = 0; i < this.game.players.length; i++) {
+      const player = this.game.players[i];
+      player.playerCards.length = 0;
+      let newCard1 = this.game.stack.pop();
+      let newCard2 = this.game.stack.pop();
+      this.game.players[i].playerCards.push(newCard1);
+      this.game.players[i].playerCards.push(newCard2);
+    }
   }
 
   newGame() {

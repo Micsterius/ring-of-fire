@@ -52,6 +52,8 @@
 <div class="ask-for-set-money" *ngIf="showQuestionForJackpot">
     <p>Do you want to set money?</p>
     <button (click)="playerCalled()">Call</button>
+    <!---->
+    <button (click)="playerRaise()" *ngIf="raiseIsPossible">Raise</button>
     <button (click)="playerChecks()" *ngIf="checkIsPossible">Check</button>
     <button (click)="playerFolded()">Fold</button>
 
