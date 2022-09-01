@@ -34,6 +34,8 @@ export class GameComponent implements OnInit {
   flop: string[] = [];
   temporarySaveOfBigblind: number;
   playerWithBigBlindId: number;
+  arrayForFirstRound: any[] = [];
+  bigBlindPlayerCheckedInTheFirstRound: boolean = false;
 
 
   constructor(private route: ActivatedRoute, private firestore: AngularFirestore, public dialog: MatDialog) {
@@ -162,11 +164,15 @@ export class GameComponent implements OnInit {
   playerChecks() {
     this.currentPlayer().playersTurn = false;
     this.arrayOfPlayerWhoChecked.push(this.currentPlayer());
-    this.goToNextPlayer();
+    if (this.arrayForFirstRound.length == this.game.players.length - 1) {
+      this.bigBlindPlayerCheckedInTheFirstRound = true;
+      this.checkIfAllPlayersCheckedOrCalled()
+    } else { this.goToNextPlayer() }
   }
 
   playerCalled() {
     this.showQuestionForJackpot = false;
+    this.arrayForFirstRound.push(this.currentPlayer()) // only necessary for the first round
     if (this.getHighestJackpot() == 0) {
       this.currentPlayer().setMoney += 10;
       this.currentPlayer().numberOfChips -= 10;
@@ -200,6 +206,7 @@ export class GameComponent implements OnInit {
 
   playerFolded() {
     this.showQuestionForJackpot = false;
+    this.arrayForFirstRound.push(this.currentPlayer());
     this.currentPlayer().folded = true;
     this.currentPlayer().playersTurn = false;
     this.playerInGame.splice(this.playerInGame.indexOf(this.currentPlayer()), 2)
@@ -226,7 +233,7 @@ export class GameComponent implements OnInit {
   }
 
   checkIfAllPlayersCheckedOrCalled() {
-    if (this.allPlayersChecked() || this.allPlayersCalled() ) {
+    if (this.allPlayersChecked() || this.allPlayersCalled() || this.bigBlindPlayerCheckedInTheFirstRound) {
       if (this.showTurn && this.showRiver) {
         this.checkWinConditions();
         this.clearAllPlayersSetMoney();
@@ -318,8 +325,6 @@ export class GameComponent implements OnInit {
         temporary = setMoney;
       }
     })
-    console.log('5:', allPlayersJackpots)
-    console.log('6:', temporary)
     return temporary
   }
 
