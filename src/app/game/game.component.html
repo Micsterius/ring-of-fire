@@ -59,6 +59,13 @@
     <p>Chips {{allChipsInPot}}</p>
 </div>
 
+<div class="ask-for-set-money" *ngIf="roundEnds">
+    <div *ngFor="let player of winningPlayers;">
+        <p>Player: {{player.playerName}} wons {{coinsWhichGetWinner}} Chips</p>
+    </div>
+    
+</div>
+
 <div *ngIf="showFlop" class="flop-cards-container">
     <div *ngFor="let cardOfTable of flop; let i = index" class="flop-cards" [ngStyle]="{ 'left.px' : i*100}">
         <img src="assets/img/cards/{{cardOfTable}}.svg">

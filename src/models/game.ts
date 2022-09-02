@@ -15,22 +15,14 @@ export class Game {
             this.stack.push(`${i}C`)
             this.stack.push(`${i}D`)
         }
-            this.stack.push(`AH`)
-            this.stack.push(`AS`)
-            this.stack.push(`AC`)
-            this.stack.push(`AD`)
-            this.stack.push(`KH`)
-            this.stack.push(`KS`)
-            this.stack.push(`KC`)
-            this.stack.push(`KD`)
-            this.stack.push(`QH`)
-            this.stack.push(`QS`)
-            this.stack.push(`QC`)
-            this.stack.push(`QD`)
-            this.stack.push(`JH`)
-            this.stack.push(`JS`)
-            this.stack.push(`JC`)
-            this.stack.push(`JD`)
+        let cardsColor = ['H', 'S', 'C', 'D']
+        for (let i = 2; i < cardsColor.length; i++) {
+          const cardColor = cardsColor[i]
+          this.stack.push(`A${cardColor}`)
+          this.stack.push(`K${cardColor}`)
+          this.stack.push(`Q${cardColor}`)
+          this.stack.push(`J${cardColor}`)
+        }
         
 
         shuffle(this.stack)
