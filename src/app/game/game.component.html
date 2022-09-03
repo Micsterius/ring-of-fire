@@ -53,25 +53,27 @@
 
 </div>
 
-<div class="ask-for-set-money" *ngIf="showQuestionForJackpot">
-    <p>Do you want to set money?</p>
-    <button (click)="playerCalled()">Call</button>
-    <button (click)="playerRaise()" *ngIf="raiseIsPossible">Raise</button>
-    <button (click)="playerChecks()" *ngIf="checkIsPossible">Check</button>
-    <button (click)="playerFolded()">Fold</button>
+<div *ngFor="let player of game.players;">
+    <div class="ask-for-set-money" *ngIf="player.playersTurn && player.playerName == playerCreated">
+        <p>Do you want to set money?</p>
+        <button (click)="playerCalled()">Call</button>
+        <button (click)="playerRaise()" *ngIf="raiseIsPossible">Raise</button>
+        <button (click)="playerChecks()" *ngIf="checkIsPossible">Check</button>
+        <button (click)="playerFolded()">Fold</button>
 
-    <p>Chips {{allChipsInPot}}</p>
+        <p>Chips {{game.allChipsInPot}}</p>
+    </div>
 </div>
 
-<div class="ask-for-set-money" *ngIf="roundEnds">
-    <div *ngFor="let player of winningPlayers;">
+
+<div class="ask-for-set-money" *ngIf="game.roundEnds">
+    <div *ngFor="let player of game.winningPlayers;">
         <p>Player: {{player.playerName}} wons {{coinsWhichGetWinner}} Chips</p>
     </div>
-
 </div>
 
-<div *ngIf="showFlop" class="flop-cards-container">
-    <div *ngFor="let cardOfTable of flop; let i = index" class="flop-cards" [ngStyle]="{ 'left.px' : i*100}">
+<div *ngIf="game.showFlop" class="flop-cards-container">
+    <div *ngFor="let cardOfTable of game.flop; let i = index" class="flop-cards" [ngStyle]="{ 'left.px' : i*100}">
         <img src="assets/img/cards/{{cardOfTable}}.svg">
     </div>
 </div>

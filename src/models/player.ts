@@ -7,7 +7,6 @@ export class Player {
     public numberOfChips:number = 100;
     public folded:boolean = false;
     public setMoney:number = 0;
-    public showMyCards:boolean = false;
 
     constructor(name, playerImage, playerId, playerCards, playersTurn, numberOfChips, folded, setMoney) {
         this.playerName = name;

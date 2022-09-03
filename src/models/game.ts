@@ -7,7 +7,20 @@ export class Game {
     public currentCard: string | any = '';
     public userImages: string[] = ['user-img-1.jpg', 'user-img-4.svg', 'user-img-3.svg', 'user-img-5.svg', 'user-img-2.svg', 'user-img-6.svg'];
     public pokerGameIsStarted = false;
-    
+    public playerInGame: any[] = [];
+    public allChipsInPot: number = 0;
+    public bigBlindPlayerCheckedInTheFirstRound: boolean = false;
+    public arrayForFirstRound: any[] = [];
+    public arrayOfPlayerWhoChecked: any[] = [];
+    public arrayOfPlayerWhoCalled: any[] = [];
+    public showFlop: boolean = false;
+    public showTurn: boolean = false;
+    public showRiver: boolean = false;
+    public flop: string[] = [];
+    public playerWithBigBlindId: number;
+    public roundEnds: boolean = false;
+    public winningPlayers: any[] = [];
+
 
     constructor() {
         for (let i = 2; i < 11; i++) {
@@ -18,13 +31,13 @@ export class Game {
         }
         let cardsColor = ['H', 'S', 'C', 'D']
         for (let i = 2; i < cardsColor.length; i++) {
-          const cardColor = cardsColor[i]
-          this.stack.push(`A${cardColor}`)
-          this.stack.push(`K${cardColor}`)
-          this.stack.push(`Q${cardColor}`)
-          this.stack.push(`J${cardColor}`)
+            const cardColor = cardsColor[i]
+            this.stack.push(`A${cardColor}`)
+            this.stack.push(`K${cardColor}`)
+            this.stack.push(`Q${cardColor}`)
+            this.stack.push(`J${cardColor}`)
         }
-        
+
 
         shuffle(this.stack)
     }
@@ -39,7 +52,20 @@ export class Game {
             pickCardAnimation: this.pickCardAnimation,
             currentCard: this.currentCard,
             userImages: this.userImages,
-            pokerGameIsStarted: this.pokerGameIsStarted
+            pokerGameIsStarted: this.pokerGameIsStarted,
+            playerInGame: this.playerInGame,
+            allChipsInPot: this.allChipsInPot,
+            bigBlindPlayerCheckedInTheFirstRound: this.bigBlindPlayerCheckedInTheFirstRound,
+            arrayForFirstRound: this.arrayForFirstRound,
+            arrayOfPlayerWhoChecked: this.arrayOfPlayerWhoChecked,
+            arrayOfPlayerWhoCalled: this.arrayOfPlayerWhoCalled,
+            showFlop: this.showFlop,
+            showTurn: this.showTurn,
+            showRiver: this.showRiver,
+            flop: this.flop,
+            playerWithBigBlindId: this.playerWithBigBlindId,
+            roundEnds: this.roundEnds,
+            winningPlayers: this.winningPlayers
         }
     }
 
