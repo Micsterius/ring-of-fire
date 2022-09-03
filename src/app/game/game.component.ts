@@ -39,6 +39,7 @@ export class GameComponent implements OnInit {
   roundEnds: boolean = false;
   winningPlayers: any[] = [];
   coinsWhichGetWinner: number = 0;
+  playerCreated: string = '';
 
   constructor(private route: ActivatedRoute, private firestore: AngularFirestore, public dialog: MatDialog) {
   }
@@ -55,13 +56,14 @@ export class GameComponent implements OnInit {
         .doc(params['id'])
         .valueChanges()
         .subscribe((game: any) => {
-          let gamePlayers = game.players
+          
           this.game.currentPlayerId = game.currentPlayerId;
           this.game.playedCards = game.playedCards;
-          this.game.players = this.recreatePlayer(gamePlayers)
+          this.game.players = this.recreatePlayer(game.players)
           this.game.pickCardAnimation = game.pickCardAnimation;
           this.game.currentCard = game.currentCard;
           this.game.userImages = game.userImages;
+          this.game.pokerGameIsStarted = game.pokerGameIsStarted
         })
     });
   }
@@ -91,7 +93,7 @@ export class GameComponent implements OnInit {
 
   startPokerGame() {
     this.giveCardsToPlayers();
-    this.pokerGameIsStarted = true;
+    this.game.pokerGameIsStarted = true;
     this.setAllPlayerTurnFalse();
     this.game.currentPlayerId = this.findPlayerWhoStartsRandomized();
     this.currentPlayer().playersTurn = true;
@@ -100,10 +102,10 @@ export class GameComponent implements OnInit {
     this.loadAllPlayersInGameArray();
     this.fillFlop();
     this.showQuestionForJackpot = true;
-    // this.gameStarted = true;
     this.setBlinds();
     this.temporarySaveOfBigblind = this.getHighestJackpot();
     this.saveGame();
+    console.log(this.game.players)
   }
 
   setBlinds() {
@@ -383,6 +385,7 @@ export class GameComponent implements OnInit {
     }
   }
 
+  /**It starts the player which sits two seats after the big blind player of the last round */
   findPlayerWhichStartsNextRound() {
     let playerIDWhichStartTheNextRound;
     for (let i = 0; i < 2; i++) {
@@ -465,14 +468,17 @@ export class GameComponent implements OnInit {
     dialogRef.afterClosed().subscribe((name: string) => {
       if (name && name.length > 0) {
         let playerId: number = this.game.players.length
-        let playerCards: string[] = [];
+        let playerCards: string[] = ['2H', '2S'];
         let playersTurn: boolean = false;
         let numberOfChips: number = 100;
         let folded: boolean = false;
         let setMoney: number = 0;
+        this.playerCreated = name;
 
         let player = new Player(name, this.game.userImages[playerId], playerId, playerCards, playersTurn, numberOfChips, folded, setMoney);
         this.game.players.push(player);
+        console.log(this.game.players)
+        this.saveGame()
       }
     });
   }

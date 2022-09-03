@@ -6,7 +6,8 @@ export class Game {
     public pickCardAnimation = false;
     public currentCard: string | any = '';
     public userImages: string[] = ['user-img-1.jpg', 'user-img-4.svg', 'user-img-3.svg', 'user-img-5.svg', 'user-img-2.svg', 'user-img-6.svg'];
-
+    public pokerGameIsStarted = false;
+    
 
     constructor() {
         for (let i = 2; i < 11; i++) {
@@ -37,7 +38,8 @@ export class Game {
             currentPlayerId: this.currentPlayerId,
             pickCardAnimation: this.pickCardAnimation,
             currentCard: this.currentCard,
-            userImages: this.userImages
+            userImages: this.userImages,
+            pokerGameIsStarted: this.pokerGameIsStarted
         }
     }
 

@@ -12,6 +12,7 @@ export class PlayerComponent implements OnInit {
   @Input() playerActive: boolean = false;
   @Input() userImages: any;
   @Input() moneyJackpot: number;
+  @Input() numberOfChips: number;
   
 
   imagePlayer: string = '';

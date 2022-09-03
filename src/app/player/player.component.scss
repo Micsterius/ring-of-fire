@@ -26,3 +26,21 @@
     opacity: 1 !important;
 }
 
+.player-chip-status {
+    display: flex;
+    flex-direction: column;
+    margin-right: 12px;
+}
+
+.player-infos {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.player-name {
+    max-width: 143px;
+    max-height: 25px;
+    overflow: auto;
+}

@@ -1,8 +1,12 @@
 <div class="player" [class.player-active]="playerActive">
     <img src="assets/img/{{ userImages }}">
-
-    <span>
-        {{ name }}
-        {{ moneyJackpot }}
-    </span>
+    <div class="player-infos">
+        <div class="player-name">
+            <span>{{ name }}</span>
+        </div>
+        <div class="player-chip-status">
+            <div>Jackpot: {{ moneyJackpot }}</div>
+            <div>Chips: {{ numberOfChips }}</div>
+        </div>
+    </div>
 </div>
