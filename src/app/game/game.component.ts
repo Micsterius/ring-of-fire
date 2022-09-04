@@ -12,19 +12,17 @@ import { Player } from 'src/models/player';
   styleUrls: ['./game.component.scss']
 })
 export class GameComponent implements OnInit {
-  lastCard: string | any = '';
   game: Game;
   nbrOfRotation: number = 0;
-  lastCardPuffer: string = '';
   gameId: string;
-  checkIsPossible: boolean = false;
-  raiseIsPossible: boolean = false;
-  
-  temporarySaveOfBigblind: number;
-  
-
   coinsWhichGetWinner: number = 0;
   playerCreated: string = '';
+
+  /**next tasks:
+   *  - winning player has to be saved as a json only with the id. No Objects
+   *  - All in Options.
+   *  - instead of Call show  'give 10' when it is the first player turn or the big blind player can check in the first round or Raise
+   */
 
   constructor(private route: ActivatedRoute, private firestore: AngularFirestore, public dialog: MatDialog) {
   }
@@ -45,7 +43,6 @@ export class GameComponent implements OnInit {
           this.game.playedCards = game.playedCards;
           this.game.players = this.recreatePlayer(game.players)
           this.game.pickCardAnimation = game.pickCardAnimation;
-          this.game.currentCard = game.currentCard;
           this.game.userImages = game.userImages;
           this.game.pokerGameIsStarted = game.pokerGameIsStarted;
           this.game.playerInGame = game.playerInGame;
@@ -54,12 +51,15 @@ export class GameComponent implements OnInit {
           this.game.arrayForFirstRound = game.arrayForFirstRound;
           this.game.arrayOfPlayerWhoChecked = game.arrayOfPlayerWhoChecked;
           this.game.arrayOfPlayerWhoCalled = game.arrayOfPlayerWhoCalled;
+          this.game.showFlop = game.showFlop;
           this.game.showTurn = game.showTurn;
           this.game.showRiver = game.showRiver;
           this.game.flop = game.flop;
           this.game.playerWithBigBlindId = game.playerWithBigBlindId;
           this.game.roundEnds = game.roundEnds;
           this.game.winningPlayers = game.winningPlayers;
+          this.game.checkIsPossible = game.checkIsPossible;
+          this.game.raiseIsPossible = game.raiseIsPossible;
           console.log(this.game.players)
         })
     });
@@ -99,7 +99,6 @@ export class GameComponent implements OnInit {
     this.loadAllPlayersInGameArray();
     this.fillFlop();
     this.setBlinds();
-    this.temporarySaveOfBigblind = this.getHighestJackpot();
     this.saveGame();
   }
 
@@ -141,7 +140,7 @@ export class GameComponent implements OnInit {
   loadAllPlayersInGameArray() {
     for (let i = 0; i < this.game.players.length; i++) {
       const player = this.game.players[i];
-      this.game.playerInGame.push(player)
+      this.game.playerInGame.push(player.playerId)
     }
   }
 
@@ -159,7 +158,7 @@ export class GameComponent implements OnInit {
 
   playerChecks() {
     this.currentPlayer().playersTurn = false;
-    this.game.arrayOfPlayerWhoChecked.push(this.currentPlayer());
+    this.game.arrayOfPlayerWhoChecked.push(this.currentPlayer().playerId);
     if (this.game.arrayForFirstRound.length == this.game.players.length - 1 && !this.game.showFlop) {
       this.game.bigBlindPlayerCheckedInTheFirstRound = true;
       this.checkIfAllPlayersCheckedOrCalled();
@@ -168,7 +167,7 @@ export class GameComponent implements OnInit {
   }
 
   playerCalled() {
-    this.game.arrayForFirstRound.push(this.currentPlayer()) // only necessary for the first round
+    this.game.arrayForFirstRound.push(this.currentPlayer().playerId) // only necessary for the first round
     if (this.getHighestJackpot() == 0) {
       this.currentPlayer().setMoney += 10;
       this.currentPlayer().numberOfChips -= 10;
@@ -179,9 +178,9 @@ export class GameComponent implements OnInit {
       this.game.allChipsInPot += this.getHighestJackpot() - this.currentPlayer().setMoney;
       this.currentPlayer().setMoney += this.getHighestJackpot() - this.currentPlayer().setMoney;
     }
-    this.raiseIsPossible = true;
+    this.game.raiseIsPossible = true;
     this.currentPlayer().playersTurn = false;
-    this.game.arrayOfPlayerWhoCalled.push(this.currentPlayer())
+    this.game.arrayOfPlayerWhoCalled.push(this.currentPlayer().playerId)
     this.saveGame();
     this.goToNextPlayer();
   }
@@ -190,19 +189,19 @@ export class GameComponent implements OnInit {
     let currentHighestJackpot = this.getHighestJackpot();
     this.currentPlayer().numberOfChips -= currentHighestJackpot * 2;
     this.game.allChipsInPot += currentHighestJackpot * 2;
-    this.raiseIsPossible = true;
+    this.game.raiseIsPossible = true;
     this.currentPlayer().setMoney += currentHighestJackpot * 2;
     this.currentPlayer().playersTurn = false;
     this.game.arrayOfPlayerWhoCalled.length = 0;
-    this.game.arrayOfPlayerWhoCalled.push(this.currentPlayer())
+    this.game.arrayOfPlayerWhoCalled.push(this.currentPlayer().playerId)
     this.goToNextPlayer();
   }
 
   playerFolded() {
-    this.game.arrayForFirstRound.push(this.currentPlayer());
+    this.game.arrayForFirstRound.push(this.currentPlayer().playerId);
     this.currentPlayer().folded = true;
     this.currentPlayer().playersTurn = false;
-    this.game.playerInGame.splice(this.game.playerInGame.indexOf(this.currentPlayer()), 2)
+    this.game.playerInGame.splice(this.game.playerInGame.indexOf(this.currentPlayer().playerId), 2)
     this.checkNumberOfFoldedPlayers();
   }
 
@@ -224,10 +223,7 @@ export class GameComponent implements OnInit {
     if (this.game.bigBlindPlayerCheckedInTheFirstRound) {
       this.game.bigBlindPlayerCheckedInTheFirstRound = false;
     }
-    else {
-      this.checkIfPlayerIsOnTheTable();
-    }
-
+    this.checkIfPlayerIsOnTheTable();
   }
 
   checkIfAllPlayersCheckedOrCalled() {
@@ -247,9 +243,9 @@ export class GameComponent implements OnInit {
         this.clearAllPlayersSetMoney();
       }
       this.game.showFlop = true
-      this.raiseIsPossible = false;
+      this.game.raiseIsPossible = false;
       this.clearAllPlayersSetMoney();
-      this.checkIsPossible = true;
+      this.game.checkIsPossible = true;
       this.game.arrayOfPlayerWhoChecked.length = 0;
       this.game.arrayOfPlayerWhoCalled.length = 0;
       this.saveGame();
@@ -265,8 +261,8 @@ export class GameComponent implements OnInit {
 
   showNextCard() {
     this.game.flop.push(this.game.stack.pop())
-    this.raiseIsPossible = false;
-    this.checkIsPossible = true;
+    this.game.raiseIsPossible = false;
+    this.game.checkIsPossible = true;
   }
 
   allPlayersChecked() {
@@ -280,8 +276,8 @@ export class GameComponent implements OnInit {
   async checkWinConditions() {
     let cardsOfPlayers = '';
     for (let i = 0; i < this.game.playerInGame.length; i++) {
-      const player = this.game.playerInGame[i];
-      cardsOfPlayers += `&pc[]=${player.playerCards[0]},${player.playerCards[1]}`
+      const playerId = this.game.playerInGame[i];
+      cardsOfPlayers += `&pc[]=${this.game.players[playerId].playerCards[0]},${this.game.players[playerId].playerCards[1]}`
     }
 
     //API from https://www.pokerapi.dev/ ### by Gareth Fuller
@@ -327,7 +323,6 @@ export class GameComponent implements OnInit {
     this.loadAllPlayersInGameArray();
     this.fillFlop();
     this.setBlinds();
-    this.temporarySaveOfBigblind = this.getHighestJackpot();
     this.saveGame();
   }
 
@@ -391,8 +386,8 @@ export class GameComponent implements OnInit {
     this.game.playerInGame = [];
     this.game.arrayOfPlayerWhoChecked = [];
     this.game.arrayOfPlayerWhoCalled = [];
-    this.checkIsPossible = false;
-    this.raiseIsPossible = false;
+    this.game.checkIsPossible = false;
+    this.game.raiseIsPossible = false;
     this.game.showFlop = false;
     this.game.showTurn = false;
     this.game.showRiver = false;
@@ -410,10 +405,10 @@ export class GameComponent implements OnInit {
     }
     else {
       this.currentPlayer().playersTurn = true;
-      this.checkIsPossible = this.proofIfMoveCheckIsPossibile();
+      this.game.checkIsPossible = this.proofIfMoveCheckIsPossibile();
       this.checkIfAllPlayersCheckedOrCalled();
     }
-    this.saveGame()
+    this.saveGame();
   }
 
   proofIfMoveCheckIsPossibile() {

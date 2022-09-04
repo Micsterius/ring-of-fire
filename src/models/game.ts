@@ -4,7 +4,6 @@ export class Game {
     public playedCards: any[] = []; // card and position will be saved
     public currentPlayerId: number = 0;
     public pickCardAnimation = false;
-    public currentCard: string | any = '';
     public userImages: string[] = ['user-img-1.jpg', 'user-img-4.svg', 'user-img-3.svg', 'user-img-5.svg', 'user-img-2.svg', 'user-img-6.svg'];
     public pokerGameIsStarted = false;
     public playerInGame: any[] = [];
@@ -17,10 +16,12 @@ export class Game {
     public showTurn: boolean = false;
     public showRiver: boolean = false;
     public flop: string[] = [];
-    public playerWithBigBlindId: number;
+    public playerWithBigBlindId: number = 0;
     public roundEnds: boolean = false;
     public winningPlayers: any[] = [];
-
+    public checkIsPossible: boolean = false;
+    public raiseIsPossible: boolean = true;
+    
 
     constructor() {
         for (let i = 2; i < 11; i++) {
@@ -37,8 +38,6 @@ export class Game {
             this.stack.push(`Q${cardColor}`)
             this.stack.push(`J${cardColor}`)
         }
-
-
         shuffle(this.stack)
     }
 
@@ -50,7 +49,6 @@ export class Game {
             playedCards: this.playedCards,
             currentPlayerId: this.currentPlayerId,
             pickCardAnimation: this.pickCardAnimation,
-            currentCard: this.currentCard,
             userImages: this.userImages,
             pokerGameIsStarted: this.pokerGameIsStarted,
             playerInGame: this.playerInGame,
@@ -65,7 +63,9 @@ export class Game {
             flop: this.flop,
             playerWithBigBlindId: this.playerWithBigBlindId,
             roundEnds: this.roundEnds,
-            winningPlayers: this.winningPlayers
+            winningPlayers: this.winningPlayers,
+            checkIsPossible: this.checkIsPossible,
+            raiseIsPossible: this.raiseIsPossible
         }
     }
 
