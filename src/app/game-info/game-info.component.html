@@ -1,7 +1,7 @@
 <mat-card>
     <mat-card-title>
         <div *ngFor="let name of winner">
-            <div>{{ winnerName ? name : 'Please play forward' }}</div>
+            <div>It wins player {{ winnerName ? name : 'Please play forward' }}</div>
         </div>
     </mat-card-title>
     <mat-card-content>{{ winnerName ? description : '' }}</mat-card-content>

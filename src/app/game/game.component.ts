@@ -22,7 +22,7 @@ export class GameComponent implements OnInit {
    *  - start game can only clicked if min. 2 players are in game
    *  - a player can only be created one time by clicking on add button
    *  - All in Options.
-   *  - if all less one folded. show in console this one player win and get the chips on the table
+   *  - if all less one folded. show in card this one player win and get the chips on the table
    */
 
   constructor(private route: ActivatedRoute, private firestore: AngularFirestore, public dialog: MatDialog) {
@@ -228,8 +228,11 @@ export class GameComponent implements OnInit {
     let allUnFoldedPlayers: any = this.game.players.filter(player => !player.folded)
     if (allUnFoldedPlayers.length == 1) {
       let player = allUnFoldedPlayers[0]
-      alert('look in console')
-      console.log('Es gewinnt:', player)
+      player.numberOfChips += this.game.allChipsInPot;
+      this.game.winningPlayersName.push(player.playerName);
+      setTimeout(() => {
+        this.startNextRound();
+      }, 5000);
     }
     else {
       this.goToNextPlayer();
@@ -313,7 +316,7 @@ export class GameComponent implements OnInit {
     this.game.roundEnds = true;
     setTimeout(() => {
       this.startNextRound();
-    }, 10000);
+    }, 5000);
   }
 
   findPlayersWithTheseCards(winners) {
@@ -342,7 +345,7 @@ export class GameComponent implements OnInit {
 
   startNextRound() {
     this.setAllPlayerTurnFalse();
-    this.setAllPlayersFoldStatusFalse();
+    this.setAllPlayersFoldStatusFalseAndSetMoneyToZero();
     this.game.currentPlayerId = this.findPlayerWhichStartsNextRound();
     this.currentPlayer().playersTurn = true;
     this.setValuesBack();
@@ -391,10 +394,11 @@ export class GameComponent implements OnInit {
     return stack;
   }
 
-  setAllPlayersFoldStatusFalse() {
+  setAllPlayersFoldStatusFalseAndSetMoneyToZero() {
     for (let i = 0; i < this.game.players.length; i++) {
       const player = this.game.players[i];
       player.folded = false;
+      player.setMoney = 0;
     }
   }
 
@@ -426,6 +430,7 @@ export class GameComponent implements OnInit {
     this.game.winningPlayersName = [];
     this.game.winningPlayersResult = [];
     this.coinsWhichGetWinner = 0;
+    this.game.callIsPossible = true;
   }
 
   checkIfPlayerIsOnTheTable() {
