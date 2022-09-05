@@ -18,10 +18,12 @@ export class Game {
     public flop: string[] = [];
     public playerWithBigBlindId: number = 0;
     public roundEnds: boolean = false;
-    public winningPlayers: any[] = [];
+    public winningPlayersName: any[] = [];
     public checkIsPossible: boolean = false;
     public raiseIsPossible: boolean = true;
     public winningPlayersResult: any[] = [];
+    public winningPlayersId: any[] = [];
+    
     
 
     constructor() {
@@ -64,10 +66,11 @@ export class Game {
             flop: this.flop,
             playerWithBigBlindId: this.playerWithBigBlindId,
             roundEnds: this.roundEnds,
-            winningPlayers: this.winningPlayers,
+            winningPlayersName: this.winningPlayersName,
             checkIsPossible: this.checkIsPossible,
             raiseIsPossible: this.raiseIsPossible,
-            winningPlayersResult: this.winningPlayersResult
+            winningPlayersResult: this.winningPlayersResult,
+            winningPlayersId: this.winningPlayersId
         }
     }
 

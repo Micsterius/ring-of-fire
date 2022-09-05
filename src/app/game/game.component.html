@@ -23,8 +23,11 @@
     </div>
 </div>
 
-Stack for played cards 
-<app-game-info [winnerId]="game.winningPlayers" [winnerResult]="game.winningPlayersResult" [players]="game.players" class="pin-bottom"></app-game-info>
+
+
+<app-game-info [winnerName]="game.winningPlayersName" [winnerResult]="game.winningPlayersResult" [players]="game.players" class="pin-bottom"></app-game-info>
+
+
 
 <button mat-fab color="accent" class="btn-add" (click)="openDialog()">
     <mat-icon>add</mat-icon>
@@ -63,7 +66,7 @@ Stack for played cards
 
 
 <div class="ask-for-set-money" *ngIf="game.roundEnds">
-    <div *ngFor="let player of game.winningPlayers;">
+    <div *ngFor="let player of game.winningPlayersId;">
         <p>Player: {{player.playerName}} wons {{coinsWhichGetWinner}} Chips</p>
     </div>
 </div>

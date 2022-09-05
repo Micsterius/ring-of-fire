@@ -59,10 +59,11 @@ export class GameComponent implements OnInit {
           this.game.flop = game.flop;
           this.game.playerWithBigBlindId = game.playerWithBigBlindId;
           this.game.roundEnds = game.roundEnds;
-          this.game.winningPlayers = game.winningPlayers;
+          this.game.winningPlayersName = game.winningPlayersName;
           this.game.checkIsPossible = game.checkIsPossible;
           this.game.raiseIsPossible = game.raiseIsPossible;
           this.game.winningPlayersResult = game.winningPlayersResult;
+          this.game.winningPlayersId = game.winningPlayersId;
         })
     });
   }
@@ -300,22 +301,23 @@ export class GameComponent implements OnInit {
 
   findPlayersWithTheseCards(winners) {
     let winningCards = [];
+
     for (let i = 0; i < winners.length; i++) {
       const cards = winners[i].cards;
       let cardsArray = cards.split(',');
       winningCards.push(cardsArray[0]);
       this.game.winningPlayersResult.push(winners[i].result);
-      console.log('B', this.game.winningPlayersResult)
     }
     for (let i = 0; i < winningCards.length; i++) {
       const card = winningCards[i];
       let winner = this.game.players.find((player) => player.playerCards[0] == card);
-      this.game.winningPlayers.push(winner.playerId);
-      console.log('V', this.game.winningPlayers)
+      this.game.winningPlayersName.push(winner.playerName);
+      this.game.winningPlayersId.push(winner.playerId);
+      console.log('V', this.game.winningPlayersName)
     }
     this.coinsWhichGetWinner = this.game.allChipsInPot / winners.length;
-    for (let i = 0; i < this.game.winningPlayers.length; i++) {
-      const playerId = this.game.winningPlayers[i];
+    for (let i = 0; i < this.game.winningPlayersId.length; i++) {
+      const playerId = this.game.winningPlayersId[i];
       this.game.players[playerId].numberOfChips += this.coinsWhichGetWinner;
     }
     this.saveGame();
@@ -404,7 +406,7 @@ export class GameComponent implements OnInit {
     this.game.arrayForFirstRound = [];
     this.game.bigBlindPlayerCheckedInTheFirstRound = false;
     this.game.roundEnds = false;
-    this.game.winningPlayers = [];
+    this.game.winningPlayersName = [];
     this.game.winningPlayersResult = [];
     this.coinsWhichGetWinner = 0;
   }

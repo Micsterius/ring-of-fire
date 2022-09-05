@@ -27,15 +27,15 @@ export class GameInfoComponent implements OnInit, OnChanges {
 
   description = '';
 
-  @Input() winnerId: any[];
+  @Input() winnerName: any[];
   @Input() players: any[];
   @Input() winnerResult: any[];
 
   constructor() {
   }
   ngOnChanges(): void {
-    if (this.winnerId.length >= 1) {
-      this.winner = this.players[this.winnerId[0]].playerName;
+    if (this.winnerName.length >= 1) {
+      this.winner = this.winnerName
       this.description = this.winnerResult[0]
     }
   }
