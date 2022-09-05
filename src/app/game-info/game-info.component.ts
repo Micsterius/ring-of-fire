@@ -23,21 +23,24 @@ export class GameInfoComponent implements OnInit, OnChanges {
     { title: 'Rule', description: 'Make a rule. Everyone needs to drink when he breaks the rule.' },
   ];
 
-  title = '';
+  winner: any;
+
   description = '';
 
-  @Input() card: string | any;
+  @Input() winnerId: any[];
+  @Input() players: any[];
+  @Input() winnerResult: any[];
+
   constructor() {
   }
   ngOnChanges(): void {
-    if (this.card) {
-      let cardNumber = this.card.split('_')[1];
-      this.title = this.cardAction[cardNumber - 1].title;
-      this.description = this.cardAction[cardNumber - 1].description;
+    if (this.winnerId.length >= 1) {
+      this.winner = this.players[this.winnerId[0]].playerName;
+      this.description = this.winnerResult[0]
     }
   }
 
   ngOnInit(): void {
-    console.log('current card:', this.card)
+
   }
 }

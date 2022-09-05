@@ -23,8 +23,8 @@
     </div>
 </div>
 
-<!-- Stack for played cards 
-<app-game-info [card]="game.currentCard" class="pin-bottom"></app-game-info>-->
+Stack for played cards 
+<app-game-info [winnerId]="game.winningPlayers" [winnerResult]="game.winningPlayersResult" [players]="game.players" class="pin-bottom"></app-game-info>
 
 <button mat-fab color="accent" class="btn-add" (click)="openDialog()">
     <mat-icon>add</mat-icon>
@@ -73,32 +73,3 @@
         <img src="assets/img/cards/{{cardOfTable}}.svg">
     </div>
 </div>
-
-
-
-
-
-
-
-
-<!-- 
-<div class="player-1">
-    <img src="assets/img/cards/{{game.stack[1]}}.svg">
-    <img src="assets/img/cards/{{game.stack[5]}}.svg">
-</div>
-
-<div class="player-2">
-    <img src="assets/img/cards/{{game.stack[2]}}.svg">
-    <img src="assets/img/cards/{{game.stack[6]}}.svg">
-</div>
-
-<div class="player-3">
-    <img src="assets/img/cards/{{game.stack[3]}}.svg">
-    <img src="assets/img/cards/{{game.stack[7]}}.svg">
-</div>
-
-<div class="player-4">
-    <img src="assets/img/cards/{{game.stack[4]}}.svg">
-    <img src="assets/img/cards/{{game.stack[8]}}.svg">
-</div>
--->

@@ -21,6 +21,7 @@ export class Game {
     public winningPlayers: any[] = [];
     public checkIsPossible: boolean = false;
     public raiseIsPossible: boolean = true;
+    public winningPlayersResult: any[] = [];
     
 
     constructor() {
@@ -31,7 +32,7 @@ export class Game {
             this.stack.push(`${i}D`)
         }
         let cardsColor = ['H', 'S', 'C', 'D']
-        for (let i = 2; i < cardsColor.length; i++) {
+        for (let i = 0; i < cardsColor.length; i++) {
             const cardColor = cardsColor[i]
             this.stack.push(`A${cardColor}`)
             this.stack.push(`K${cardColor}`)
@@ -65,7 +66,8 @@ export class Game {
             roundEnds: this.roundEnds,
             winningPlayers: this.winningPlayers,
             checkIsPossible: this.checkIsPossible,
-            raiseIsPossible: this.raiseIsPossible
+            raiseIsPossible: this.raiseIsPossible,
+            winningPlayersResult: this.winningPlayersResult
         }
     }
 

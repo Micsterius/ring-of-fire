@@ -22,6 +22,7 @@ export class GameComponent implements OnInit {
    *  - winning player has to be saved as a json only with the id. No Objects
    *  - All in Options.
    *  - instead of Call show  'give 10' when it is the first player turn or the big blind player can check in the first round or Raise
+   *  - show field with winner and winning card combination
    */
 
   constructor(private route: ActivatedRoute, private firestore: AngularFirestore, public dialog: MatDialog) {
@@ -42,6 +43,7 @@ export class GameComponent implements OnInit {
           this.game.currentPlayerId = game.currentPlayerId;
           this.game.playedCards = game.playedCards;
           this.game.players = this.recreatePlayer(game.players)
+          this.game.stack = game.stack;
           this.game.pickCardAnimation = game.pickCardAnimation;
           this.game.userImages = game.userImages;
           this.game.pokerGameIsStarted = game.pokerGameIsStarted;
@@ -60,7 +62,7 @@ export class GameComponent implements OnInit {
           this.game.winningPlayers = game.winningPlayers;
           this.game.checkIsPossible = game.checkIsPossible;
           this.game.raiseIsPossible = game.raiseIsPossible;
-          console.log(this.game.players)
+          this.game.winningPlayersResult = game.winningPlayersResult;
         })
     });
   }
@@ -135,6 +137,7 @@ export class GameComponent implements OnInit {
       const card = this.game.stack.pop()
       this.game.flop.push(card)
     }
+    this.saveGame();
   }
 
   loadAllPlayersInGameArray() {
@@ -263,6 +266,7 @@ export class GameComponent implements OnInit {
     this.game.flop.push(this.game.stack.pop())
     this.game.raiseIsPossible = false;
     this.game.checkIsPossible = true;
+    this.saveGame();
   }
 
   allPlayersChecked() {
@@ -283,14 +287,15 @@ export class GameComponent implements OnInit {
     //API from https://www.pokerapi.dev/ ### by Gareth Fuller
     let url = `https://api.pokerapi.dev/v1/winner/texas_holdem?cc=${this.game.flop[0]},${this.game.flop[1]},${this.game.flop[2]},${this.game.flop[3]},${this.game.flop[4]}${cardsOfPlayers}`
 
-    let response = await fetch(url)
-    let a = await response.json()
+    let response = await fetch(url);
+    let a = await response.json();
+    console.log('3', a);
     this.findPlayersWithTheseCards(a.winners)
 
     this.game.roundEnds = true;
     setTimeout(() => {
       this.startNextRound();
-    }, 5000);
+    }, 10000);
   }
 
   findPlayersWithTheseCards(winners) {
@@ -298,18 +303,22 @@ export class GameComponent implements OnInit {
     for (let i = 0; i < winners.length; i++) {
       const cards = winners[i].cards;
       let cardsArray = cards.split(',');
-      winningCards.push(cardsArray[0])
+      winningCards.push(cardsArray[0]);
+      this.game.winningPlayersResult.push(winners[i].result);
+      console.log('B', this.game.winningPlayersResult)
     }
     for (let i = 0; i < winningCards.length; i++) {
       const card = winningCards[i];
       let winner = this.game.players.find((player) => player.playerCards[0] == card);
-      this.game.winningPlayers.push(winner)
+      this.game.winningPlayers.push(winner.playerId);
+      console.log('V', this.game.winningPlayers)
     }
-    this.coinsWhichGetWinner = this.game.allChipsInPot / winners.length
+    this.coinsWhichGetWinner = this.game.allChipsInPot / winners.length;
     for (let i = 0; i < this.game.winningPlayers.length; i++) {
-      const player = this.game.winningPlayers[i];
-      player.numberOfChips += this.coinsWhichGetWinner
+      const playerId = this.game.winningPlayers[i];
+      this.game.players[playerId].numberOfChips += this.coinsWhichGetWinner;
     }
+    this.saveGame();
   }
 
   startNextRound() {
@@ -396,6 +405,7 @@ export class GameComponent implements OnInit {
     this.game.bigBlindPlayerCheckedInTheFirstRound = false;
     this.game.roundEnds = false;
     this.game.winningPlayers = [];
+    this.game.winningPlayersResult = [];
     this.coinsWhichGetWinner = 0;
   }
 
@@ -414,14 +424,10 @@ export class GameComponent implements OnInit {
   proofIfMoveCheckIsPossibile() {
     let moneyFromCurrentPlayer = this.currentPlayer().setMoney;
     let highestJackpotFormAllPlayers = this.getHighestJackpot();
-    console.log('moneyFromCurrentPlayer', moneyFromCurrentPlayer)
-    console.log('highestJackpotFormAllPlayers', highestJackpotFormAllPlayers)
     if (moneyFromCurrentPlayer >= highestJackpotFormAllPlayers) {
-      console.log('Y')
       return true
     }
     else {
-      console.log('N')
       return false
     }
   }
@@ -429,13 +435,11 @@ export class GameComponent implements OnInit {
   getHighestJackpot() {
     let allPlayersJackpots = this.game.players.map((player) => player.setMoney)
     let temporary = -1;
-    console.log('allPlayersJackpots', allPlayersJackpots)
     allPlayersJackpots.forEach((setMoney) => {
       if (temporary < setMoney) {
         temporary = setMoney;
       }
     })
-    console.log('temporary:', temporary)
     return temporary
   }
 
@@ -448,6 +452,7 @@ export class GameComponent implements OnInit {
       this.game.players[i].playerCards.push(newCard1);
       this.game.players[i].playerCards.push(newCard2);
     }
+    this.saveGame();
   }
 
   newGame() {
