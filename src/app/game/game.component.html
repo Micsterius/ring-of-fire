@@ -6,26 +6,24 @@
 <div class="field">
 
     <div class="card-stack">
-
         <!-- Card stack -->
         <img [ngStyle]="{ 'right.px' : i*5}" *ngFor="let c of [0,1,2,3,4]; let i = index;"
             src="assets/img/cards/card_cover.png" alt="">
-        <img [class.pick-card]="game.pickCardAnimation" class="top-card" style="right: 25px;"
-            src="assets/img/cards/card_cover.png">
-
-        <!-- Stack for last card 
-        <img *ngIf="lastCard != ''"
-        src="assets/img/cards/{{ lastCard }}.svg" class="played-card-{{nbrOfRotation+1}}">-->
-
-        <!-- Stack for played cards -->
-        <img *ngFor="let card of game.playedCards;" src="assets/img/cards/{{ card.card }}.svg"
-            [ngClass]="{'played-card-0' :card.position === 0, 'played-card-1' :card.position === 1, 'played-card-2' :card.position === 2}">        
     </div>
+
+    <!-- Flop/Turn/River cards -->
+    <div *ngIf="game.showFlop" class="flop-cards-container">
+        <div *ngFor="let cardOfTable of game.flop; let i = index" class="flop-cards" [ngStyle]="{ 'left.px' : i*100}">
+            <img src="assets/img/cards/{{cardOfTable}}.svg">
+        </div>
+    </div>
+
 </div>
 
 
 
-<app-game-info [winnerName]="game.winningPlayersName" [winnerResult]="game.winningPlayersResult" [players]="game.players" class="pin-bottom"></app-game-info>
+<app-game-info [winnerName]="game.winningPlayersName" [winnerResult]="game.winningPlayersResult"
+    [players]="game.players" class="pin-bottom"></app-game-info>
 
 
 
@@ -42,8 +40,7 @@
 </div>
 
 <div *ngIf="game.players.length > 1 && game.pokerGameIsStarted">
-    <div [class.cards-of-active-player]="players.playersTurn" class="player-1" *ngFor="let players of game.players;"
-        [ngClass]="{'player-1' :players.playerId === 0, 'player-2' :players.playerId === 1, 'player-3' :players.playerId === 2, 'player-4' :players.playerId === 3}">
+    <div [class.cards-of-active-player]="players.playersTurn" class="player-1" *ngFor="let players of game.players;">
         <div *ngIf="players.playerName == playerCreated">
             <img src=" assets/img/cards/{{players.playerCards[0]}}.svg">
             <img src="assets/img/cards/{{players.playerCards[1]}}.svg">
@@ -55,7 +52,8 @@
 <div *ngFor="let player of game.players;">
     <div class="ask-for-set-money" *ngIf="player.playersTurn && player.playerName == playerCreated">
         <p>Do you want to set money?</p>
-        <button (click)="playerCalled()">Call</button>
+        <button (click)="playerSetMoney()" *ngIf="!game.callIsPossible && !game.raiseIsPossible">+10</button>
+        <button (click)="playerCalled()" *ngIf="game.callIsPossible">Call</button>
         <button (click)="playerRaise()" *ngIf="game.raiseIsPossible">Raise</button>
         <button (click)="playerChecks()" *ngIf="game.checkIsPossible">Check</button>
         <button (click)="playerFolded()">Fold</button>
@@ -71,8 +69,3 @@
     </div>
 </div>
 
-<div *ngIf="game.showFlop" class="flop-cards-container">
-    <div *ngFor="let cardOfTable of game.flop; let i = index" class="flop-cards" [ngStyle]="{ 'left.px' : i*100}">
-        <img src="assets/img/cards/{{cardOfTable}}.svg">
-    </div>
-</div>

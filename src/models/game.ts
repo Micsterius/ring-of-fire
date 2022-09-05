@@ -23,6 +23,7 @@ export class Game {
     public raiseIsPossible: boolean = true;
     public winningPlayersResult: any[] = [];
     public winningPlayersId: any[] = [];
+    public callIsPossible: boolean = true;
     
     
 
@@ -70,7 +71,8 @@ export class Game {
             checkIsPossible: this.checkIsPossible,
             raiseIsPossible: this.raiseIsPossible,
             winningPlayersResult: this.winningPlayersResult,
-            winningPlayersId: this.winningPlayersId
+            winningPlayersId: this.winningPlayersId,
+            callIsPossible: this.callIsPossible
         }
     }
 
