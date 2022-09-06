@@ -6,6 +6,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { Player } from 'src/models/player';
 
+
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
@@ -20,6 +21,8 @@ export class GameComponent implements OnInit {
   playerCreated: string = '';
 
   ipAddress: string = '';
+  developerMode: boolean = true;
+
 
   /**next tasks:
    *  - start game can only clicked if min. 2 players are in game
@@ -34,7 +37,7 @@ export class GameComponent implements OnInit {
 
   ngOnInit(): void {
     this.newGame();
-
+    this.getIPAddress();
     this.route.params.subscribe((params) => {
       this.gameId = params['id']
       this
@@ -305,9 +308,9 @@ export class GameComponent implements OnInit {
     }
     this.findWinCardCombination(cardsOfPlayers)
     this.saveGame();
-    setTimeout(() => {
+    /*setTimeout(() => {
       this.startNextRound();
-    }, 15000);
+    }, 15000);*/
   }
 
   async findWinCardCombination(cardsOfPlayers) {
@@ -340,6 +343,7 @@ export class GameComponent implements OnInit {
       this.game.winningPlayersName.push(winner.playerName);
       this.game.winningPlayersId.push(winner.playerId);
     }
+    console.log(this.game.winningPlayersId)
   }
 
   distributeChips(winners) {
@@ -508,10 +512,8 @@ export class GameComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogAddPlayerComponent);
     dialogRef.afterClosed().subscribe((name: string) => {
 
-      if (name && name.length > 0/* && !this.ipAddressIsAlreadyInGame(this.getIpOfPlayer())*/) {
-       
-        this.game.ipAddress.push(this.getIpOfPlayer())
-        console.log(this.game.ipAddress)
+      if (name && name.length > 0 && !this.ipAddressIsAlreadyInGame(this.ipAddress) || this.developerMode) {
+        this.game.ipAddress.push(this.ipAddress)
         let playerId: number = this.game.players.length
         let playerCards: string[] = ['2H', '2S'];
         let playersTurn: boolean = false;
@@ -522,21 +524,21 @@ export class GameComponent implements OnInit {
         this.playerIsCreated = true;
         let player = new Player(name, this.game.userImages[playerId], playerId, playerCards, playersTurn, numberOfChips, folded, setMoney);
         this.game.players.push(player);
-        
+
         this.saveGame();
       } else { alert('ip is already there') }
     });
   }
 
-  async getIpOfPlayer() {
+  async getIPAddress() {
     let url = 'https://api.ipify.org/?format=json';
     let response = await fetch(url);
     let ipAddressOfCurrentPlayer = await response.json();
     console.log('32', ipAddressOfCurrentPlayer)
     let a = ipAddressOfCurrentPlayer.ip;
     let formatedIpAddress = a.split('.');
-    let newFormatedIpAddress = `${formatedIpAddress[0]}`+ `${formatedIpAddress[1]}`+ `${formatedIpAddress[2]}` +`${formatedIpAddress[3]}` 
-    return newFormatedIpAddress;
+    let newFormatedIpAddress = `${formatedIpAddress[0]}` + `${formatedIpAddress[1]}` + `${formatedIpAddress[2]}` + `${formatedIpAddress[3]}`
+    this.ipAddress = newFormatedIpAddress;
   }
 
   ipAddressIsAlreadyInGame(ipAddressOfCurrentPlayer) {

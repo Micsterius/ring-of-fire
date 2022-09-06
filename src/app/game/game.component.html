@@ -35,7 +35,7 @@
     <p>Please add a player. You need at least minimum 2 players.</p>
 </div>
 
-<div class="alert-add-player" *ngIf="!game.pokerGameIsStarted">
+<div class="alert-add-player" *ngIf="!game.pokerGameIsStarted && game.players.length > 1">
     <button (click)="startPokerGame()">Start Game</button>
 </div>
 
@@ -69,8 +69,8 @@
 
 
 <div class="ask-for-set-money" *ngIf="game.roundEnds">
-    <div *ngFor="let player of game.winningPlayersId;">
-        <p>Player: {{player.playerName}} wons {{game.coinsWhichGetWinner}} Chips</p>
+    <div *ngFor="let name of game.winningPlayersName;">
+        <p>Player {{name}} wons {{game.coinsWhichGetWinner}} Chips</p>
     </div>
 </div>
 
