@@ -15,8 +15,11 @@ export class GameComponent implements OnInit {
   game: Game;
   nbrOfRotation: number = 0;
   gameId: string;
+  playerIsCreated: boolean = false;
 
   playerCreated: string = '';
+
+  ipAddress: string = '';
 
   /**next tasks:
    *  - start game can only clicked if min. 2 players are in game
@@ -67,6 +70,7 @@ export class GameComponent implements OnInit {
           this.game.callIsPossible = game.callIsPossible;
           this.game.coinsWhichGetWinner = game.coinsWhichGetWinner;
           this.game.winningCards = game.winningCards;
+          this.game.ipAddress = game.ipAddress;
         })
     });
   }
@@ -313,19 +317,15 @@ export class GameComponent implements OnInit {
     let response = await fetch(url);
     let a = await response.json();
     this.game.roundEnds = true;
-    console.log(a.winners)
     this.findPlayersWithTheseCards(a.winners)
   }
 
   findPlayersWithTheseCards(winners) {
-
     for (let i = 0; i < winners.length; i++) {
       const cards = winners[i].cards;
       let cardsArray = cards.split(',');
-      console.log(cardsArray)
       this.game.winningCards.push(cardsArray[0]);
       this.game.winningCards.push(cardsArray[1]);
-      console.log(this.game.winningCards)
       this.game.winningPlayersResult.push(winners[i].result);
     }
     this.findPlayerWithWinningCards(winners);
@@ -507,7 +507,11 @@ export class GameComponent implements OnInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogAddPlayerComponent);
     dialogRef.afterClosed().subscribe((name: string) => {
-      if (name && name.length > 0) {
+
+      if (name && name.length > 0/* && !this.ipAddressIsAlreadyInGame(this.getIpOfPlayer())*/) {
+       
+        this.game.ipAddress.push(this.getIpOfPlayer())
+        console.log(this.game.ipAddress)
         let playerId: number = this.game.players.length
         let playerCards: string[] = ['2H', '2S'];
         let playersTurn: boolean = false;
@@ -515,12 +519,28 @@ export class GameComponent implements OnInit {
         let folded: boolean = false;
         let setMoney: number = 0;
         this.playerCreated = name;
-
+        this.playerIsCreated = true;
         let player = new Player(name, this.game.userImages[playerId], playerId, playerCards, playersTurn, numberOfChips, folded, setMoney);
         this.game.players.push(player);
-        this.saveGame()
-      }
+        
+        this.saveGame();
+      } else { alert('ip is already there') }
     });
+  }
+
+  async getIpOfPlayer() {
+    let url = 'https://api.ipify.org/?format=json';
+    let response = await fetch(url);
+    let ipAddressOfCurrentPlayer = await response.json();
+    console.log('32', ipAddressOfCurrentPlayer)
+    let a = ipAddressOfCurrentPlayer.ip;
+    let formatedIpAddress = a.split('.');
+    let newFormatedIpAddress = `${formatedIpAddress[0]}`+ `${formatedIpAddress[1]}`+ `${formatedIpAddress[2]}` +`${formatedIpAddress[3]}` 
+    return newFormatedIpAddress;
+  }
+
+  ipAddressIsAlreadyInGame(ipAddressOfCurrentPlayer) {
+    return this.game.ipAddress.some((ip) => ip == ipAddressOfCurrentPlayer);
   }
 
   saveGame() {

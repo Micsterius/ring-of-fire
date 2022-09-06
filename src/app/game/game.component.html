@@ -27,7 +27,7 @@
 
 
 
-<button mat-fab color="accent" class="btn-add" (click)="openDialog()">
+<button mat-fab color="accent" class="btn-add" (click)="openDialog()" *ngIf="!playerIsCreated">
     <mat-icon>add</mat-icon>
 </button>
 

@@ -25,7 +25,8 @@ export class Game {
     public winningPlayersId: any[] = [];
     public callIsPossible: boolean = true;
     public coinsWhichGetWinner: number = 0;
-    public winningCards: string[] = []; 
+    public winningCards: string[] = [];
+    public ipAddress: any [] = [];
     
     
 
@@ -76,7 +77,8 @@ export class Game {
             winningPlayersId: this.winningPlayersId,
             callIsPossible: this.callIsPossible,
             coinsWhichGetWinner: this.coinsWhichGetWinner,
-            winningCards: this.winningCards
+            winningCards: this.winningCards,
+            ipAddress: this.ipAddress
         }
     }
 
