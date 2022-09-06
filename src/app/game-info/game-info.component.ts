@@ -30,6 +30,7 @@ export class GameInfoComponent implements OnInit, OnChanges {
   @Input() winnerName: any[];
   @Input() players: any[];
   @Input() winnerResult: any[];
+  @Input() roundEnds: boolean;
 
   constructor() {
   }

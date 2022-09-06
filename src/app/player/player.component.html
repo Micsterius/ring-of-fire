@@ -1,4 +1,4 @@
-<div class="player" [class.player-active]="playerActive">
+<div [ngClass]="{'player-active': playerActive, 'player-folded': playerFolded, 'player': true}">
     <img src="assets/img/{{ userImages }}">
     <div class="player-infos">
         <div class="player-name">

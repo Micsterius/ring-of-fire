@@ -1,8 +1,8 @@
-<mat-card>
+<mat-card *ngIf="roundEnds">
     <mat-card-title>
         <div *ngFor="let name of winner">
             <div>It wins player {{ winnerName ? name : 'Please play forward' }}</div>
         </div>
     </mat-card-title>
-    <mat-card-content>{{ winnerName ? description : '' }}</mat-card-content>
+    <mat-card-content>{{ winnerName ? description : 'Please play forward' }}</mat-card-content>
 </mat-card>

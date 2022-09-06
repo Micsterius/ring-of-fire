@@ -24,6 +24,8 @@ export class Game {
     public winningPlayersResult: any[] = [];
     public winningPlayersId: any[] = [];
     public callIsPossible: boolean = true;
+    public coinsWhichGetWinner: number = 0;
+    public winningCards: string[] = []; 
     
     
 
@@ -72,7 +74,9 @@ export class Game {
             raiseIsPossible: this.raiseIsPossible,
             winningPlayersResult: this.winningPlayersResult,
             winningPlayersId: this.winningPlayersId,
-            callIsPossible: this.callIsPossible
+            callIsPossible: this.callIsPossible,
+            coinsWhichGetWinner: this.coinsWhichGetWinner,
+            winningCards: this.winningCards
         }
     }
 

@@ -1,6 +1,6 @@
 <app-player *ngFor="let player of game.players; let i = index" [ngStyle]="{'top.px': 100 + (i * 80)}"
     [name]="player.playerName" [numberOfChips]="player.numberOfChips" [userImages]="player.playerImage"
-    [moneyJackpot]="player.setMoney" [playerActive]="player.playersTurn" class="player-position">
+    [moneyJackpot]="player.setMoney" [playerActive]="player.playersTurn" [playerFolded]="player.folded" class="player-position">
 </app-player>
 
 <div class="field">
@@ -22,7 +22,7 @@
 
 
 
-<app-game-info [winnerName]="game.winningPlayersName" [winnerResult]="game.winningPlayersResult"
+<app-game-info [roundEnds]="game.roundEnds" [winnerName]="game.winningPlayersName" [winnerResult]="game.winningPlayersResult"
     [players]="game.players" class="pin-bottom"></app-game-info>
 
 
@@ -46,7 +46,13 @@
             <img src="assets/img/cards/{{players.playerCards[1]}}.svg">
         </div>
     </div>
+</div>
 
+<div *ngIf="game.roundEnds">
+    <div class="player-2">
+            <img src=" assets/img/cards/{{game.winningCards[0]}}.svg">
+            <img src=" assets/img/cards/{{game.winningCards[1]}}.svg">
+    </div>
 </div>
 
 <div *ngFor="let player of game.players;">
@@ -57,7 +63,6 @@
         <button (click)="playerRaise()" *ngIf="game.raiseIsPossible">Raise</button>
         <button (click)="playerChecks()" *ngIf="game.checkIsPossible">Check</button>
         <button (click)="playerFolded()">Fold</button>
-
         <p>Chips {{game.allChipsInPot}}</p>
     </div>
 </div>
@@ -65,7 +70,7 @@
 
 <div class="ask-for-set-money" *ngIf="game.roundEnds">
     <div *ngFor="let player of game.winningPlayersId;">
-        <p>Player: {{player.playerName}} wons {{coinsWhichGetWinner}} Chips</p>
+        <p>Player: {{player.playerName}} wons {{game.coinsWhichGetWinner}} Chips</p>
     </div>
 </div>
 

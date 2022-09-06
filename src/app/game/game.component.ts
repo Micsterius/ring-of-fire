@@ -15,14 +15,14 @@ export class GameComponent implements OnInit {
   game: Game;
   nbrOfRotation: number = 0;
   gameId: string;
-  coinsWhichGetWinner: number = 0;
+
   playerCreated: string = '';
 
   /**next tasks:
    *  - start game can only clicked if min. 2 players are in game
    *  - a player can only be created one time by clicking on add button
    *  - All in Options.
-   *  - if all less one folded. show in card this one player win and get the chips on the table
+   *  - show winning cards
    */
 
   constructor(private route: ActivatedRoute, private firestore: AngularFirestore, public dialog: MatDialog) {
@@ -65,6 +65,8 @@ export class GameComponent implements OnInit {
           this.game.winningPlayersResult = game.winningPlayersResult;
           this.game.winningPlayersId = game.winningPlayersId;
           this.game.callIsPossible = game.callIsPossible;
+          this.game.coinsWhichGetWinner = game.coinsWhichGetWinner;
+          this.game.winningCards = game.winningCards;
         })
     });
   }
@@ -80,11 +82,9 @@ export class GameComponent implements OnInit {
       let numberOfChips = gamePlayers.shift();
       let folded = gamePlayers.shift();
       let setMoney = gamePlayers.shift();
-
       let player = new Player(name, playerImage, playerId, playerCards, playersTurn, numberOfChips, folded, setMoney)
       temporaryArrayOfAllPlayers.push(player)
     }
-
     return temporaryArrayOfAllPlayers;
   }
 
@@ -99,7 +99,6 @@ export class GameComponent implements OnInit {
     this.game.currentPlayerId = this.findPlayerWhoStartsRandomized();
     this.currentPlayer().playersTurn = true;
     //this.firestore.collection('games').add({ ... this.game.toJson() });
-
     this.loadAllPlayersInGameArray();
     this.fillFlop();
     this.setBlinds();
@@ -186,6 +185,7 @@ export class GameComponent implements OnInit {
   }
 
   playerSetMoney() {
+    this.game.arrayOfPlayerWhoChecked.length = 0;
     this.currentPlayer().setMoney += 10;
     this.currentPlayer().numberOfChips -= 10;
     this.game.allChipsInPot += 10;
@@ -193,12 +193,8 @@ export class GameComponent implements OnInit {
     this.game.raiseIsPossible = true;
     this.currentPlayer().playersTurn = false;
     if (this.game.arrayForFirstRound.length == this.game.players.length - 1 && !this.game.showFlop) {
-      this.game.arrayOfPlayerWhoCalled.length == 0;
-      this.game.arrayOfPlayerWhoChecked.length == 0;
-    } else {
-      this.game.arrayOfPlayerWhoCalled.push(this.currentPlayer().playerId)
-    }
-
+      this.game.arrayOfPlayerWhoCalled.length = 0;
+    } else { this.game.arrayOfPlayerWhoCalled.push(this.currentPlayer().playerId); }
     this.saveGame();
     this.goToNextPlayer();
   }
@@ -228,15 +224,15 @@ export class GameComponent implements OnInit {
     let allUnFoldedPlayers: any = this.game.players.filter(player => !player.folded)
     if (allUnFoldedPlayers.length == 1) {
       let player = allUnFoldedPlayers[0]
+      this.game.coinsWhichGetWinner = this.game.allChipsInPot;
       player.numberOfChips += this.game.allChipsInPot;
       this.game.winningPlayersName.push(player.playerName);
+      this.game.roundEnds = true;
       setTimeout(() => {
         this.startNextRound();
-      }, 5000);
+      }, 15000);
     }
-    else {
-      this.goToNextPlayer();
-    }
+    else { this.goToNextPlayer(); }
   }
 
   goToNextPlayer() {
@@ -250,20 +246,9 @@ export class GameComponent implements OnInit {
 
   checkIfAllPlayersCheckedOrCalled() {
     if (this.allPlayersChecked() || this.allPlayersCalled() || this.game.bigBlindPlayerCheckedInTheFirstRound) {
-      if (this.game.showRiver) {
-        this.checkWinConditions();
-        this.clearAllPlayersSetMoney();
-      }
-      if (this.game.showTurn && !this.game.showRiver) {
-        this.game.showRiver = true;
-        this.showNextCard()
-        this.clearAllPlayersSetMoney();
-      }
-      if (this.game.showFlop && !this.game.showTurn) {
-        this.game.showTurn = true;
-        this.showNextCard()
-        this.clearAllPlayersSetMoney();
-      }
+      if (this.game.showRiver) { this.checkWinConditions() }
+      if (this.game.showTurn && !this.game.showRiver) { this.showRiver() }
+      if (this.game.showFlop && !this.game.showTurn) { this.showTurn() }
       this.game.showFlop = true
       this.game.raiseIsPossible = false;
       this.clearAllPlayersSetMoney();
@@ -272,6 +257,18 @@ export class GameComponent implements OnInit {
       this.game.arrayOfPlayerWhoCalled.length = 0;
       this.saveGame();
     }
+  }
+
+  showRiver() {
+    this.game.showRiver = true;
+    this.showNextCard()
+    this.clearAllPlayersSetMoney();
+  }
+
+  showTurn() {
+    this.game.showTurn = true;
+    this.showNextCard()
+    this.clearAllPlayersSetMoney();
   }
 
   clearAllPlayersSetMoney() {
@@ -289,61 +286,72 @@ export class GameComponent implements OnInit {
   }
 
   allPlayersChecked() {
-    console.log('1', this.game.playerInGame.length, this.game.arrayOfPlayerWhoChecked.length)
     return this.game.playerInGame.length == this.game.arrayOfPlayerWhoChecked.length
   }
 
   allPlayersCalled() {
-    console.log('2', this.game.playerInGame.length, this.game.arrayOfPlayerWhoCalled.length)
     return this.game.playerInGame.length == this.game.arrayOfPlayerWhoCalled.length
   }
 
-  async checkWinConditions() {
+  checkWinConditions() {
     let cardsOfPlayers = '';
     for (let i = 0; i < this.game.playerInGame.length; i++) {
       const playerId = this.game.playerInGame[i];
       cardsOfPlayers += `&pc[]=${this.game.players[playerId].playerCards[0]},${this.game.players[playerId].playerCards[1]}`
     }
+    this.findWinCardCombination(cardsOfPlayers)
+    this.saveGame();
+    setTimeout(() => {
+      this.startNextRound();
+    }, 15000);
+  }
 
+  async findWinCardCombination(cardsOfPlayers) {
     //API from https://www.pokerapi.dev/ ### by Gareth Fuller
     let url = `https://api.pokerapi.dev/v1/winner/texas_holdem?cc=${this.game.flop[0]},${this.game.flop[1]},${this.game.flop[2]},${this.game.flop[3]},${this.game.flop[4]}${cardsOfPlayers}`
 
     let response = await fetch(url);
     let a = await response.json();
-    console.log('3', a);
-    this.findPlayersWithTheseCards(a.winners)
-
     this.game.roundEnds = true;
-    setTimeout(() => {
-      this.startNextRound();
-    }, 5000);
+    console.log(a.winners)
+    this.findPlayersWithTheseCards(a.winners)
   }
 
   findPlayersWithTheseCards(winners) {
-    let winningCards = [];
 
     for (let i = 0; i < winners.length; i++) {
       const cards = winners[i].cards;
       let cardsArray = cards.split(',');
-      winningCards.push(cardsArray[0]);
+      console.log(cardsArray)
+      this.game.winningCards.push(cardsArray[0]);
+      this.game.winningCards.push(cardsArray[1]);
+      console.log(this.game.winningCards)
       this.game.winningPlayersResult.push(winners[i].result);
     }
-    for (let i = 0; i < winningCards.length; i++) {
-      const card = winningCards[i];
-      let winner = this.game.players.find((player) => player.playerCards[0] == card);
-      this.game.winningPlayersName.push(winner.playerName);
-      this.game.winningPlayersId.push(winner.playerId);
-      console.log('V', this.game.winningPlayersName)
-    }
-    this.coinsWhichGetWinner = this.game.allChipsInPot / winners.length;
-    for (let i = 0; i < this.game.winningPlayersId.length; i++) {
-      const playerId = this.game.winningPlayersId[i];
-      this.game.players[playerId].numberOfChips += this.coinsWhichGetWinner;
-    }
+    this.findPlayerWithWinningCards(winners);
+    this.distributeChips(winners);
     this.saveGame();
   }
 
+  findPlayerWithWinningCards(winners) {
+    for (let i = 0; i < winners.length; i++) {
+      const card = this.game.winningCards[i];
+      let winner = this.game.players.find((player) => player.playerCards[0] == card);
+      this.game.winningPlayersName.push(winner.playerName);
+      this.game.winningPlayersId.push(winner.playerId);
+    }
+  }
+
+  distributeChips(winners) {
+    this.game.coinsWhichGetWinner = this.game.allChipsInPot / winners.length;
+    for (let i = 0; i < this.game.winningPlayersId.length; i++) {
+      const playerId = this.game.winningPlayersId[i];
+      this.game.players[playerId].numberOfChips += this.game.coinsWhichGetWinner;
+    }
+  }
+
   startNextRound() {
+    this.clearAllPlayersSetMoney();
     this.setAllPlayerTurnFalse();
     this.setAllPlayersFoldStatusFalseAndSetMoneyToZero();
     this.game.currentPlayerId = this.findPlayerWhichStartsNextRound();
@@ -390,7 +398,6 @@ export class GameComponent implements OnInit {
       [stack[currentIndex], stack[randomIndex]] = [
         stack[randomIndex], stack[currentIndex]];
     }
-
     return stack;
   }
 
@@ -429,8 +436,10 @@ export class GameComponent implements OnInit {
     this.game.roundEnds = false;
     this.game.winningPlayersName = [];
     this.game.winningPlayersResult = [];
-    this.coinsWhichGetWinner = 0;
+    this.game.coinsWhichGetWinner = 0;
     this.game.callIsPossible = true;
+    this.game.winningCards = [];
+    this.saveGame();
   }
 
   checkIfPlayerIsOnTheTable() {
