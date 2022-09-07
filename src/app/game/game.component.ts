@@ -25,10 +25,8 @@ export class GameComponent implements OnInit {
 
 
   /**next tasks:
-   *  - start game can only clicked if min. 2 players are in game
-   *  - a player can only be created one time by clicking on add button
    *  - All in Options.
-   *  - show winning cards
+   *  - player has 10s or he folded automatica
    */
 
   constructor(private route: ActivatedRoute, private firestore: AngularFirestore, public dialog: MatDialog) {
@@ -308,9 +306,9 @@ export class GameComponent implements OnInit {
     }
     this.findWinCardCombination(cardsOfPlayers)
     this.saveGame();
-    /*setTimeout(() => {
+    setTimeout(() => {
       this.startNextRound();
-    }, 15000);*/
+    }, 5000);
   }
 
   async findWinCardCombination(cardsOfPlayers) {
@@ -534,9 +532,7 @@ export class GameComponent implements OnInit {
     let url = 'https://api.ipify.org/?format=json';
     let response = await fetch(url);
     let ipAddressOfCurrentPlayer = await response.json();
-    console.log('32', ipAddressOfCurrentPlayer)
-    let a = ipAddressOfCurrentPlayer.ip;
-    let formatedIpAddress = a.split('.');
+    let formatedIpAddress = ipAddressOfCurrentPlayer.ip.split('.');
     let newFormatedIpAddress = `${formatedIpAddress[0]}` + `${formatedIpAddress[1]}` + `${formatedIpAddress[2]}` + `${formatedIpAddress[3]}`
     this.ipAddress = newFormatedIpAddress;
   }

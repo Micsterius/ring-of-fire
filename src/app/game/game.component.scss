@@ -3,7 +3,7 @@
     width: 100vw;
     height: 100vh;
     max-width: 100%;
-    background-image: url("./../../assets/img/game-background.jpg");
+    background-color: #0e1538;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
@@ -160,10 +160,35 @@
         word-wrap: normal;
         line-height: 30px;
     }
+}
 
-    .card-stack-on-table {
-        img {
-            width: 180px;
+.start-game-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 1px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(45deg, #ff075b, #5f6691, #5f6691, #ff075b);
+
+    &:hover {
+        background: linear-gradient(45deg, #ff075b, #ff075b, #ff075b, #ff075b);
+    }
+
+    button {
+        padding: 16px;
+        background-color: #0e1538;
+        color: white;
+        font-size: 25px;
+        border-radius: 16px;
+        border: none;
+
+        &:hover {
+            cursor: pointer;
+            color: #ff075b;
         }
     }
 }
@@ -213,12 +238,15 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: white;
-    border-radius: 8px;
+    background-color: rgba(225, 225, 225, 0.9);
+    padding: 16px;
+    border-radius: 16px;
     border: 3px solid black;
     z-index: 2;
+    width: 280px;
     height: 48px;
-    padding: 12px;
+    display: flex;
+    align-items: center;
 
     p {
         font-size: 25px;
@@ -226,8 +254,67 @@
     }
 }
 
-.cards-of-active-player {
-    background-color: forestgreen;
+.move-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(225, 225, 225, 0.9);
+    padding: 16px;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    span {
+        height: 40px;
+        font-size: 25px;
+        line-height: 40px;
+        color: #0e1538;
+        font-weight: 500;
+    }
+
+    button {
+        padding-left: 16px;
+        padding-right: 16px;
+        padding-top: 6px;
+        padding-bottom: 6px;
+        margin-left: 4px;
+        margin-right: 4px;
+        background-color: #0e1538;
+        color: white;
+        font-size: 20px;
+        border-radius: 8px;
+        border: none;
+
+        &:hover {
+            cursor: pointer;
+            color: #ff075b;
+        }
+    }
+}
+
+.show-winner-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(225, 225, 225, 0.9);
+    padding: 16px;
+    border-radius: 16px;
+    z-index: 2;
+    width: 280px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    span {
+        color: #ff075b;
+        font-size: 25px;
+        font-weight: 500;
+    }
 }
 
 .flop-cards-container {

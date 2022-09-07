@@ -1,6 +1,7 @@
 <app-player *ngFor="let player of game.players; let i = index" [ngStyle]="{'top.px': 100 + (i * 80)}"
     [name]="player.playerName" [numberOfChips]="player.numberOfChips" [userImages]="player.playerImage"
-    [moneyJackpot]="player.setMoney" [playerActive]="player.playersTurn" [playerFolded]="player.folded" class="player-position">
+    [moneyJackpot]="player.setMoney" [playerActive]="player.playersTurn" [playerFolded]="player.folded"
+    class="player-position">
 </app-player>
 
 <div class="field">
@@ -22,8 +23,8 @@
 
 
 
-<app-game-info [roundEnds]="game.roundEnds" [winnerName]="game.winningPlayersName" [winnerResult]="game.winningPlayersResult"
-    [players]="game.players" class="pin-bottom"></app-game-info>
+<app-game-info [roundEnds]="game.roundEnds" [winnerName]="game.winningPlayersName"
+    [winnerResult]="game.winningPlayersResult" [players]="game.players" class="pin-bottom"></app-game-info>
 
 
 
@@ -35,12 +36,12 @@
     <p>Please add a player. You need at least minimum 2 players.</p>
 </div>
 
-<div class="alert-add-player" *ngIf="!game.pokerGameIsStarted && game.players.length > 1">
+<div class="start-game-button" *ngIf="!game.pokerGameIsStarted && game.players.length > 1">
     <button (click)="startPokerGame()">Start Game</button>
 </div>
 
 <div *ngIf="game.players.length > 1 && game.pokerGameIsStarted">
-    <div [class.cards-of-active-player]="players.playersTurn" class="player-1" *ngFor="let players of game.players;">
+    <div class="player-1" *ngFor="let players of game.players;">
         <div *ngIf="players.playerName == playerCreated">
             <img src=" assets/img/cards/{{players.playerCards[0]}}.svg">
             <img src="assets/img/cards/{{players.playerCards[1]}}.svg">
@@ -50,27 +51,28 @@
 
 <div *ngIf="game.roundEnds">
     <div class="player-2">
-            <img src=" assets/img/cards/{{game.winningCards[0]}}.svg">
-            <img src=" assets/img/cards/{{game.winningCards[1]}}.svg">
+        <img src=" assets/img/cards/{{game.winningCards[0]}}.svg">
+        <img src=" assets/img/cards/{{game.winningCards[1]}}.svg">
     </div>
 </div>
 
 <div *ngFor="let player of game.players;">
-    <div class="ask-for-set-money" *ngIf="player.playersTurn && player.playerName == playerCreated">
-        <p>Do you want to set money?</p>
-        <button (click)="playerSetMoney()" *ngIf="!game.callIsPossible && !game.raiseIsPossible">+10</button>
-        <button (click)="playerCalled()" *ngIf="game.callIsPossible">Call</button>
-        <button (click)="playerRaise()" *ngIf="game.raiseIsPossible">Raise</button>
-        <button (click)="playerChecks()" *ngIf="game.checkIsPossible">Check</button>
-        <button (click)="playerFolded()">Fold</button>
-        <p>Chips {{game.allChipsInPot}}</p>
+    <div class="move-box" *ngIf="player.playersTurn && player.playerName == playerCreated">
+        <span>Do you want to set money?</span>
+        <div>
+            <button (click)="playerSetMoney()" *ngIf="!game.callIsPossible && !game.raiseIsPossible">+10</button>
+            <button (click)="playerCalled()" *ngIf="game.callIsPossible">Call</button>
+            <button (click)="playerRaise()" *ngIf="game.raiseIsPossible">Raise</button>
+            <button (click)="playerChecks()" *ngIf="game.checkIsPossible">Check</button>
+            <button (click)="playerFolded()">Fold</button>
+        </div>
+        <span>Chips in pot {{game.allChipsInPot}}</span>
     </div>
 </div>
 
 
-<div class="ask-for-set-money" *ngIf="game.roundEnds">
+<div class="show-winner-box" *ngIf="game.roundEnds">
     <div *ngFor="let name of game.winningPlayersName;">
-        <p>Player {{name}} wons {{game.coinsWhichGetWinner}} Chips</p>
+        <span>Player {{name}} wons {{game.coinsWhichGetWinner}} Chips</span>
     </div>
 </div>
-
