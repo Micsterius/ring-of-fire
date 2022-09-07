@@ -5,6 +5,8 @@ import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { Player } from 'src/models/player';
+import { CountdownConfig } from 'ngx-countdown';
+
 
 
 @Component({
@@ -19,14 +21,20 @@ export class GameComponent implements OnInit {
   playerIsCreated: boolean = false;
 
   playerCreated: string = '';
+  playerID: number;
 
   ipAddress: string = '';
   developerMode: boolean = true;
 
+  timerStatus = "start";
 
+  config: CountdownConfig = {
+    leftTime: 15,
+    formatDate: ({ date }) => `${date / 1000}`,
+  };
   /**next tasks:
    *  - All in Options.
-   *  - player has 10s or he folded automatica
+   *  - player has 10s or he folded automatic
    */
 
   constructor(private route: ActivatedRoute, private firestore: AngularFirestore, public dialog: MatDialog) {
@@ -74,6 +82,15 @@ export class GameComponent implements OnInit {
           this.game.ipAddress = game.ipAddress;
         })
     });
+  }
+
+  handleEvent(event) {
+    this.timerStatus = event.action;
+    if (this.timerStatus === "done"){
+      if (this.game.checkIsPossible) {
+        this.playerChecks();
+      } else {this.playerFolded()}
+    };
   }
 
   recreatePlayer(gamePlayers) {
@@ -235,7 +252,7 @@ export class GameComponent implements OnInit {
       this.game.roundEnds = true;
       setTimeout(() => {
         this.startNextRound();
-      }, 15000);
+      }, 10000);
     }
     else { this.goToNextPlayer(); }
   }
@@ -510,9 +527,10 @@ export class GameComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogAddPlayerComponent);
     dialogRef.afterClosed().subscribe((name: string) => {
 
-      if (name && name.length > 0 && !this.ipAddressIsAlreadyInGame(this.ipAddress) || this.developerMode) {
+      if (name && name.length > 0 && !this.ipAddressIsAlreadyInGame(this.ipAddress) && !this.proofIfNameAlreadyExist(name) || this.developerMode && !this.proofIfNameAlreadyExist(name)) {
         this.game.ipAddress.push(this.ipAddress)
-        let playerId: number = this.game.players.length
+        let playerId: number = this.game.players.length;
+        this.playerID = this.game.players.length;
         let playerCards: string[] = ['2H', '2S'];
         let playersTurn: boolean = false;
         let numberOfChips: number = 200;
@@ -522,10 +540,13 @@ export class GameComponent implements OnInit {
         this.playerIsCreated = true;
         let player = new Player(name, this.game.userImages[playerId], playerId, playerCards, playersTurn, numberOfChips, folded, setMoney);
         this.game.players.push(player);
-
         this.saveGame();
-      } else { alert('ip is already there') }
+      } else { alert('ip is already there or name is not available') }
     });
+  }
+
+  proofIfNameAlreadyExist(name) {
+    return this.game.players.some((player) => player.playerName == name)
   }
 
   async getIPAddress() {

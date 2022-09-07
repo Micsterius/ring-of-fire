@@ -21,6 +21,8 @@ import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideDatabase,getDatabase } from '@angular/fire/database';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { AngularFireModule } from '@angular/fire/compat';
+import { CountdownModule } from 'ngx-countdown';
+
 
 @NgModule({
   declarations: [
@@ -42,6 +44,7 @@ import { AngularFireModule } from '@angular/fire/compat';
     FormsModule,
     MatCardModule,
     BrowserModule,
+    CountdownModule, 
     AngularFireModule.initializeApp(environment.firebase),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),

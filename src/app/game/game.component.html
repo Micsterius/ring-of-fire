@@ -50,7 +50,7 @@
 </div>
 
 <div *ngIf="game.roundEnds">
-    <div class="player-2">
+    <div class="player-2" *ngIf="game.winningCards.length > 1">
         <img src=" assets/img/cards/{{game.winningCards[0]}}.svg">
         <img src=" assets/img/cards/{{game.winningCards[1]}}.svg">
     </div>
@@ -64,7 +64,9 @@
             <button (click)="playerCalled()" *ngIf="game.callIsPossible">Call</button>
             <button (click)="playerRaise()" *ngIf="game.raiseIsPossible">Raise</button>
             <button (click)="playerChecks()" *ngIf="game.checkIsPossible">Check</button>
-            <button (click)="playerFolded()">Fold</button>
+            <button (click)="playerFolded()">Fold <countdown class="countdown" #cd [config]="config"
+                (event)="handleEvent($event)">
+            </countdown></button>
         </div>
         <span>Chips in pot {{game.allChipsInPot}}</span>
     </div>
