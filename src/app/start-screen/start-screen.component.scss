@@ -1,4 +1,4 @@
-.startscreen-site{
+.startscreen-site {
     background-color: #0e1538;
     width: 100vw;
     height: 100vh;
@@ -27,6 +27,18 @@
         @media (max-width: 350px) {
             height: 200px;
         }
+
+        @media (max-height: 800px) {
+            height: 350px;
+        }
+
+        @media (max-height: 650px) {
+            height: 300px;
+        }
+
+        @media (max-height: 560px) {
+            height: 240px;
+        }
     }
 }
 
@@ -35,6 +47,10 @@
     left: 60%;
     top: 15%;
     transform: translate(-50%) rotate(-25deg);
+
+    @media (max-height: 560px) {
+        left: 55%;
+    }
 }
 
 .img-start-screen3 {
@@ -108,5 +124,88 @@
         background: #f00;
         transition: 0.5s;
 
+    }
+}
+
+.start-game-button {
+    position: relative;
+    top: 90%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 2px;
+    border-radius: 16px;
+    width: 280px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.start-game-button-background {
+    width: 280px;
+    height: 80px;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0e1538;
+
+
+}
+
+.start-game-button-background::before {
+    content: "";
+    background-image: conic-gradient(#ff075b 20deg,
+            transparent 120deg);
+    width: 150%;
+    height: 150%;
+    position: absolute;
+
+    animation: rotate 2s linear infinite;
+}
+
+.start-game-button-background::after {
+    content: "";
+    background-image: conic-gradient(#ffffff 20deg,
+            transparent 120deg);
+    width: 270px;
+    height: 70px;
+    position: absolute;
+    background: #0e1538;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.text-start-screen-button {
+    color: white;
+    font-size: 25px;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    line-height: 70px;
+    text-align: center;
+
+    &:hover {
+        color: #ff075b;
+        cursor: pointer;
+    }
+}
+
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(-360deg);
     }
 }

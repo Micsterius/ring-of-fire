@@ -33,8 +33,8 @@ export class GameComponent implements OnInit {
     formatDate: ({ date }) => `${date / 1000}`,
   };
   /**next tasks:
-   *  - All in Options.
-   *  - player has 10s or he folded automatic
+   *  - All in Options with split pot calculation
+   *  - allow the player who wins in the case that everyone else folded to show his cards
    */
 
   constructor(private route: ActivatedRoute, private firestore: AngularFirestore, public dialog: MatDialog) {
@@ -86,10 +86,10 @@ export class GameComponent implements OnInit {
 
   handleEvent(event) {
     this.timerStatus = event.action;
-    if (this.timerStatus === "done"){
+    if (this.timerStatus === "done") {
       if (this.game.checkIsPossible) {
         this.playerChecks();
-      } else {this.playerFolded()}
+      } else { this.playerFolded() }
     };
   }
 
@@ -120,7 +120,6 @@ export class GameComponent implements OnInit {
     this.setAllPlayerTurnFalse();
     this.game.currentPlayerId = this.findPlayerWhoStartsRandomized();
     this.currentPlayer().playersTurn = true;
-    //this.firestore.collection('games').add({ ... this.game.toJson() });
     this.loadAllPlayersInGameArray();
     this.fillFlop();
     this.setBlinds();
@@ -182,16 +181,19 @@ export class GameComponent implements OnInit {
     return number;
   }
 
+  /** If the big blind player in the first round checks as his first move, the flop has to be shown.*/
   playerChecks() {
     this.currentPlayer().playersTurn = false;
     this.game.arrayOfPlayerWhoChecked.push(this.currentPlayer().playerId);
-    if (this.game.arrayForFirstRound.length == this.game.players.length - 1 && !this.game.showFlop) {
+    if (this.bigBlindPlayerCheckedAsHisFirstMove()) {
       this.game.bigBlindPlayerCheckedInTheFirstRound = true;
-      this.game.callIsPossible = false;
-      this.game.raiseIsPossible = false;
       this.checkIfAllPlayersCheckedOrCalled();
       this.goToNextPlayer();
     } else { this.goToNextPlayer() }
+  }
+
+  bigBlindPlayerCheckedAsHisFirstMove() {
+    return this.game.arrayForFirstRound.length == this.game.players.length - 1 && !this.game.showFlop
   }
 
   playerCalled() {
@@ -214,20 +216,19 @@ export class GameComponent implements OnInit {
     this.game.callIsPossible = true;
     this.game.raiseIsPossible = true;
     this.currentPlayer().playersTurn = false;
-    if (this.game.arrayForFirstRound.length == this.game.players.length - 1 && !this.game.showFlop) {
-      this.game.arrayOfPlayerWhoCalled.length = 0;
-    } else { this.game.arrayOfPlayerWhoCalled.push(this.currentPlayer().playerId); }
+    this.game.arrayOfPlayerWhoCalled.push(this.currentPlayer().playerId);
     this.saveGame();
     this.goToNextPlayer();
   }
 
   playerRaise() {
-    let currentHighestJackpot = this.getHighestJackpot();
-    this.currentPlayer().numberOfChips -= currentHighestJackpot * 2;
-    this.game.allChipsInPot += currentHighestJackpot * 2;
+    let currentHighestJackpotOfOnePlayer = this.getHighestJackpot();
+    this.currentPlayer().numberOfChips -= currentHighestJackpotOfOnePlayer * 2;
+    this.game.allChipsInPot += currentHighestJackpotOfOnePlayer * 2;
     this.game.raiseIsPossible = true;
-    this.currentPlayer().setMoney += currentHighestJackpot * 2;
+    this.currentPlayer().setMoney += currentHighestJackpotOfOnePlayer * 2;
     this.currentPlayer().playersTurn = false;
+    //restart to count which player calls
     this.game.arrayOfPlayerWhoCalled.length = 0;
     this.game.arrayOfPlayerWhoCalled.push(this.currentPlayer().playerId)
     this.goToNextPlayer();
@@ -244,7 +245,7 @@ export class GameComponent implements OnInit {
 
   checkNumberOfFoldedPlayers() {
     let allUnFoldedPlayers: any = this.game.players.filter(player => !player.folded)
-    if (allUnFoldedPlayers.length == 1) {
+    if (this.onlyOnePlayerIsStillInGame(allUnFoldedPlayers)) {
       let player = allUnFoldedPlayers[0]
       this.game.coinsWhichGetWinner = this.game.allChipsInPot;
       player.numberOfChips += this.game.allChipsInPot;
@@ -257,13 +258,17 @@ export class GameComponent implements OnInit {
     else { this.goToNextPlayer(); }
   }
 
+  onlyOnePlayerIsStillInGame(allUnFoldedPlayers) {
+    return allUnFoldedPlayers.length == 1
+  }
+
   goToNextPlayer() {
     this.game.currentPlayerId++
     this.game.currentPlayerId = this.game.currentPlayerId % this.game.players.length
     if (this.game.bigBlindPlayerCheckedInTheFirstRound) {
       this.game.bigBlindPlayerCheckedInTheFirstRound = false;
     }
-    this.checkIfPlayerIsOnTheTable();
+    this.checkIfNextPlayerIsOnTheTable();
   }
 
   checkIfAllPlayersCheckedOrCalled() {
@@ -461,7 +466,7 @@ export class GameComponent implements OnInit {
     this.saveGame();
   }
 
-  checkIfPlayerIsOnTheTable() {
+  checkIfNextPlayerIsOnTheTable() {
     if (this.currentPlayer().folded) {
       this.goToNextPlayer();
     }
@@ -496,6 +501,9 @@ export class GameComponent implements OnInit {
     }
   }
 
+  /** This function give the highest money of the highest Jackpot back to know, if the player can check or how much
+   * money the player have to set for call or raise.
+   */
   getHighestJackpot() {
     let allPlayersJackpots = this.game.players.map((player) => player.setMoney)
     let temporary = -1;
@@ -523,30 +531,43 @@ export class GameComponent implements OnInit {
     this.game = new Game();
   }
 
+  /**Open dialog window for creat a new player*/
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogAddPlayerComponent);
     dialogRef.afterClosed().subscribe((name: string) => {
 
-      if (name && name.length > 0 && !this.ipAddressIsAlreadyInGame(this.ipAddress) && !this.proofIfNameAlreadyExist(name) || this.developerMode && !this.proofIfNameAlreadyExist(name)) {
+      if (this.nameWithMinOneCharacterIsGiven(name) && !this.ipAddressIsAlreadyInGame(this.ipAddress) && !this.proofIfNameAlreadyExist(name) && this.numberOfPlayersIsUnderSix() || this.developerMode && !this.proofIfNameAlreadyExist(name) && this.numberOfPlayersIsUnderSix()) {
         this.game.ipAddress.push(this.ipAddress)
-        let playerId: number = this.game.players.length;
-        this.playerID = this.game.players.length;
-        let playerCards: string[] = ['2H', '2S'];
-        let playersTurn: boolean = false;
-        let numberOfChips: number = 200;
-        let folded: boolean = false;
-        let setMoney: number = 0;
-        this.playerCreated = name;
-        this.playerIsCreated = true;
-        let player = new Player(name, this.game.userImages[playerId], playerId, playerCards, playersTurn, numberOfChips, folded, setMoney);
-        this.game.players.push(player);
+        this.createPlayer(name)
         this.saveGame();
-      } else { alert('ip is already there or name is not available') }
+      }
     });
+  }
+
+  createPlayer(name) {
+    let playerId: number = this.game.players.length;
+    this.playerID = this.game.players.length;
+    let playerCards: string[] = ['2H', '2S'];
+    let playersTurn: boolean = false;
+    let numberOfChips: number = 200;
+    let folded: boolean = false;
+    let setMoney: number = 0;
+    this.playerCreated = name;
+    this.playerIsCreated = true;
+    let player = new Player(name, this.game.userImages[playerId], playerId, playerCards, playersTurn, numberOfChips, folded, setMoney);
+    this.game.players.push(player);
+  }
+
+  nameWithMinOneCharacterIsGiven(name) {
+    return name && name.length > 0
   }
 
   proofIfNameAlreadyExist(name) {
     return this.game.players.some((player) => player.playerName == name)
+  }
+
+  numberOfPlayersIsUnderSix(){
+    return this.game.players.length <= 6;
   }
 
   async getIPAddress() {

@@ -15,10 +15,19 @@
 <div class="btn-start">
     <button (click)="newGame()">START</button>
 </div>
--->
-    <div class="container">
+
+<div class="container">
         <a>
             <span (click)="newGame()">Start</span>
         </a>
+    </div>
+-->
+
+
+
+    <div class="start-game-button">
+        <div (click)="newGame()" class="start-game-button-background">
+            <div class="text-start-screen-button" style="z-index: 10;">Create a table</div>
+        </div>
     </div>
 </div>

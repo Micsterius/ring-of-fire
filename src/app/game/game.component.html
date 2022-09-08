@@ -5,7 +5,6 @@
 </app-player>
 
 <div class="field">
-
     <div class="card-stack">
         <!-- Card stack -->
         <img [ngStyle]="{ 'right.px' : i*5}" *ngFor="let c of [0,1,2,3,4]; let i = index;"
@@ -18,28 +17,30 @@
             <img src="assets/img/cards/{{cardOfTable}}.svg">
         </div>
     </div>
-
 </div>
 
 
-
+<!-- Card for show who wins with which combination -->
 <app-game-info [roundEnds]="game.roundEnds" [winnerName]="game.winningPlayersName"
     [winnerResult]="game.winningPlayersResult" [players]="game.players" class="pin-bottom"></app-game-info>
 
 
-
+<!-- Add player Button -->
 <button mat-fab color="accent" class="btn-add" (click)="openDialog()" *ngIf="!playerIsCreated">
     <mat-icon>add</mat-icon>
 </button>
 
+<!-- Window with the hint that you need at least 2 players for playing poker -->
 <div class="alert-add-player" *ngIf="game.players.length < 2">
     <p>Please add a player. You need at least minimum 2 players.</p>
 </div>
 
+<!-- Start game button -->
 <div class="start-game-button" *ngIf="!game.pokerGameIsStarted && game.players.length > 1">
     <button (click)="startPokerGame()">Start Game</button>
 </div>
 
+<!-- Show your own cards -->
 <div *ngIf="game.players.length > 1 && game.pokerGameIsStarted">
     <div class="player-1" *ngFor="let players of game.players;">
         <div *ngIf="players.playerName == playerCreated">
@@ -49,6 +50,7 @@
     </div>
 </div>
 
+<!-- Show winning cards -->
 <div *ngIf="game.roundEnds">
     <div class="player-2" *ngIf="game.winningCards.length > 1">
         <img src=" assets/img/cards/{{game.winningCards[0]}}.svg">
@@ -56,6 +58,7 @@
     </div>
 </div>
 
+<!-- Show possible moves -->
 <div *ngFor="let player of game.players;">
     <div class="move-box" *ngIf="player.playersTurn && player.playerName == playerCreated">
         <span>Do you want to set money?</span>
@@ -72,7 +75,7 @@
     </div>
 </div>
 
-
+<!-- Show which player wins and how much chips he gets -->
 <div class="show-winner-box" *ngIf="game.roundEnds">
     <div *ngFor="let name of game.winningPlayersName;">
         <span>Player {{name}} wons {{game.coinsWhichGetWinner}} Chips</span>
