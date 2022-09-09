@@ -1,0 +1,39 @@
+.alert-add-player-1 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 150px;
+    width: 280px;
+    border: 2px solid #ff075b;
+    padding: 16px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    z-index: 3;
+    background-color: #0e1538;
+
+    p {
+        font-size: 20px;
+        font-weight: 700;
+        word-wrap: normal;
+        line-height: 30px;
+        color: white;
+        text-align: center;
+        margin: 0;
+    }
+
+    span {
+        color: #ff075b;
+        font-size: 24px;
+    }
+}
+
+.hint-start-game {
+    font-size: 15px !important;
+    font-weight: 500;
+    word-wrap: normal;
+    line-height: 30px;
+    color: white;
+    text-align: center;
+}

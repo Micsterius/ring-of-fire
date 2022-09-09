@@ -328,6 +328,8 @@ export class GameComponent implements OnInit {
     }
     this.findWinCardCombination(cardsOfPlayers)
     this.saveGame();
+    console.log('allChipsInPot:', this.game.allChipsInPot)
+    console.log('coinsWhichGetWinner:', this.game.coinsWhichGetWinner)
     setTimeout(() => {
       this.startNextRound();
     }, 5000);
@@ -463,6 +465,7 @@ export class GameComponent implements OnInit {
     this.game.coinsWhichGetWinner = 0;
     this.game.callIsPossible = true;
     this.game.winningCards = [];
+    this.game.winningPlayersId = [];
     this.saveGame();
   }
 
@@ -482,23 +485,13 @@ export class GameComponent implements OnInit {
   proofIfMoveCheckIsPossibile() {
     let moneyFromCurrentPlayer = this.currentPlayer().setMoney;
     let highestJackpotFormAllPlayers = this.getHighestJackpot();
-    if (moneyFromCurrentPlayer >= highestJackpotFormAllPlayers) {
-      return true
-    }
-    else {
-      return false
-    }
+    return moneyFromCurrentPlayer >= highestJackpotFormAllPlayers;
   }
 
   proofIfMoveCallIsPossibile() {
     let moneyFromCurrentPlayer = this.currentPlayer().setMoney;
     let highestJackpotFormAllPlayers = this.getHighestJackpot();
-    if (moneyFromCurrentPlayer == highestJackpotFormAllPlayers) {
-      return false;
-    }
-    else {
-      return true;
-    }
+    return moneyFromCurrentPlayer != highestJackpotFormAllPlayers;
   }
 
   /** This function give the highest money of the highest Jackpot back to know, if the player can check or how much
@@ -566,7 +559,7 @@ export class GameComponent implements OnInit {
     return this.game.players.some((player) => player.playerName == name)
   }
 
-  numberOfPlayersIsUnderSix(){
+  numberOfPlayersIsUnderSix() {
     return this.game.players.length <= 6;
   }
 

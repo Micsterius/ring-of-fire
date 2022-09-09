@@ -12,7 +12,6 @@
 .card-stack {
     position: relative;
     width: 250px;
-    height: 300px;
     left: 5%;
     top: 60%;
 }
@@ -162,6 +161,8 @@
     }
 }
 
+
+
 .start-game-button {
     position: absolute;
     top: 50%;
@@ -259,19 +260,21 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: rgba(225, 225, 225, 0.9);
+
+    background-color: rgba($color: #0e1538, $alpha: 0.5);
     padding: 16px;
     border-radius: 16px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    border: 2px solid #ff075b;
 
     span {
         height: 40px;
         font-size: 25px;
         line-height: 40px;
-        color: #0e1538;
+        color: white;
         font-weight: 500;
     }
 
@@ -286,7 +289,7 @@
         color: white;
         font-size: 20px;
         border-radius: 8px;
-        border: none;
+        border: 1px solid #ff075b;
 
         &:hover {
             cursor: pointer;

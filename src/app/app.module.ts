@@ -22,6 +22,7 @@ import { provideDatabase,getDatabase } from '@angular/fire/database';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { AngularFireModule } from '@angular/fire/compat';
 import { CountdownModule } from 'ngx-countdown';
+import { GameHintsComponent } from './game-hints/game-hints.component';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { CountdownModule } from 'ngx-countdown';
     GameComponent,
     PlayerComponent,
     DialogAddPlayerComponent,
-    GameInfoComponent
+    GameInfoComponent,
+    GameHintsComponent
   ],
   imports: [
     BrowserModule,
