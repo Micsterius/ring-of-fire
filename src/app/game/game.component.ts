@@ -52,36 +52,40 @@ export class GameComponent implements OnInit {
         .doc(params['id'])
         .valueChanges()
         .subscribe((game: any) => {
-          this.game.currentPlayerId = game.currentPlayerId;
-          this.game.playedCards = game.playedCards;
-          this.game.players = this.recreatePlayer(game.players)
-          this.game.stack = game.stack;
-          this.game.pickCardAnimation = game.pickCardAnimation;
-          this.game.userImages = game.userImages;
-          this.game.pokerGameIsStarted = game.pokerGameIsStarted;
-          this.game.playerInGame = game.playerInGame;
-          this.game.allChipsInPot = game.allChipsInPot;
-          this.game.bigBlindPlayerCheckedInTheFirstRound = game.bigBlindPlayerCheckedInTheFirstRound;
-          this.game.arrayForFirstRound = game.arrayForFirstRound;
-          this.game.arrayOfPlayerWhoChecked = game.arrayOfPlayerWhoChecked;
-          this.game.arrayOfPlayerWhoCalled = game.arrayOfPlayerWhoCalled;
-          this.game.showFlop = game.showFlop;
-          this.game.showTurn = game.showTurn;
-          this.game.showRiver = game.showRiver;
-          this.game.flop = game.flop;
-          this.game.playerWithBigBlindId = game.playerWithBigBlindId;
-          this.game.roundEnds = game.roundEnds;
-          this.game.winningPlayersName = game.winningPlayersName;
-          this.game.checkIsPossible = game.checkIsPossible;
-          this.game.raiseIsPossible = game.raiseIsPossible;
-          this.game.winningPlayersResult = game.winningPlayersResult;
-          this.game.winningPlayersId = game.winningPlayersId;
-          this.game.callIsPossible = game.callIsPossible;
-          this.game.coinsWhichGetWinner = game.coinsWhichGetWinner;
-          this.game.winningCards = game.winningCards;
-          this.game.ipAddress = game.ipAddress;
+          this.initalizeGame(game)
         })
     });
+  }
+
+  initalizeGame(game){
+    this.game.currentPlayerId = game.currentPlayerId;
+    this.game.playedCards = game.playedCards;
+    this.game.players = this.recreatePlayer(game.players)
+    this.game.stack = game.stack;
+    this.game.pickCardAnimation = game.pickCardAnimation;
+    this.game.userImages = game.userImages;
+    this.game.pokerGameIsStarted = game.pokerGameIsStarted;
+    this.game.playerInGame = game.playerInGame;
+    this.game.allChipsInPot = game.allChipsInPot;
+    this.game.bigBlindPlayerCheckedInTheFirstRound = game.bigBlindPlayerCheckedInTheFirstRound;
+    this.game.arrayForFirstRound = game.arrayForFirstRound;
+    this.game.arrayOfPlayerWhoChecked = game.arrayOfPlayerWhoChecked;
+    this.game.arrayOfPlayerWhoCalled = game.arrayOfPlayerWhoCalled;
+    this.game.showFlop = game.showFlop;
+    this.game.showTurn = game.showTurn;
+    this.game.showRiver = game.showRiver;
+    this.game.flop = game.flop;
+    this.game.playerWithBigBlindId = game.playerWithBigBlindId;
+    this.game.roundEnds = game.roundEnds;
+    this.game.winningPlayersName = game.winningPlayersName;
+    this.game.checkIsPossible = game.checkIsPossible;
+    this.game.raiseIsPossible = game.raiseIsPossible;
+    this.game.winningPlayersResult = game.winningPlayersResult;
+    this.game.winningPlayersId = game.winningPlayersId;
+    this.game.callIsPossible = game.callIsPossible;
+    this.game.coinsWhichGetWinner = game.coinsWhichGetWinner;
+    this.game.winningCards = game.winningCards;
+    this.game.ipAddress = game.ipAddress;
   }
 
   handleEvent(event) {

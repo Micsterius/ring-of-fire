@@ -13,6 +13,11 @@
     z-index: 3;
     background-color: #0e1538;
 
+    @media (max-width: 350px) {
+        width: 260px;
+        padding: 8px;
+    }
+
     p {
         font-size: 20px;
         font-weight: 700;
@@ -21,11 +26,19 @@
         color: white;
         text-align: center;
         margin: 0;
+
+        @media (max-width: 350px) {
+            font-size: 16px;
+        }
     }
 
     span {
         color: #ff075b;
         font-size: 24px;
+
+        @media (max-width: 350px) {
+            font-size: 20px;
+        }
     }
 }
 
