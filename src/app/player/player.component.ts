@@ -6,16 +6,8 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./player.component.scss']
 })
 export class PlayerComponent implements OnInit {
-  @Input() name: any;
-  @Input() nbrOfPlayers: number | any;
-  @Input() playerActive: boolean = false;
-  @Input() userImages: any;
-  @Input() moneyJackpot: number;
-  @Input() numberOfChips: number;
-  @Input() playerFolded: boolean = false;
+  @Input() players: any [];
   
-
-  imagePlayer: string = '';
 
   //game.userImages = ['user-img-1.jpg', 'user-img-4.svg', 'user-img-3.svg', 'user-img-5.svg', 'user-img-2.svg', 'user-img-6.svg']
 

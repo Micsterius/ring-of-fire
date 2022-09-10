@@ -1,9 +1,18 @@
+.player-container {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    padding-top: 24px;
+}
+
+
 .player {
     width: 300px;
     display: flex;
     align-items: center;
     background-color: rgb(240, 217, 175);
     opacity: 0.7;
+    margin-top: 16px;
 
     border-bottom-left-radius: 50px;
     border-top-left-radius: 50px;
@@ -18,6 +27,7 @@
     span {
         font-size: 24px;
         margin-left: 16px;
+        text-align: left;
     }
 }
 
@@ -47,4 +57,83 @@
     max-width: 143px;
     max-height: 25px;
     overflow: hidden;
+}
+
+@media (max-width: 650px) {
+    .player-name {
+        max-width: 110px;
+    }
+
+    .player {
+        width: 280px;
+        margin-top: 12px;
+
+        img {
+            width: 60px;
+            height: 60px;
+        }
+
+        span {
+            font-size: 20px;
+        }
+    }
+}
+
+@media (max-width: 450px) {
+    .player-name {
+        max-width: 90px;
+    }
+
+    .player {
+        width: 220px;
+        margin-top: 8px;
+
+        img {
+            width: 40px;
+            height: 40px;
+        }
+
+        span {
+            font-size: 16px;
+        }
+    }
+}
+
+@media (max-width: 400px) {
+    .player-name {
+        display: none;
+    }
+
+    .player {
+        width: 140px;
+
+        img {
+            width: 40px;
+            height: 40px;
+        }
+
+        span {
+            font-size: 16px;
+        }
+    }
+
+    .player-name-show {
+        display: flex !important;
+        justify-content: flex-start;
+        width: 65px;
+    }
+
+    .player-active {
+        background-color: orange !important;
+        opacity: 1 !important;
+        width: 190px !important;
+    }
+
+    .player-infos {
+        justify-content: flex-end;
+    }
+
+    .player-infos-show{
+        justify-content: space-between !important;
+    }
 }

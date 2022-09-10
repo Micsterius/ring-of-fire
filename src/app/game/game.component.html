@@ -1,6 +1,4 @@
-<app-player *ngFor="let player of game.players; let i = index" [ngStyle]="{'top.px': 100 + (i * 80)}"
-    [name]="player.playerName" [numberOfChips]="player.numberOfChips" [userImages]="player.playerImage"
-    [moneyJackpot]="player.setMoney" [playerActive]="player.playersTurn" [playerFolded]="player.folded"
+<app-player [players]="game.players"
     class="player-position">
 </app-player>
 
@@ -8,7 +6,7 @@
     <div class="card-stack">
         <!-- Card stack -->
         <img [ngStyle]="{ 'right.px' : i*5}" *ngFor="let c of [0,1,2,3,4]; let i = index;"
-            src="assets/img/cards/card_cover.png" alt="">
+            src="assets/img/cards/card_cover.png">
     </div>
 
     <!-- Flop/Turn/River cards -->

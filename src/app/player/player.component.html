@@ -1,12 +1,14 @@
-<div [ngClass]="{'player-active': playerActive, 'player-folded': playerFolded, 'player': true}">
-    <img src="assets/img/{{ userImages }}">
-    <div class="player-infos">
-        <div class="player-name">
-            <span>{{ name }}</span>
-        </div>
-        <div class="player-chip-status">
-            <div>Jackpot: {{ moneyJackpot }}</div>
-            <div>Chips: {{ numberOfChips }}</div>
+<div class="player-container">
+    <div *ngFor="let player of players; let i = index" [ngClass]="{'player-active': player.playersTurn, 'player-folded': player.folded, 'player': true}">
+        <img src="assets/img/{{ player.playerImage }}">
+        <div class="player-infos" [ngClass]="{'player-infos-show': player.playersTurn, 'player-infos': true}">
+            <div [ngClass]="{'player-name-show': player.playersTurn, 'player-name': true}">
+                <span>{{ player.playerName }}</span>
+            </div>
+            <div class="player-chip-status">
+                <div>Jackpot: {{ player.setMoney }}</div>
+                <div>Chips: {{ player.numberOfChips }}</div>
+            </div>
         </div>
     </div>
 </div>
