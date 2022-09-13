@@ -1,0 +1,29 @@
+<div class="card-stack" *ngIf="windowWith >= 950">
+    <!-- Card stack -->
+    <img [ngStyle]="{ 'right.px' : i*5}" *ngFor="let c of [0,1,2,3,4]; let i = index;"
+        src="assets/img/cards/card_cover.png">
+</div>
+
+<div *ngIf="windowWith >= 680 && showFlop">
+    <div *ngFor="let cardOfTable of cards; let i = index" class="flop-cards" [ngStyle]="{ 'left.px' : i*100}">
+        <img src="assets/img/cards/{{cardOfTable}}.svg">
+    </div>
+</div>
+
+<div *ngIf="windowWith < 680 && windowWith > 580  && showFlop">
+    <div *ngFor="let cardOfTable of cards; let i = index" class="flop-cards" [ngStyle]="{ 'left.px' : i*80}">
+        <img src="assets/img/cards/{{cardOfTable}}.svg">
+    </div>
+</div>
+
+<div *ngIf="windowWith <= 580 && windowWith > 450  && showFlop">
+    <div *ngFor="let cardOfTable of cards; let i = index" class="flop-cards" [ngStyle]="{ 'left.px' : i*60}">
+        <img src="assets/img/cards/{{cardOfTable}}.svg">
+    </div>
+</div>
+
+<div *ngIf="windowWith <= 450 && windowWith > 250  && showFlop">
+    <div *ngFor="let cardOfTable of cards; let i = index" class="flop-cards" [ngStyle]="{ 'left.px' : i*45, 'top.px' : i*45}">
+        <img src="assets/img/cards/{{cardOfTable}}.svg">
+    </div>
+</div>

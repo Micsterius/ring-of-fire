@@ -1,0 +1,36 @@
+.flop-cards {
+    position: absolute;
+    transform: translate(0%, -50%);
+
+    img {
+        width: 160px;
+
+        @media (max-width: 650px) {
+            width: 120px;
+        }
+
+        @media (max-width: 550px) {
+            width: 100px;
+        }
+    }
+}
+
+.card-stack {
+    position: relative;
+    width: 250px;
+    left: 5%;
+    top: 60%;
+}
+
+.card-stack img {
+    position: absolute;
+    width: 160px;
+
+    @media (max-width: 650px) {
+        width: 120px;
+    }
+
+    @media (max-width: 580px) {
+        width: 90px;
+    }
+}

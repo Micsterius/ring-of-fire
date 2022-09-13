@@ -9,47 +9,11 @@
     background-position: center center;
 }
 
-.card-stack {
-    position: relative;
-    width: 250px;
-    left: 5%;
-    top: 60%;
 
-    @media (max-width: 650px) {
-        width: 170px;
-    }
-}
-
-.card-stack img {
-    position: absolute;
-    width: 160px;
-
-    @media (max-width: 650px) {
-        width: 120px;
-    }
-}
-
-.top-card {
-    cursor: pointer;
-}
-
-.pick-card-0 {
-    animation: pick-card-animation-1 1s ease-in-out;
-    transform: scale(1.3) translateX(160px) translateY(-220px) rotate(-20deg);
-    position: absolute;
-    width: 160px;
-}
 
 .played-card-0 {
     right: 25px;
     transform: scale(1.3) translateX(160px) translateY(-220px) rotate(-20deg);
-    position: absolute;
-    width: 160px;
-}
-
-.pick-card-1 {
-    animation: pick-card-animation 1s ease-in-out;
-    transform: scale(1.3) translateX(120px) translateY(-240px) rotate(20deg);
     position: absolute;
     width: 160px;
 }
@@ -61,72 +25,11 @@
     width: 160px;
 }
 
-.pick-card-2 {
-    animation: pick-card-animation-2 1s ease-in-out;
-    transform: scale(1.3) translateX(160px) translateY(-120px) rotate(-50deg);
-    position: absolute;
-    width: 160px;
-}
-
 .played-card-2 {
     right: 25px;
     transform: scale(1.3) translateX(160px) translateY(-120px) rotate(-50deg);
     position: absolute;
     width: 160px;
-}
-
-@keyframes pick-card-animation {
-    0% {
-        transform: scale(1);
-    }
-
-    40% {
-        transform: scale(1.5);
-    }
-
-    70% {
-        transform: scale(1.5);
-    }
-
-    100% {
-        transform: scale(1.5) translateX(120px) translateY(-240px) rotate(20deg);
-    }
-}
-
-@keyframes pick-card-animation-1 {
-    0% {
-        transform: scale(1);
-    }
-
-    40% {
-        transform: scale(1.5);
-    }
-
-    70% {
-        transform: scale(1.5);
-    }
-
-    100% {
-        transform: scale(1.5) translateX(160px) translateY(-220px) rotate(-20deg);
-    }
-}
-
-@keyframes pick-card-animation-2 {
-    0% {
-        transform: scale(1);
-    }
-
-    40% {
-        transform: scale(1.5);
-    }
-
-    70% {
-        transform: scale(1.5);
-    }
-
-    100% {
-        transform: scale(1.5) translateX(160px) translateY(-220px) rotate(-50deg);
-    }
 }
 
 .player-position {
@@ -204,8 +107,12 @@
 
 .player-1 {
     position: absolute;
-    top: 50%;
-    right: 50%;
+    top: 10%;
+    left: 10%;
+
+    @media (max-width: 550px) {
+        left: 5%;
+    }
 
     img {
         width: 140px;
@@ -216,13 +123,21 @@
     }
 }
 
-.player-2 {
+.winning-cards {
     position: absolute;
-    top: 30%;
-    right: 30%;
+    top: 20%;
+    right: 20%;
 
     img {
         width: 140px;
+
+        @media (max-width: 650px) {
+            width: 120px;
+        }
+
+        @media (max-width: 550px) {
+            width: 100px;
+        }
     }
 }
 
@@ -359,20 +274,20 @@
     top: 70%;
     left: 40%;
 
-    @media (max-width: 650px) {
+    @media (max-width: 780px) {
+        left: 15%;
+    }
+
+    @media (max-width: 680px) {
         left: 5%;
     }
-}
 
-.flop-cards {
-    position: absolute;
-    transform: translate(0%, -50%);
+    @media (max-width: 450px) {
+        top: 45%;
+    }
 
-    img {
-        width: 160px;
-
-        @media (max-width: 650px) {
-            width: 120px;
-        }
+    
+    &:hover {
+        z-index: 6;
     }
 }

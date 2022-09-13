@@ -1,20 +1,9 @@
-<app-player [players]="game.players"
-    class="player-position">
+<app-player [players]="game.players" class="player-position">
 </app-player>
 
 <div class="field">
-    <div class="card-stack">
-        <!-- Card stack -->
-        <img [ngStyle]="{ 'right.px' : i*5}" *ngFor="let c of [0,1,2,3,4]; let i = index;"
-            src="assets/img/cards/card_cover.png">
-    </div>
-
     <!-- Flop/Turn/River cards -->
-    <div *ngIf="game.showFlop" class="flop-cards-container">
-        <div *ngFor="let cardOfTable of game.flop; let i = index" class="flop-cards" [ngStyle]="{ 'left.px' : i*100}">
-            <img src="assets/img/cards/{{cardOfTable}}.svg">
-        </div>
-    </div>
+    <app-cards-of-otable [showFlop]="game.showFlop" class="flop-cards-container" [cards]="game.flop"></app-cards-of-otable>
 </div>
 
 
@@ -49,7 +38,7 @@
 
 <!-- Show winning cards -->
 <div *ngIf="game.roundEnds">
-    <div class="player-2" *ngIf="game.winningCards.length > 1">
+    <div class="winning-cards" *ngIf="game.winningCards.length > 1">
         <img src=" assets/img/cards/{{game.winningCards[0]}}.svg">
         <img src=" assets/img/cards/{{game.winningCards[1]}}.svg">
     </div>
@@ -57,7 +46,7 @@
 
 <!-- Show possible moves -->
 <div *ngFor="let player of game.players;">
-    <div class="move-box" *ngIf="player.playersTurn && player.playerName == playerCreated">
+    <div class="move-box" *ngIf="player.playersTurn && player.playerName == playerCreated && !game.roundEnds">
         <span>Do you want to set money?</span>
         <div>
             <button (click)="playerSetMoney()" *ngIf="!game.callIsPossible && !game.raiseIsPossible">+10</button>
