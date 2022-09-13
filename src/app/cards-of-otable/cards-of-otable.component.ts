@@ -10,9 +10,11 @@ export class CardsOfOtableComponent implements OnInit {
   @Input() showFlop: boolean;
 
   windowWith: number;
+  windowHeight: number;
 
   constructor() {
    this.windowWith = window.innerWidth;
+   this.windowHeight = window.innerHeight;
   }
 
   ngOnInit(): void {
