@@ -50,6 +50,21 @@
     bottom: 32px;
     left: 100px;
     right: 100px;
+
+    @media (max-width: 750px) {
+        left: 50px;
+        right: 50px;
+    }
+
+    @media (max-width: 500px) {
+        left: 30px;
+        right: 30px;
+    }
+
+    @media (max-width: 400px) {
+        left: 20px;
+        right: 20px;
+    }
 }
 
 .alert-add-player {
@@ -121,6 +136,7 @@
         @media (max-width: 650px) {
             width: 100px;
         }
+
         @media (max-height: 560px) {
             width: 100px;
         }
@@ -204,7 +220,7 @@
     width: 340px;
 
     @media (max-width: 380px) {
-        width: 270px;
+        width: 250px;
         padding: 8px;
     }
 
@@ -275,28 +291,17 @@
 
 .flop-cards-container {
     position: absolute;
-    top: 70%;
-    left: 40%;
+    bottom: 10%;
+    left: 0;
+    height: 220px;
+    width: 100%;
 
-    @media (max-width: 780px) {
-        left: 15%;
-    }
-
-    @media (max-width: 680px) {
-        left: 5%;
-    }
-
-    @media (max-width: 450px) {
-        top: 45%;
-    }
-
-    @media (max-height: 560px) {
-        left: 25%;
-    }
-    
-
-    
     &:hover {
         z-index: 6;
+    }
+
+    @media (max-height: 300px) {
+        bottom: 0;
+        height: 180px;
     }
 }

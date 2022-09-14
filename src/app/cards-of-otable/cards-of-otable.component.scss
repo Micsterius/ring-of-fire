@@ -1,40 +1,61 @@
 .flop-cards {
-    position: absolute;
-    transform: translate(0%, -50%);
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-left: 36px;
 
     img {
-        width: 160px;
+        width: 140px;
+        position: absolute;
 
-        @media (max-width: 650px) {
+        @media (max-width: 500px) {
             width: 120px;
         }
 
-        @media (max-width: 550px) {
+        @media (max-width: 350px) {
+            width: 90px;
+        }
+
+        @media (max-height: 500px) {
             width: 100px;
         }
 
-        @media (max-height: 560px) {
-            width: 100px;
+        @media (max-height: 400px) {
+            width: 90px;
         }
     }
-}
 
-.card-stack {
-    position: relative;
-    width: 250px;
-    left: 5%;
-    top: 60%;
-}
-
-.card-stack img {
-    position: absolute;
-    width: 160px;
-
-    @media (max-width: 650px) {
-        width: 120px;
-    }
-
-    @media (max-width: 580px) {
+    @media (max-width: 350px) {
         width: 90px;
+    }
+}
+
+.a1 {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    width: 100%;
+}
+
+.a2 {
+    position: relative;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    height: 100%;
+    width: 180px;
+    display: flex;
+    align-items: center;
+    margin-left: 24px;
+
+    img {
+        position: absolute;
+        width: 140px;
+
+        @media (max-height: 650px) {
+            width: 100px;
+        }
     }
 }
