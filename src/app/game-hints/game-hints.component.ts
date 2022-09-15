@@ -8,7 +8,9 @@ import { Component, Input, OnInit } from '@angular/core';
 export class GameHintsComponent implements OnInit {
 
   @Input() numberOfPlayers: number;
-
+  @Input() mouseIsOver: boolean;
+  @Input() developerMode: boolean;
+  
   constructor() { }
 
   ngOnInit(): void {

@@ -17,9 +17,9 @@
     <mat-icon>add</mat-icon>
 </button>
 
-<app-game-hints [numberOfPlayers]="game.players.length"></app-game-hints>
+<app-game-hints [numberOfPlayers]="game.players.length" [mouseIsOver]="mouseOverValue" [developerMode]="game.developerMode"></app-game-hints>
 
-
+<button (mouseover)="mouseOver()" (mouseout)="mouseOut()" *ngIf="game.players.length == 0 && !game.developerMode" mat-raised-button class="btn-developer-mode" color="accent" (click)="activateDeveloperMode()">Developer mode</button>
 
 <!-- Start game button -->
 <div class="start-game-button" *ngIf="!game.pokerGameIsStarted && game.players.length > 1 && playerIsCreated">

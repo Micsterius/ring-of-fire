@@ -24,8 +24,8 @@ export class GameComponent implements OnInit {
   playerID: number;
 
   ipAddress: string = '';
-  developerMode: boolean = true;
 
+  mouseOverValue: boolean = false;
   timerStatus = "start";
 
   config: CountdownConfig = {
@@ -57,7 +57,7 @@ export class GameComponent implements OnInit {
     });
   }
 
-  initalizeGame(game){
+  initalizeGame(game) {
     this.game.currentPlayerId = game.currentPlayerId;
     this.game.playedCards = game.playedCards;
     this.game.players = this.recreatePlayer(game.players)
@@ -86,6 +86,7 @@ export class GameComponent implements OnInit {
     this.game.coinsWhichGetWinner = game.coinsWhichGetWinner;
     this.game.winningCards = game.winningCards;
     this.game.ipAddress = game.ipAddress;
+    this.game.developerMode = game.developerMode;
   }
 
   handleEvent(event) {
@@ -95,6 +96,18 @@ export class GameComponent implements OnInit {
         this.playerChecks();
       } else { this.playerFolded() }
     };
+  }
+
+  activateDeveloperMode() {
+    this.game.developerMode = true;
+  }
+
+  mouseOver() {
+    this.mouseOverValue = true;
+  }
+
+  mouseOut() {
+    this.mouseOverValue = false;
   }
 
   recreatePlayer(gamePlayers) {
@@ -533,7 +546,7 @@ export class GameComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogAddPlayerComponent);
     dialogRef.afterClosed().subscribe((name: string) => {
 
-      if (this.nameWithMinOneCharacterIsGiven(name) && !this.ipAddressIsAlreadyInGame(this.ipAddress) && !this.proofIfNameAlreadyExist(name) && this.numberOfPlayersIsUnderSix() || this.developerMode && !this.proofIfNameAlreadyExist(name) && this.numberOfPlayersIsUnderSix()) {
+      if (this.nameWithMinOneCharacterIsGiven(name) && !this.ipAddressIsAlreadyInGame(this.ipAddress) && !this.proofIfNameAlreadyExist(name) && this.numberOfPlayersIsUnderSix() || this.game.developerMode && !this.proofIfNameAlreadyExist(name) && this.numberOfPlayersIsUnderSix()) {
         this.game.ipAddress.push(this.ipAddress)
         this.createPlayer(name)
         this.saveGame();

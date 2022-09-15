@@ -27,6 +27,7 @@ export class Game {
     public coinsWhichGetWinner: number = 0;
     public winningCards: string[] = [];
     public ipAddress: any [] = [];
+    public developerMode: boolean = false;
     
     
 
@@ -78,7 +79,8 @@ export class Game {
             callIsPossible: this.callIsPossible,
             coinsWhichGetWinner: this.coinsWhichGetWinner,
             winningCards: this.winningCards,
-            ipAddress: this.ipAddress
+            ipAddress: this.ipAddress,
+            developerMode: this.developerMode
         }
     }
 
