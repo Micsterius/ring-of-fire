@@ -8,15 +8,15 @@ export class Player {
     public folded:boolean = false;
     public setMoney:number = 0;
 
-    constructor(name, playerImage, playerId, playerCards, playersTurn, numberOfChips, folded, setMoney) {
-        this.playerName = name;
-        this.playerImage = playerImage;
-        this.playerId = playerId;
-        this.playerCards = playerCards;
-        this.playersTurn = playersTurn;
-        this.numberOfChips = numberOfChips;
-        this.folded = folded;
-        this.setMoney = setMoney;
+    constructor(playerInfo) {
+        this.playerName = playerInfo.name;
+        this.playerImage = playerInfo.userImage;
+        this.playerId = playerInfo.id;
+        this.playerCards = playerInfo.playerCards;
+        this.playersTurn = playerInfo.playersTurn;
+        this.numberOfChips = playerInfo.numberOfChips;
+        this.folded = playerInfo.folded;
+        this.setMoney = playerInfo.setMoney;
     }
 
     public playerToJson() {

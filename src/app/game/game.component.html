@@ -54,7 +54,7 @@
             <button (click)="playerRaise()" *ngIf="game.raiseIsPossible">Raise</button>
             <button (click)="playerChecks()" *ngIf="game.checkIsPossible">Check</button>
             <button (click)="playerFolded()">Fold <countdown class="countdown" #cd [config]="config"
-                    (event)="handleEvent($event)">
+                    (event)="handleEventTimer($event)">
                 </countdown></button>
         </div>
         <span>Chips in pot {{game.allChipsInPot}}</span>

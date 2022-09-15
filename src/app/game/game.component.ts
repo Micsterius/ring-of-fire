@@ -30,7 +30,7 @@ export class GameComponent implements OnInit {
   timerStatus = "start";
 
   config: CountdownConfig = {
-    leftTime: 1500,
+    leftTime: 15,
     formatDate: ({ date }) => `${date / 1000}`,
   };
   /**next tasks:
@@ -90,7 +90,7 @@ export class GameComponent implements OnInit {
     this.game.developerMode = game.developerMode;
   }
 
-  handleEvent(event) {
+  handleEventTimer(event) {
     this.timerStatus = event.action;
     if (this.timerStatus === "done") {
       if (this.game.checkIsPossible) {
@@ -116,15 +116,17 @@ export class GameComponent implements OnInit {
   recreatePlayer(gamePlayers) {
     let temporaryArrayOfAllPlayers = [];
     for (let i = 0; i < gamePlayers.length; i++) {
-      let name = gamePlayers.shift();
-      let playerImage = gamePlayers.shift();
-      let playerId = gamePlayers.shift();
-      let playerCards = [gamePlayers.shift(), gamePlayers.shift()];
-      let playersTurn = gamePlayers.shift();
-      let numberOfChips = gamePlayers.shift();
-      let folded = gamePlayers.shift();
-      let setMoney = gamePlayers.shift();
-      let player = new Player(name, playerImage, playerId, playerCards, playersTurn, numberOfChips, folded, setMoney)
+      let playerInfo = {
+        "name": gamePlayers.shift(),
+        "userImage": gamePlayers.shift(),
+        "id": gamePlayers.shift(),
+        "playerCards": [gamePlayers.shift(), gamePlayers.shift()],
+        "playersTurn": gamePlayers.shift(),
+        "numberOfChips": gamePlayers.shift(),
+        "folded": gamePlayers.shift(),
+        "setMoney": gamePlayers.shift()
+      }
+      let player = new Player(playerInfo)
       temporaryArrayOfAllPlayers.push(player)
     }
     return temporaryArrayOfAllPlayers;
@@ -560,15 +562,24 @@ export class GameComponent implements OnInit {
   createPlayer(name) {
     let playerId: number = this.game.players.length;
     this.playerID = this.game.players.length;
-    let playerCards: string[] = ['2H', '2S'];
-    let playersTurn: boolean = false;
-    let numberOfChips: number = 200;
-    let folded: boolean = false;
-    let setMoney: number = 0;
     this.playerCreated = name;
     this.playerIsCreated = true;
-    let player = new Player(name, this.game.userImages[playerId], playerId, playerCards, playersTurn, numberOfChips, folded, setMoney);
+    let player = new Player(this.createPlayerJson(name, playerId));
     this.game.players.push(player);
+  }
+
+  createPlayerJson(name, id) {
+   let playerInfo = {
+      "name": name,
+      "id": id,
+      "playerCards": ['2H', '2S'],
+      "playersTurn": false,
+      "numberOfChips": 200,
+      "folded": false,
+      "setMoney": 0,
+      "userImage": this.game.userImages[id]
+    }
+    return playerInfo
   }
 
   nameWithMinOneCharacterIsGiven(name) {
