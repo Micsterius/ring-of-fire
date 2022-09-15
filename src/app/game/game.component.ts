@@ -25,7 +25,7 @@ export class GameComponent implements OnInit {
 
   ipAddress: string = '';
 
-  mouseOverValue: boolean = false;
+  mouseOverValueDeveloperModeBtn: boolean = false;
   hideHintForDeveloperMode: boolean = false;
   timerStatus = "start";
 
@@ -45,17 +45,18 @@ export class GameComponent implements OnInit {
   ngOnInit(): void {
     this.newGame();
     this.getIPAddress();
-    this.route.params.subscribe((params) => {
-      this.gameId = params['id']
-      this
-        .firestore
-        .collection('games')
-        .doc(params['id'])
-        .valueChanges()
-        .subscribe((game: any) => {
-          this.initalizeGame(game)
-        })
-    });
+    this.route
+      .params
+      .subscribe((params) => this.startGame(params['id']));
+  }
+
+  startGame(gameId) {
+    this.gameId = gameId
+    this.firestore
+      .collection('games')
+      .doc(this.gameId)
+      .valueChanges()
+      .subscribe((game: any) => this.initalizeGame(game))
   }
 
   initalizeGame(game) {
@@ -93,9 +94,8 @@ export class GameComponent implements OnInit {
   handleEventTimer(event) {
     this.timerStatus = event.action;
     if (this.timerStatus === "done") {
-      if (this.game.checkIsPossible) {
-        this.playerChecks();
-      } else { this.playerFolded() }
+      if (this.game.checkIsPossible) this.playerChecks();
+      else this.playerFolded();
     };
   }
 
@@ -105,12 +105,12 @@ export class GameComponent implements OnInit {
     this.saveGame();
   }
 
-  mouseOver() {
-    this.mouseOverValue = true;
+  mouseOverDeveloperModeBtn() {
+    this.mouseOverValueDeveloperModeBtn = true;
   }
 
-  mouseOut() {
-    this.mouseOverValue = false;
+  mouseOutDeveloperModeBtn() {
+    this.mouseOverValueDeveloperModeBtn = false;
   }
 
   recreatePlayer(gamePlayers) {
@@ -211,7 +211,7 @@ export class GameComponent implements OnInit {
       this.game.bigBlindPlayerCheckedInTheFirstRound = true;
       this.checkIfAllPlayersCheckedOrCalled();
       this.goToNextPlayer();
-    } else { this.goToNextPlayer() }
+    } else this.goToNextPlayer();
   }
 
   bigBlindPlayerCheckedAsHisFirstMove() {
@@ -273,9 +273,7 @@ export class GameComponent implements OnInit {
       player.numberOfChips += this.game.allChipsInPot;
       this.game.winningPlayersName.push(player.playerName);
       this.game.roundEnds = true;
-      setTimeout(() => {
-        this.startNextRound();
-      }, 10000);
+      setTimeout(() => this.startNextRound(), 10000);
     }
     else { this.goToNextPlayer(); }
   }
@@ -287,17 +285,15 @@ export class GameComponent implements OnInit {
   goToNextPlayer() {
     this.game.currentPlayerId++
     this.game.currentPlayerId = this.game.currentPlayerId % this.game.players.length
-    if (this.game.bigBlindPlayerCheckedInTheFirstRound) {
-      this.game.bigBlindPlayerCheckedInTheFirstRound = false;
-    }
+    if (this.game.bigBlindPlayerCheckedInTheFirstRound) this.game.bigBlindPlayerCheckedInTheFirstRound = false;
     this.checkIfNextPlayerIsOnTheTable();
   }
 
   checkIfAllPlayersCheckedOrCalled() {
     if (this.allPlayersChecked() || this.allPlayersCalled() || this.game.bigBlindPlayerCheckedInTheFirstRound) {
-      if (this.game.showRiver) { this.checkWinConditions() }
-      if (this.game.showTurn && !this.game.showRiver) { this.showRiver() }
-      if (this.game.showFlop && !this.game.showTurn) { this.showTurn() }
+      if (this.game.showRiver) this.checkWinConditions();
+      if (this.game.showTurn && !this.game.showRiver) this.showRiver();
+      if (this.game.showFlop && !this.game.showTurn) this.showTurn();
       this.game.showFlop = true
       this.game.raiseIsPossible = false;
       this.clearAllPlayersSetMoney();
@@ -350,11 +346,7 @@ export class GameComponent implements OnInit {
     }
     this.findWinCardCombination(cardsOfPlayers)
     this.saveGame();
-    console.log('allChipsInPot:', this.game.allChipsInPot)
-    console.log('coinsWhichGetWinner:', this.game.coinsWhichGetWinner)
-    setTimeout(() => {
-      this.startNextRound();
-    }, 5000);
+    setTimeout(() => this.startNextRound(), 5000);
   }
 
   async findWinCardCombination(cardsOfPlayers) {
@@ -387,7 +379,6 @@ export class GameComponent implements OnInit {
       this.game.winningPlayersName.push(winner.playerName);
       this.game.winningPlayersId.push(winner.playerId);
     }
-    console.log(this.game.winningPlayersId)
   }
 
   distributeChips(winners) {
@@ -492,9 +483,7 @@ export class GameComponent implements OnInit {
   }
 
   checkIfNextPlayerIsOnTheTable() {
-    if (this.currentPlayer().folded) {
-      this.goToNextPlayer();
-    }
+    if (this.currentPlayer().folded) this.goToNextPlayer();
     else {
       this.currentPlayer().playersTurn = true;
       this.game.checkIsPossible = this.proofIfMoveCheckIsPossibile();
@@ -523,9 +512,7 @@ export class GameComponent implements OnInit {
     let allPlayersJackpots = this.game.players.map((player) => player.setMoney)
     let temporary = -1;
     allPlayersJackpots.forEach((setMoney) => {
-      if (temporary < setMoney) {
-        temporary = setMoney;
-      }
+      if (temporary < setMoney) temporary = setMoney;
     })
     return temporary
   }
@@ -569,7 +556,7 @@ export class GameComponent implements OnInit {
   }
 
   createPlayerJson(name, id) {
-   let playerInfo = {
+    let playerInfo = {
       "name": name,
       "id": id,
       "playerCards": ['2H', '2S'],
@@ -608,8 +595,7 @@ export class GameComponent implements OnInit {
   }
 
   saveGame() {
-    this
-      .firestore
+    this.firestore
       .collection('games')
       .doc(this.gameId)
       .update({ ... this.game.toJson() });

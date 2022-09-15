@@ -8,8 +8,8 @@ import { Component, Input, OnInit } from '@angular/core';
 export class GameHintsComponent implements OnInit {
 
   @Input() numberOfPlayers: number;
-  @Input() mouseIsOver: boolean;
-  @Input() developerMode: boolean;
+  @Input() mouseIsOverDeveloperModeBtn: boolean;
+  @Input() hideHintForDeveloperMode: boolean;
   
   constructor() { }
 
