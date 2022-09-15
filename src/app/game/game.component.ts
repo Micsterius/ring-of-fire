@@ -26,6 +26,7 @@ export class GameComponent implements OnInit {
   ipAddress: string = '';
 
   mouseOverValue: boolean = false;
+  hideHintForDeveloperMode: boolean = false;
   timerStatus = "start";
 
   config: CountdownConfig = {
@@ -100,6 +101,8 @@ export class GameComponent implements OnInit {
 
   activateDeveloperMode() {
     this.game.developerMode = true;
+    this.hideHintForDeveloperMode = true;
+    this.saveGame();
   }
 
   mouseOver() {
