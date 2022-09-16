@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CardsOfOtableComponent } from './cards-of-otable.component';
+import { CardsOfTableComponent } from './cards-of-table.component';
 
-describe('CardsOfOtableComponent', () => {
-  let component: CardsOfOtableComponent;
-  let fixture: ComponentFixture<CardsOfOtableComponent>;
+describe('CardsOfTableComponent', () => {
+  let component: CardsOfTableComponent;
+  let fixture: ComponentFixture<CardsOfTableComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CardsOfOtableComponent ]
+      declarations: [ CardsOfTableComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CardsOfOtableComponent);
+    fixture = TestBed.createComponent(CardsOfTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

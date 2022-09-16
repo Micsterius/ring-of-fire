@@ -3,7 +3,8 @@
 
 <div class="field">
     <!-- Flop/Turn/River cards -->
-    <app-cards-of-otable [showFlop]="game.showFlop" class="flop-cards-container" [cards]="game.flop"></app-cards-of-otable>
+    <app-cards-of-table [showFlop]="game.showFlop" class="flop-cards-container" [cards]="game.flop">
+    </app-cards-of-table>
 </div>
 
 
@@ -17,9 +18,12 @@
     <mat-icon>add</mat-icon>
 </button>
 
-<app-game-hints [numberOfPlayers]="game.players.length" [mouseIsOverDeveloperModeBtn]="mouseOverValueDeveloperModeBtn" [hideHintForDeveloperMode]="hideHintForDeveloperMode"></app-game-hints>
+<app-game-hints [numberOfPlayers]="game.players.length" [mouseIsOverDeveloperModeBtn]="mouseOverValueDeveloperModeBtn"
+    [hideHintForDeveloperMode]="hideHintForDeveloperMode"></app-game-hints>
 
-<button (mouseover)="mouseOverDeveloperModeBtn()" (mouseout)="mouseOutDeveloperModeBtn()" *ngIf="game.players.length == 0 && !game.developerMode" mat-raised-button class="btn-developer-mode" color="accent" (click)="activateDeveloperMode()">Developer mode</button>
+<button (mouseover)="mouseOverDeveloperModeBtn()" (mouseout)="mouseOutDeveloperModeBtn()"
+    *ngIf="game.players.length == 0 && !game.developerMode" mat-raised-button class="btn-developer-mode" color="accent"
+    (click)="activateDeveloperMode()">Developer mode</button>
 
 <!-- Start game button -->
 <div class="start-game-button" *ngIf="!game.pokerGameIsStarted && game.players.length > 1 && playerIsCreated">

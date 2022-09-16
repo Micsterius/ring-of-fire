@@ -1,11 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-cards-of-otable',
-  templateUrl: './cards-of-otable.component.html',
-  styleUrls: ['./cards-of-otable.component.scss']
+  selector: 'app-cards-of-table',
+  templateUrl: './cards-of-table.component.html',
+  styleUrls: ['./cards-of-table.component.scss']
 })
-export class CardsOfOtableComponent implements OnInit {
+export class CardsOfTableComponent implements OnInit {
   @Input() cards: string [];
   @Input() showFlop: boolean;
 

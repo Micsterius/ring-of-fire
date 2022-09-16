@@ -23,7 +23,7 @@ import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { AngularFireModule } from '@angular/fire/compat';
 import { CountdownModule } from 'ngx-countdown';
 import { GameHintsComponent } from './game-hints/game-hints.component';
-import { CardsOfOtableComponent } from './cards-of-otable/cards-of-otable.component';
+import { CardsOfTableComponent } from './cards-of-table/cards-of-table.component';
 
 
 @NgModule({
@@ -35,7 +35,7 @@ import { CardsOfOtableComponent } from './cards-of-otable/cards-of-otable.compon
     DialogAddPlayerComponent,
     GameInfoComponent,
     GameHintsComponent,
-    CardsOfOtableComponent
+    CardsOfTableComponent
   ],
   imports: [
     BrowserModule,
