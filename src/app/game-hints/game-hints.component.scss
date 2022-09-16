@@ -5,13 +5,13 @@
     transform: translate(-50%, -50%);
     height: 150px;
     width: 280px;
-    border: 2px solid #ff075b;
+    border: 2px solid var(--mainColor);
     padding: 16px;
     border-radius: 16px;
     display: flex;
     align-items: center;
     z-index: 3;
-    background-color: #0e1538;
+    background-color: var(--background);
 
     @media (max-width: 350px) {
         width: 260px;
@@ -33,7 +33,7 @@
     }
 
     span {
-        color: #ff075b;
+        color: var(--mainColor);
         font-size: 24px;
 
         @media (max-width: 350px) {
