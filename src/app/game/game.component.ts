@@ -7,7 +7,11 @@ import { ActivatedRoute } from '@angular/router';
 import { Player } from 'src/models/player';
 import { CountdownConfig } from 'ngx-countdown';
 
-
+/**next tasks:
+   *  - All in Options with split pot calculation
+   *  - allow the player who wins in the case that everyone else folded to show his cards
+   *  - if a player is out of money the player folded automatically
+   */
 
 @Component({
   selector: 'app-game',
@@ -22,6 +26,7 @@ export class GameComponent implements OnInit {
 
   playerCreated: string = '';
   playerID: number;
+  sameIpAddress:boolean = false;
 
   ipAddress: string = '';
 
@@ -33,10 +38,6 @@ export class GameComponent implements OnInit {
     leftTime: 15,
     formatDate: ({ date }) => `${date / 1000}`,
   };
-  /**next tasks:
-   *  - All in Options with split pot calculation
-   *  - allow the player who wins in the case that everyone else folded to show his cards
-   */
 
   constructor(private route: ActivatedRoute, private firestore: AngularFirestore, public dialog: MatDialog) {
   }
@@ -537,12 +538,16 @@ export class GameComponent implements OnInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogAddPlayerComponent);
     dialogRef.afterClosed().subscribe((name: string) => {
-
+      if (this.ipAddressIsAlreadyInGame(this.ipAddress) && !this.game.developerMode) {
+        this.sameIpAddress = true;
+        setTimeout(() => this.sameIpAddress = false, 15000);
+      }
       if (this.nameWithMinOneCharacterIsGiven(name) && !this.ipAddressIsAlreadyInGame(this.ipAddress) && !this.proofIfNameAlreadyExist(name) && this.numberOfPlayersIsUnderSix() || this.game.developerMode && !this.proofIfNameAlreadyExist(name) && this.numberOfPlayersIsUnderSix()) {
         this.game.ipAddress.push(this.ipAddress)
         this.createPlayer(name)
         this.saveGame();
       }
+
     });
   }
 

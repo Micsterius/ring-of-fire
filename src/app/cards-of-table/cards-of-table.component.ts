@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, HostListener  } from '@angular/core';
 
 @Component({
   selector: 'app-cards-of-table',
@@ -9,15 +9,23 @@ export class CardsOfTableComponent implements OnInit {
   @Input() cards: string [];
   @Input() showFlop: boolean;
 
-  windowWith: number;
+  windowWidth: number;
   windowHeight: number;
 
   constructor() {
-   this.windowWith = window.innerWidth;
-   this.windowHeight = window.innerHeight;
+
   }
 
   ngOnInit(): void {
+    this.windowWidth = window.innerWidth;
+    this.windowHeight = window.innerHeight;
+  }
+
+  @HostListener('window:resize', ['$event'])
+
+  resizeWindow() {
+    this.windowWidth = window.innerWidth;
+    this.windowHeight = window.innerHeight;
   }
 
 }

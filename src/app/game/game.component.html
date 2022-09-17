@@ -19,7 +19,7 @@
 </button>
 
 <app-game-hints [numberOfPlayers]="game.players.length" [mouseIsOverDeveloperModeBtn]="mouseOverValueDeveloperModeBtn"
-    [hideHintForDeveloperMode]="hideHintForDeveloperMode"></app-game-hints>
+    [hideHintForDeveloperMode]="hideHintForDeveloperMode" [sameIpAddress]="sameIpAddress"></app-game-hints>
 
 <button (mouseover)="mouseOverDeveloperModeBtn()" (mouseout)="mouseOutDeveloperModeBtn()"
     *ngIf="game.players.length == 0 && !game.developerMode" mat-raised-button class="btn-developer-mode" color="accent"

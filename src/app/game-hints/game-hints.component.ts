@@ -10,6 +10,8 @@ export class GameHintsComponent implements OnInit {
   @Input() numberOfPlayers: number;
   @Input() mouseIsOverDeveloperModeBtn: boolean;
   @Input() hideHintForDeveloperMode: boolean;
+  @Input() sameIpAddress: boolean;
+  
   
   constructor() { }
 
