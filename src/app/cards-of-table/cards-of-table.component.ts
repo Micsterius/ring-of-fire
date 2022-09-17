@@ -12,9 +12,7 @@ export class CardsOfTableComponent implements OnInit {
   windowWidth: number;
   windowHeight: number;
 
-  constructor() {
-
-  }
+  constructor() {}
 
   ngOnInit(): void {
     this.windowWidth = window.innerWidth;
@@ -27,5 +25,4 @@ export class CardsOfTableComponent implements OnInit {
     this.windowWidth = window.innerWidth;
     this.windowHeight = window.innerHeight;
   }
-
 }
