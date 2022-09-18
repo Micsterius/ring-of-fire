@@ -1,5 +1,5 @@
-<div class="a1">
-    <div class="a2" *ngIf="windowWidth >= 700">
+<div class="flop-container">
+    <div class="flop" *ngIf="windowWidth >= 700">
         <img [ngStyle]="{ 'left.px' : +i*5}" *ngFor="let c of [0,1,2,3,4]; let i = index;"
             src="assets/img/cards/card_cover.png">
     </div>

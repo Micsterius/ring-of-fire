@@ -1,6 +1,7 @@
 import { Component, OnInit, VERSION, ViewChild, ElementRef } from '@angular/core';
 import { Game } from 'src/models/game';
 import { MatDialog } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ActivatedRoute } from '@angular/router';
@@ -24,9 +25,11 @@ export class GameComponent implements OnInit {
   gameId: string;
   playerIsCreated: boolean = false;
 
+  playersName: string = '';
+
   playerCreated: string = '';
   playerID: number;
-  sameIpAddress:boolean = false;
+  sameIpAddress: boolean = false;
 
   ipAddress: string = '';
 
@@ -37,11 +40,16 @@ export class GameComponent implements OnInit {
   config: CountdownConfig = {
     leftTime: 15,
     formatDate: ({ date }) => `${date / 1000}`,
-  };
+  }
+
+  addItem(newItem: string) {
+    this.playersName = newItem;
+    console.log(this.playersName);
+    console.log(newItem);
+  }
 
   constructor(private route: ActivatedRoute, private firestore: AngularFirestore, public dialog: MatDialog) {
   }
-
 
   ngOnInit(): void {
     this.newGame();
@@ -538,7 +546,10 @@ export class GameComponent implements OnInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogAddPlayerComponent);
     dialogRef.afterClosed().subscribe((name: string) => {
-      if (this.ipAddressIsAlreadyInGame(this.ipAddress) && !this.game.developerMode) {
+      if (!name) {
+        return
+      }
+      if (this.ipAddressIsAlreadyInGame(this.ipAddress) && !this.game.developerMode && name) {
         this.sameIpAddress = true;
         setTimeout(() => this.sameIpAddress = false, 15000);
       }
@@ -547,7 +558,6 @@ export class GameComponent implements OnInit {
         this.createPlayer(name)
         this.saveGame();
       }
-
     });
   }
 
