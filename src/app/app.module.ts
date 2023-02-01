@@ -24,6 +24,7 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { CountdownModule } from 'ngx-countdown';
 import { GameHintsComponent } from './game-hints/game-hints.component';
 import { CardsOfTableComponent } from './cards-of-table/cards-of-table.component';
+import { DialogTestMmodusComponent } from './dialog-test-mmodus/dialog-test-mmodus.component';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { CardsOfTableComponent } from './cards-of-table/cards-of-table.component
     DialogAddPlayerComponent,
     GameInfoComponent,
     GameHintsComponent,
-    CardsOfTableComponent
+    CardsOfTableComponent,
+    DialogTestMmodusComponent
   ],
   imports: [
     BrowserModule,

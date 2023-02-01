@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Game } from 'src/models/game';
+import { DialogTestMmodusComponent } from '../dialog-test-mmodus/dialog-test-mmodus.component';
 
 @Component({
   selector: 'app-start-screen',
@@ -10,7 +12,9 @@ import { Game } from 'src/models/game';
 })
 export class StartScreenComponent implements OnInit {
 
-  constructor(private firestore: AngularFirestore, private router: Router) { }
+  constructor(private firestore: AngularFirestore, 
+    private router: Router,
+    public dialog: MatDialog,) { }
 
   ngOnInit(): void {
   }
@@ -22,5 +26,9 @@ export class StartScreenComponent implements OnInit {
     .collection('games')
     .add({ ...game.toJson() })
     .then((gameInfo: any) => this.router.navigateByUrl('/game/' + gameInfo.id));
+  }
+
+  openDialog() {
+    let dialogRef = this.dialog.open(DialogTestMmodusComponent, {})
   }
 }
