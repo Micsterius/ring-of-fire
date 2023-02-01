@@ -1,0 +1,261 @@
+.field {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    max-width: 100%;
+    background-color: var(--background);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.player-position {
+    position: absolute;
+    right: 0;
+    z-index: 1;
+}
+
+.btn-add {
+    position: absolute;
+    bottom: 32px;
+    right: 32px;
+    z-index: 25;
+
+    &:hover {
+        opacity: 0.7;
+    }
+}
+
+.pin-bottom {
+    position: absolute;
+    bottom: 32px;
+    left: 100px;
+    right: 100px;
+
+    @media (max-width: 750px) {
+        left: 50px;
+        right: 50px;
+    }
+
+    @media (max-width: 500px) {
+        left: 30px;
+        right: 30px;
+    }
+
+    @media (max-width: 400px) {
+        left: 20px;
+        right: 20px;
+    }
+}
+
+.start-game-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 1px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(45deg, var(--mainColor), #5f6691, #5f6691, var(--mainColor));
+
+    &:hover {
+        background: linear-gradient(45deg, var(--mainColor), var(--mainColor), var(--mainColor), var(--mainColor));
+    }
+
+    button {
+        padding: 16px;
+        background-color: var(--background);
+        color: white;
+        font-size: 25px;
+        border-radius: 16px;
+        border: none;
+
+        &:hover {
+            cursor: pointer;
+            color: var(--mainColor);
+        }
+    }
+}
+
+.showCards{
+    display: block !important;
+}
+
+.player-1 {
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    display: none;
+
+    @media (max-width: 550px) {
+        left: 5%;
+    }
+
+    img {
+        width: var(--standardCardWith);
+
+        @media (max-width: 650px) {
+            width: 100px;
+        }
+
+        @media (max-height: 560px) {
+            width: 100px;
+        }
+    }
+}
+
+.winning-cards {
+    position: absolute;
+    top: 20%;
+    right: 20%;
+
+    img {
+        width: var(--standardCardWith);
+
+        @media (max-width: 650px) {
+            width: 120px;
+        }
+
+        @media (max-width: 550px) {
+            width: 100px;
+        }
+    }
+}
+
+.ask-for-set-money {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(225, 225, 225, 0.9);
+    padding: 16px;
+    border-radius: 16px;
+    border: 3px solid black;
+    z-index: 2;
+    width: 280px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+
+    p {
+        font-size: 25px;
+        line-height: 48px;
+    }
+}
+
+.move-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+
+    background-color: rgba($color: var(--background), $alpha: 0.5);
+    padding: 16px;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid var(--mainColor);
+    width: 340px;
+
+    @media (max-width: 380px) {
+        width: 250px;
+        padding: 8px;
+    }
+
+    span {
+        height: 40px;
+        font-size: 25px;
+        line-height: 40px;
+        color: white;
+        font-weight: 500;
+        text-shadow: 1px 1px 3px var(--background);
+
+        @media (max-width: 380px) {
+            font-size: 20px;
+        }
+    }
+
+    button {
+        padding-left: 16px;
+        padding-right: 16px;
+        padding-top: 6px;
+        padding-bottom: 6px;
+        margin-left: 4px;
+        margin-right: 4px;
+        background-color: var(--background);
+        color: white;
+        font-size: 20px;
+        border-radius: 8px;
+        border: 1px solid var(--mainColor);
+
+        @media (max-width: 380px) {
+            font-size: 16px;
+            padding-left: 12px;
+            padding-right: 12px;
+        }
+
+        &:hover {
+            cursor: pointer;
+            color: var(--mainColor);
+        }
+    }
+}
+
+.countdown {
+    font-size: 16px;
+    color: gray;
+}
+
+.show-winner-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(225, 225, 225, 0.9);
+    padding: 16px;
+    border-radius: 16px;
+    z-index: 2;
+    width: 280px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    span {
+        color: var(--mainColor);
+        font-size: 25px;
+        font-weight: 500;
+    }
+}
+
+.flop-cards-container {
+    position: absolute;
+    bottom: 10%;
+    left: 0;
+    height: 220px;
+    width: 100%;
+
+    &:hover {
+        z-index: 6;
+    }
+
+    @media (max-height: 300px) {
+        bottom: 0;
+        height: 180px;
+    }
+}
+
+.btn-developer-mode {
+    position: absolute;
+    bottom: 25px;
+    left: 50px;
+
+    &:hover {
+        opacity: 0.7;
+    }
+}

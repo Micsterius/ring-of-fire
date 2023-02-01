@@ -1,12 +1,12 @@
-<h1 mat-dialog-title>Add new player</h1>
+<h1  class="color-white" mat-dialog-title>Add new player</h1>
 <div mat-dialog-content>
-  <p>Please enter the name of a player.</p>
+  <p class="color-white">Please enter the name of a player.</p>
   <mat-form-field>
-    <mat-label>Name</mat-label>
-    <input matInput [(ngModel)]="name">
+    <mat-label  class="color-white">Name</mat-label>
+    <input matInput [(ngModel)]="name"  class="color-white">
   </mat-form-field>
 </div>
 <div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">No Thanks</button>
-  <button mat-button [disabled]="name.length == 0" [mat-dialog-close]="name" cdkFocusInitial>Ok</button>
+  <button mat-button (click)="onNoClick()"  class="color-white">No Thanks</button>
+  <button mat-button [disabled]="name.length == 0" [mat-dialog-close]="name" cdkFocusInitial  class="color-white">Ok</button>
 </div>

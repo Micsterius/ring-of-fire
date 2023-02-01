@@ -3,37 +3,43 @@
 
 <div class="field">
     <!-- Flop/Turn/River cards -->
-    <app-cards-of-table [showFlop]="gameService.game.showFlop" class="flop-cards-container" [cards]="gameService.game.flop">
+    <app-cards-of-table [showFlop]="gameService.game.showFlop" class="flop-cards-container"
+        [cards]="gameService.game.flop">
     </app-cards-of-table>
 </div>
 
 
 <!-- Card for show who wins with which combination -->
 <app-game-info [roundEnds]="gameService.game.roundEnds" [winnerName]="gameService.game.winningPlayersName"
-    [winnerResult]="gameService.game.winningPlayersResult" [players]="gameService.game.players" class="pin-bottom"></app-game-info>
+    [winnerResult]="gameService.game.winningPlayersResult" [players]="gameService.game.players"
+    class="pin-bottom"></app-game-info>
 
 
 <!-- Add player Button -->
-<button mat-fab color="accent" class="btn-add" (click)="gameService.openDialog()" *ngIf="!gameService.playerIsCreated && gameService.game.players.length<6">
+<button mat-fab color="accent" class="btn-add" (click)="gameService.openDialog(); activateDeveloperMode()"
+    *ngIf="gameService.game.players.length<4">
     <mat-icon>add</mat-icon>
 </button>
 
-<app-game-hints [numberOfPlayers]="gameService.game.players.length" [mouseIsOverDeveloperModeBtn]="gameService.mouseOverValueDeveloperModeBtn"
-    [hideHintForDeveloperMode]="gameService.hideHintForDeveloperMode" [sameIpAddress]="gameService.sameIpAddress"></app-game-hints>
+<app-game-hints [numberOfPlayers]="gameService.game.players.length"
+    [mouseIsOverDeveloperModeBtn]="gameService.mouseOverValueDeveloperModeBtn"
+    [hideHintForDeveloperMode]="gameService.hideHintForDeveloperMode"
+    [sameIpAddress]="gameService.sameIpAddress"></app-game-hints>
 <!--
 <button (mouseover)="mouseOverDeveloperModeBtn()" (mouseout)="mouseOutDeveloperModeBtn()"
     *ngIf="game.players.length == 0 && !game.developerMode" mat-raised-button class="btn-developer-mode" color="accent"
     (click)="activateDeveloperMode()">Developer mode</button>-->
 
 <!-- Start game button -->
-<div class="start-game-button" *ngIf="!gameService.game.pokerGameIsStarted && gameService.game.players.length > 1 && gameService.playerIsCreated">
+<div class="start-game-button"
+    *ngIf="!gameService.game.pokerGameIsStarted && gameService.game.players.length > 1 && gameService.playerIsCreated">
     <button (click)="gameService.startPokerGame()">Start Game</button>
 </div>
 
-<!-- Show your own cards -->
+<!-- Show all cards -->
 <div *ngIf="gameService.game.players.length > 1 && gameService.game.pokerGameIsStarted">
-    <div class="player-1" *ngFor="let players of gameService.game.players;">
-        <div *ngIf="players.playerName == gameService.playerCreated">
+    <div class="player-1" *ngFor="let players of gameService.game.players;"  [ngClass]="{'showCards': players.playersTurn}">
+        <div>
             <img src=" assets/img/cards/{{players.playerCards[0]}}.svg">
             <img src="assets/img/cards/{{players.playerCards[1]}}.svg">
         </div>
@@ -50,10 +56,11 @@
 
 <!-- Show possible moves -->
 <div *ngFor="let player of gameService.game.players;">
-    <div class="move-box" *ngIf="player.playersTurn && player.playerName == gameService.playerCreated && !gameService.game.roundEnds">
+    <div class="move-box" *ngIf="player.playersTurn && !gameService.game.roundEnds">
         <span>Do you want to set money?</span>
         <div>
-            <button (click)="gameService.playerSetMoney()" *ngIf="!gameService.game.callIsPossible && !gameService.game.raiseIsPossible">+10</button>
+            <button (click)="gameService.playerSetMoney()"
+                *ngIf="!gameService.game.callIsPossible && !gameService.game.raiseIsPossible">+10</button>
             <button (click)="gameService.playerCalled()" *ngIf="gameService.game.callIsPossible">Call</button>
             <button (click)="gameService.playerRaise()" *ngIf="gameService.game.raiseIsPossible">Raise</button>
             <button (click)="gameService.playerChecks()" *ngIf="gameService.game.checkIsPossible">Check</button>

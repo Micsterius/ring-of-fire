@@ -1,0 +1,8 @@
+.color-white{
+    color: white;
+}
+
+::ng-deep .mat-dialog-container {
+    background-color: var(--background);
+    border-radius: 12px;
+}

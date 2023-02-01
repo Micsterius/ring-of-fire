@@ -1,6 +1,7 @@
 <div class="dialog-modus-container">
     <span>Hello, how do you want to play?</span>
     <div class="button-box">
-        <button>Alone</button> <button>With friends</button>
+        <button [mat-dialog-close]="true" (click)="generalService.testModus = true; startNewTestGame()">Alone
+            (test)</button> <button [mat-dialog-close]="true" (click)="generalService.testModus = false; startNewGame()">With friends</button>
     </div>
 </div>

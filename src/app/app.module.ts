@@ -25,6 +25,7 @@ import { CountdownModule } from 'ngx-countdown';
 import { GameHintsComponent } from './game-hints/game-hints.component';
 import { CardsOfTableComponent } from './cards-of-table/cards-of-table.component';
 import { DialogTestMmodusComponent } from './dialog-test-mmodus/dialog-test-mmodus.component';
+import { TestGameComponent } from './test-game/test-game.component';
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import { DialogTestMmodusComponent } from './dialog-test-mmodus/dialog-test-mmod
     GameInfoComponent,
     GameHintsComponent,
     CardsOfTableComponent,
-    DialogTestMmodusComponent
+    DialogTestMmodusComponent,
+    TestGameComponent
   ],
   imports: [
     BrowserModule,
