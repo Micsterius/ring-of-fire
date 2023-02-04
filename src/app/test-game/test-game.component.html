@@ -78,7 +78,7 @@
 
     <!-- Show all cards small screen -->
     <div
-        *ngIf="gameService.game.players.length > 1 && gameService.game.pokerGameIsStarted && generalService.windowHeight < 750">
+        *ngIf="(gameService.game.players.length > 1 && gameService.game.pokerGameIsStarted && generalService.windowHeight < 750) || (gameService.game.players.length > 1 && gameService.game.pokerGameIsStarted && generalService.windowWidth < 990)">
         <div class="player-small" *ngFor="let players of gameService.game.players;"
             [ngClass]="{'showCardsSmall': players.playersTurn && !gameService.game.roundEnds}">
             <div>
