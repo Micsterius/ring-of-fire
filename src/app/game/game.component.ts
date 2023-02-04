@@ -21,38 +21,17 @@ import { GameServiceService } from '../shares/services/game-service.service';
   styleUrls: ['./game.component.scss']
 })
 export class GameComponent implements OnInit {
-  game: Game;
-  nbrOfRotation: number = 0;
-  gameId: string;
-  playerIsCreated: boolean = false;
 
-  playersName: string = '';
-
-  playerCreated: string = '';
-  playerID: number;
-  sameIpAddress: boolean = false;
-
-  ipAddress: string = '';
-
-  mouseOverValueDeveloperModeBtn: boolean = false;
-  hideHintForDeveloperMode: boolean = false;
-  timerStatus = "start";
 
   config: CountdownConfig = {
     leftTime: 15,
     formatDate: ({ date }) => `${date / 1000}`,
   }
 
-  addItem(newItem: string) {
-    this.playersName = newItem;
-    console.log(this.playersName);
-    console.log(newItem);
-  }
+
 
   constructor(
     private route: ActivatedRoute, 
-    private firestore: AngularFirestore, 
-    public dialog: MatDialog,
     public gameService: GameServiceService) {
   }
 
@@ -63,6 +42,5 @@ export class GameComponent implements OnInit {
       .params
       .subscribe((params) => this.gameService.startGame(params['id']));
   }
-
 }
 

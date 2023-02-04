@@ -1,80 +1,107 @@
-<app-player [players]="gameService.game.players" class="player-position">
-</app-player>
+<div class="game-container">
+    <div class="app-player-container">
+        <app-player [players]="gameService.game.players" class="player-position">
+        </app-player>
+    </div>
 
-<div class="field">
-    <!-- Flop/Turn/River cards -->
-    <app-cards-of-table [showFlop]="gameService.game.showFlop" class="flop-cards-container"
-        [cards]="gameService.game.flop">
-    </app-cards-of-table>
-</div>
-
-
-<!-- Card for show who wins with which combination -->
-<app-game-info [roundEnds]="gameService.game.roundEnds" [winnerName]="gameService.game.winningPlayersName"
-    [winnerResult]="gameService.game.winningPlayersResult" [players]="gameService.game.players"
-    class="pin-bottom"></app-game-info>
+    <div class="field">
+        <!-- Flop/Turn/River cards -->
+        <app-cards-of-table [showFlop]="gameService.game.showFlop" class="flop-cards-container"
+            [cards]="gameService.game.flop">
+        </app-cards-of-table>
+    </div>
 
 
-<!-- Add player Button -->
+    <!-- Card for show who wins with which combination -->
+    <app-game-info [roundEnds]="gameService.game.roundEnds" [winnerName]="gameService.game.winningPlayersName"
+        [winnerResult]="gameService.game.winningPlayersResult" [players]="gameService.game.players"
+        class="pin-bottom"></app-game-info>
+
+
+    <!-- Add player Button 
 <button mat-fab color="accent" class="btn-add" (click)="gameService.openDialog(); activateDeveloperMode()"
     *ngIf="gameService.game.players.length<4">
     <mat-icon>add</mat-icon>
-</button>
+</button>-->
 
-<app-game-hints [numberOfPlayers]="gameService.game.players.length"
-    [mouseIsOverDeveloperModeBtn]="gameService.mouseOverValueDeveloperModeBtn"
-    [hideHintForDeveloperMode]="gameService.hideHintForDeveloperMode"
-    [sameIpAddress]="gameService.sameIpAddress"></app-game-hints>
-<!--
+    <app-game-hints [numberOfPlayers]="gameService.game.players.length"
+        [mouseIsOverDeveloperModeBtn]="gameService.mouseOverValueDeveloperModeBtn"
+        [hideHintForDeveloperMode]="gameService.hideHintForDeveloperMode"
+        [sameIpAddress]="gameService.sameIpAddress"></app-game-hints>
+    <!--
 <button (mouseover)="mouseOverDeveloperModeBtn()" (mouseout)="mouseOutDeveloperModeBtn()"
     *ngIf="game.players.length == 0 && !game.developerMode" mat-raised-button class="btn-developer-mode" color="accent"
     (click)="activateDeveloperMode()">Developer mode</button>-->
 
-<!-- Start game button -->
-<div class="start-game-button"
-    *ngIf="!gameService.game.pokerGameIsStarted && gameService.game.players.length > 1 && gameService.playerIsCreated">
-    <button (click)="gameService.startPokerGame()">Start Game</button>
-</div>
+    <!-- Start game button -->
+    <div class="start-game-button"
+        *ngIf="!gameService.game.pokerGameIsStarted && gameService.game.players.length > 1 && gameService.playerIsCreated">
+        <button (click)="gameService.startPokerGame()">Start Game</button>
+    </div>
 
-<!-- Show all cards -->
-<div *ngIf="gameService.game.players.length > 1 && gameService.game.pokerGameIsStarted">
-    <div class="player-1" *ngFor="let players of gameService.game.players;"  [ngClass]="{'showCards': players.playersTurn}">
-        <div>
-            <img src=" assets/img/cards/{{players.playerCards[0]}}.svg">
-            <img src="assets/img/cards/{{players.playerCards[1]}}.svg">
+    <!-- Show all cards -->
+    <div *ngIf="gameService.game.players.length > 1 && gameService.game.pokerGameIsStarted">
+        <div class="player-1" [ngClass]="{'showCards': gameService.game.players[0].playersTurn}">
+            <div>player-1</div>
+            <div>
+                <img src=" assets/img/cards/{{gameService.game.players[0].playerCards[0]}}.svg">
+                <img class="second-card" src="assets/img/cards/{{gameService.game.players[0].playerCards[1]}}.svg">
+            </div>
+        </div>
+        <div class="player-2" [ngClass]="{'showCards': gameService.game.players[1].playersTurn}">
+            <div>player-2</div>
+            <div>
+                <img src=" assets/img/cards/{{gameService.game.players[1].playerCards[0]}}.svg">
+                <img class="second-card" src="assets/img/cards/{{gameService.game.players[1].playerCards[1]}}.svg">
+            </div>
+        </div>
+        <div class="player-3" [ngClass]="{'showCards': gameService.game.players[2].playersTurn}">
+            <div>player-3</div>
+            <div>
+                <img src=" assets/img/cards/{{gameService.game.players[2].playerCards[0]}}.svg">
+                <img class="second-card" src="assets/img/cards/{{gameService.game.players[2].playerCards[1]}}.svg">
+            </div>
+        </div>
+        <div class="player-4" [ngClass]="{'showCards': gameService.game.players[3].playersTurn}">
+            <div>player-4</div>
+            <div>
+                <img src=" assets/img/cards/{{gameService.game.players[3].playerCards[0]}}.svg">
+                <img class="second-card" src="assets/img/cards/{{gameService.game.players[3].playerCards[1]}}.svg">
+            </div>
         </div>
     </div>
-</div>
 
-<!-- Show winning cards -->
-<div *ngIf="gameService.game.roundEnds">
-    <div class="winning-cards" *ngIf="gameService.game.winningCards.length > 1">
-        <img src=" assets/img/cards/{{gameService.game.winningCards[0]}}.svg">
-        <img src=" assets/img/cards/{{gameService.game.winningCards[1]}}.svg">
-    </div>
-</div>
-
-<!-- Show possible moves -->
-<div *ngFor="let player of gameService.game.players;">
-    <div class="move-box" *ngIf="player.playersTurn && !gameService.game.roundEnds">
-        <span>Do you want to set money?</span>
-        <div>
-            <button (click)="gameService.playerSetMoney()"
-                *ngIf="!gameService.game.callIsPossible && !gameService.game.raiseIsPossible">+10</button>
-            <button (click)="gameService.playerCalled()" *ngIf="gameService.game.callIsPossible">Call</button>
-            <button (click)="gameService.playerRaise()" *ngIf="gameService.game.raiseIsPossible">Raise</button>
-            <button (click)="gameService.playerChecks()" *ngIf="gameService.game.checkIsPossible">Check</button>
-            <button (click)="gameService.playerFolded()">Fold <countdown class="countdown" #cd [config]="config"
-                    (event)="gameService.handleEventTimer($event)">
-                </countdown></button>
+    <!-- Show winning cards -->
+    <div *ngIf="gameService.game.roundEnds">
+        <div class="winning-cards" *ngIf="gameService.game.winningCards.length > 1">
+            <img src=" assets/img/cards/{{gameService.game.winningCards[0]}}.svg">
+            <img src=" assets/img/cards/{{gameService.game.winningCards[1]}}.svg">
         </div>
-        <span>Chips in pot {{gameService.game.allChipsInPot}}</span>
     </div>
-</div>
 
-<!-- Show which player wins and how much chips he gets -->
-<div class="show-winner-box" *ngIf="gameService.game.roundEnds">
-    <div *ngFor="let name of gameService.game.winningPlayersName;">
-        <span>Player {{name}} wons {{gameService.game.coinsWhichGetWinner}} Chips</span>
+    <!-- Show possible moves -->
+    <div *ngFor="let player of gameService.game.players;">
+        <div class="move-box" *ngIf="player.playersTurn && !gameService.game.roundEnds">
+            <span>Do you want to set money?</span>
+            <div>
+                <button (click)="gameService.playerSetMoney()"
+                    *ngIf="!gameService.game.callIsPossible && !gameService.game.raiseIsPossible">+10</button>
+                <button (click)="gameService.playerCalled()" *ngIf="gameService.game.callIsPossible">Call</button>
+                <button (click)="gameService.playerRaise()" *ngIf="gameService.game.raiseIsPossible">Raise</button>
+                <button (click)="gameService.playerChecks()" *ngIf="gameService.game.checkIsPossible">Check</button>
+                <button (click)="gameService.playerFolded()">Fold <countdown class="countdown" #cd [config]="config"
+                        (event)="gameService.handleEventTimer($event)">
+                    </countdown></button>
+            </div>
+            <span>Chips in pot {{gameService.game.allChipsInPot}}</span>
+        </div>
     </div>
+
+    <!-- Show which player wins and how much chips he gets -->
+    <div class="show-winner-box" *ngIf="gameService.game.roundEnds">
+        <div *ngFor="let name of gameService.game.winningPlayersName;">
+            <span>Player {{name}} wons {{gameService.game.coinsWhichGetWinner}} Chips</span>
+        </div>
+    </div>
+
 </div>
