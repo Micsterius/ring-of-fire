@@ -24,11 +24,11 @@
     <mat-icon>add</mat-icon>
 </button>-->
 
-    <app-game-hints [numberOfPlayers]="gameService.game.players.length"
+    <!--    <app-game-hints [numberOfPlayers]="gameService.game.players.length"
         [mouseIsOverDeveloperModeBtn]="gameService.mouseOverValueDeveloperModeBtn"
         [hideHintForDeveloperMode]="gameService.hideHintForDeveloperMode"
         [sameIpAddress]="gameService.sameIpAddress"></app-game-hints>
-    <!--
+   
 <button (mouseover)="mouseOverDeveloperModeBtn()" (mouseout)="mouseOutDeveloperModeBtn()"
     *ngIf="game.players.length == 0 && !game.developerMode" mat-raised-button class="btn-developer-mode" color="accent"
     (click)="activateDeveloperMode()">Developer mode</button>-->
@@ -40,29 +40,33 @@
     </div>
 
     <!-- Show all cards -->
-    <div *ngIf="gameService.game.players.length > 1 && gameService.game.pokerGameIsStarted">
-        <div class="player-1" [ngClass]="{'showCards': gameService.game.players[0].playersTurn}">
+    <div class="player-cards" *ngIf="gameService.game.players.length > 1 && gameService.game.pokerGameIsStarted">
+        <div class="player-1"
+            [ngClass]="{'showCards': gameService.game.players[0].playersTurn && !gameService.game.roundEnds}">
             <div>player-1</div>
             <div>
                 <img src=" assets/img/cards/{{gameService.game.players[0].playerCards[0]}}.svg">
                 <img class="second-card" src="assets/img/cards/{{gameService.game.players[0].playerCards[1]}}.svg">
             </div>
         </div>
-        <div class="player-2" [ngClass]="{'showCards': gameService.game.players[1].playersTurn}">
+        <div class="player-2"
+            [ngClass]="{'showCards': gameService.game.players[1].playersTurn && !gameService.game.roundEnds}">
             <div>player-2</div>
             <div>
                 <img src=" assets/img/cards/{{gameService.game.players[1].playerCards[0]}}.svg">
                 <img class="second-card" src="assets/img/cards/{{gameService.game.players[1].playerCards[1]}}.svg">
             </div>
         </div>
-        <div class="player-3" [ngClass]="{'showCards': gameService.game.players[2].playersTurn}">
+        <div class="player-3"
+            [ngClass]="{'showCards': gameService.game.players[2].playersTurn && !gameService.game.roundEnds}">
             <div>player-3</div>
             <div>
                 <img src=" assets/img/cards/{{gameService.game.players[2].playerCards[0]}}.svg">
                 <img class="second-card" src="assets/img/cards/{{gameService.game.players[2].playerCards[1]}}.svg">
             </div>
         </div>
-        <div class="player-4" [ngClass]="{'showCards': gameService.game.players[3].playersTurn}">
+        <div class="player-4"
+            [ngClass]="{'showCards': gameService.game.players[3].playersTurn && !gameService.game.roundEnds}">
             <div>player-4</div>
             <div>
                 <img src=" assets/img/cards/{{gameService.game.players[3].playerCards[0]}}.svg">
@@ -80,8 +84,9 @@
     </div>
 
     <!-- Show possible moves -->
-    <div *ngFor="let player of gameService.game.players;">
+    <div class="move-box-container" *ngFor="let player of gameService.game.players;">
         <div class="move-box" *ngIf="player.playersTurn && !gameService.game.roundEnds">
+            <div class="move-box-background"></div>
             <span>Do you want to set money?</span>
             <div>
                 <button (click)="gameService.playerSetMoney()"
