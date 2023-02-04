@@ -24,7 +24,7 @@ export class GameComponent implements OnInit {
 
 
   config: CountdownConfig = {
-    leftTime: 15,
+    leftTime: 30,
     formatDate: ({ date }) => `${date / 1000}`,
   }
 

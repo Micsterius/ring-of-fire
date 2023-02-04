@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
+import { GeneralService } from './shares/services/general.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,19 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'ring-of-fire';
+
+  constructor(
+    public generalService: GeneralService) { }
+
+  ngOnInit() {
+    this.generalService.windowWidth = window.innerWidth;
+    this.generalService.windowHeight = window.innerHeight;
+  }
+
+  @HostListener('window:resize', ['$event'])
+
+  resizeWindow() {
+    this.generalService.windowWidth = window.innerWidth;
+    this.generalService.windowHeight = window.innerHeight;
+  }
 }

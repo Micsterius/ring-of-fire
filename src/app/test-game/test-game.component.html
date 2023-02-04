@@ -40,37 +40,50 @@
     </div>
 
     <!-- Show all cards -->
-    <div class="player-cards" *ngIf="gameService.game.players.length > 1 && gameService.game.pokerGameIsStarted">
+    <div class="player-cards"
+        *ngIf="gameService.game.players.length > 1 && gameService.game.pokerGameIsStarted && generalService.windowHeight >= 750">
         <div class="player-1"
             [ngClass]="{'showCards': gameService.game.players[0].playersTurn && !gameService.game.roundEnds}">
-            <div>player-1</div>
-            <div>
+            <div class="mg-top12">player-1</div>
+            <div [ngClass]="{'op-05': gameService.game.players[0].folded}">
                 <img src=" assets/img/cards/{{gameService.game.players[0].playerCards[0]}}.svg">
                 <img class="second-card" src="assets/img/cards/{{gameService.game.players[0].playerCards[1]}}.svg">
             </div>
         </div>
         <div class="player-2"
             [ngClass]="{'showCards': gameService.game.players[1].playersTurn && !gameService.game.roundEnds}">
-            <div>player-2</div>
-            <div>
+            <div class="mg-top12">player-2</div>
+            <div [ngClass]="{'op-05': gameService.game.players[1].folded}">
                 <img src=" assets/img/cards/{{gameService.game.players[1].playerCards[0]}}.svg">
                 <img class="second-card" src="assets/img/cards/{{gameService.game.players[1].playerCards[1]}}.svg">
             </div>
         </div>
         <div class="player-3"
             [ngClass]="{'showCards': gameService.game.players[2].playersTurn && !gameService.game.roundEnds}">
-            <div>player-3</div>
-            <div>
+            <div class="mg-top12">player-3</div>
+            <div [ngClass]="{'op-05': gameService.game.players[2].folded}">
                 <img src=" assets/img/cards/{{gameService.game.players[2].playerCards[0]}}.svg">
                 <img class="second-card" src="assets/img/cards/{{gameService.game.players[2].playerCards[1]}}.svg">
             </div>
         </div>
         <div class="player-4"
             [ngClass]="{'showCards': gameService.game.players[3].playersTurn && !gameService.game.roundEnds}">
-            <div>player-4</div>
-            <div>
+            <div class="mg-top12">player-4</div>
+            <div [ngClass]="{'op-05': gameService.game.players[3].folded}">
                 <img src=" assets/img/cards/{{gameService.game.players[3].playerCards[0]}}.svg">
                 <img class="second-card" src="assets/img/cards/{{gameService.game.players[3].playerCards[1]}}.svg">
+            </div>
+        </div>
+    </div>
+
+    <!-- Show all cards small screen -->
+    <div
+        *ngIf="gameService.game.players.length > 1 && gameService.game.pokerGameIsStarted && generalService.windowHeight < 750">
+        <div class="player-small" *ngFor="let players of gameService.game.players;"
+            [ngClass]="{'showCardsSmall': players.playersTurn && !gameService.game.roundEnds}">
+            <div>
+                <img src=" assets/img/cards/{{players.playerCards[0]}}.svg">
+                <img src="assets/img/cards/{{players.playerCards[1]}}.svg">
             </div>
         </div>
     </div>

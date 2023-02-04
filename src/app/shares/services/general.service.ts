@@ -5,5 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class GeneralService {
   testModus: boolean = true;
+  windowWidth: any;
+  windowHeight: any;
   constructor() { }
 }

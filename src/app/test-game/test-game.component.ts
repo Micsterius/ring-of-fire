@@ -12,13 +12,14 @@ import { GeneralService } from '../shares/services/general.service';
 export class TestGameComponent implements OnInit {
 
   config: CountdownConfig = {
-    leftTime: 15,
+    leftTime: 30,
     formatDate: ({ date }) => `${date / 1000}`,
   }
 
   constructor(
     private route: ActivatedRoute,
-    public gameService: GameServiceService) {
+    public gameService: GameServiceService,
+    public generalService: GeneralService) {
 
   }
 
@@ -30,7 +31,9 @@ export class TestGameComponent implements OnInit {
       .subscribe((params) => this.gameService.startGame(params['id']));
     this.activateDeveloperMode();
     setTimeout(() => {
-      this.createThreePlayers();
+      if (this.gameService.game.players.length == 0) {
+        this.createThreePlayers();
+      }
     }, 1000);
   }
 
