@@ -8,7 +8,7 @@ export class AudioService {
   foldSound;
   checkSound;
   cardSound;
-  volume: number = 1;
+  volume: number = 1; // perhaps integrate for volume range slide later, in the moment boolean would be enough
   constructor() {
     this.createSounds();
   }
