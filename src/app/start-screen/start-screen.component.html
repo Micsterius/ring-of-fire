@@ -9,18 +9,22 @@
         <img class="img-start-screen2" src="assets/img/cards/card_cover.png">
         <img class="img-start-screen3" src="assets/img/cards/card_cover.png">
         <img class="img-start-screen4" src="assets/img/cards/card_cover.png">
+        <div class="title">
+            <span>Texas holdem</span>
+            <mat-icon matTooltip="FAQ" fontIcon="help_outline"></mat-icon>
+        </div>
     </div>
-<div class="start-game-button-box">
+    <div class="start-game-button-box">
         <div class="start-game-button">
-        <div (click)="startNewTestGame()" class="start-game-button-background">
-            <div class="text-start-screen-button color-main-hover">Try alone</div>
+            <div (click)="startNewTestGame()" class="start-game-button-background">
+                <div class="text-start-screen-button color-main-hover">Try alone</div>
+            </div>
+        </div>
+        <div class="start-game-button">
+            <div (click)="openDialog()" class="start-game-button-background-mir">
+                <div class="text-start-screen-button color-secondary-hover">Invite friends</div>
+            </div>
         </div>
     </div>
-    <div class="start-game-button">
-        <div (click)="openDialog()" class="start-game-button-background-mir">
-            <div class="text-start-screen-button color-secondary-hover">Invite friends</div>
-        </div>
-    </div>
-</div>
 
 </div>

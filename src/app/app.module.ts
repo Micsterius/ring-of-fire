@@ -27,6 +27,8 @@ import { CardsOfTableComponent } from './cards-of-table/cards-of-table.component
 import { DialogTestMmodusComponent } from './dialog-test-mmodus/dialog-test-mmodus.component';
 import { TestGameComponent } from './test-game/test-game.component';
 import { DialogInviteFriendsComponent } from './dialog-invite-friends/dialog-invite-friends.component';
+import { DialogFaqComponent } from './dialog-faq/dialog-faq.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 
 @NgModule({
@@ -41,7 +43,8 @@ import { DialogInviteFriendsComponent } from './dialog-invite-friends/dialog-inv
     CardsOfTableComponent,
     DialogTestMmodusComponent,
     TestGameComponent,
-    DialogInviteFriendsComponent
+    DialogInviteFriendsComponent,
+    DialogFaqComponent
   ],
   imports: [
     BrowserModule,
@@ -55,6 +58,7 @@ import { DialogInviteFriendsComponent } from './dialog-invite-friends/dialog-inv
     MatCardModule,
     BrowserModule,
     CountdownModule, 
+    MatTooltipModule,
     AngularFireModule.initializeApp(environment.firebase),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),

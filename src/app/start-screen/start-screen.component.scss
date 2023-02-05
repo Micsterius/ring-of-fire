@@ -32,19 +32,27 @@
             height: 350px;
         }
 
-        @media (max-height: 650px) {
+        @media (max-height: 750px) {
             height: 300px;
         }
 
-        @media (max-height: 560px) {
+        @media (max-height: 650px) {
             height: 240px;
         }
 
-        @media (max-height: 460px) {
+        @media (max-height: 550px) {
             height: 200px;
         }
 
-        @media (max-height: 360px) {
+        @media (max-height: 480px) {
+            height: 180px;
+        }
+
+        @media (max-height: 430px) {
+            height: 150px;
+        }
+
+        @media (max-height: 370px) {
             height: 180px;
         }
     }
@@ -56,7 +64,7 @@
     top: 15%;
     transform: translate(-50%) rotate(-25deg);
 
-    @media (max-height: 560px) {
+    @media (max-height: 650px) {
         left: 55%;
     }
 }
@@ -75,6 +83,66 @@
     transform: translate(-50%) rotate(105deg);
 }
 
+.title {
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    color: white;
+    font-size: 40px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    span {
+        margin-right: 40px;
+    }
+
+    mat-icon{
+        width: 40px;
+        height: 40px;
+        font-size: 40px;
+
+        &:hover {
+            cursor: pointer;
+        }
+
+        @media (max-height: 480px) {
+            width: 30px;
+            height: 30px;
+            font-size: 30px;
+        }
+    }
+
+    @media (max-height: 650px) {
+        top: 75%;
+    }
+
+    @media (max-height: 580px) {
+        top: 78%;
+    }
+
+    @media (max-height: 550px) {
+        top: 75%;
+    }
+
+    @media (max-height: 480px) {
+        font-size: 30px;
+    }
+
+    @media (max-height: 370px) {
+        top: 50%;
+        z-index: 5;
+        background-color: var(--background);
+        padding: 8px;
+        border: 1px solid var(--secondaryColor);
+        border-radius: 8px;
+    }
+
+}
+
 .start-game-button-box {
     position: relative;
     top: 90%;
@@ -83,11 +151,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
+    @media (max-height: 380px) {
+        top: 88%;
+    }
+
+    @media (max-height: 330px) {
+        top: 85%;
+    }
 }
 
 .start-game-button {
-
-    padding: 2px;
     border-radius: 16px;
     width: 280px;
     height: 80px;
@@ -158,13 +232,13 @@
     }
 }
 
-.color-main-hover{
+.color-main-hover {
     &:hover {
         color: var(--mainColor);
     }
 }
 
-.color-secondary-hover{
+.color-secondary-hover {
     &:hover {
         color: var(--secondaryColor);
     }
