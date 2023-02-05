@@ -42,10 +42,10 @@ export class TestGameComponent implements OnInit {
   }
 
   createThreePlayers() {
-    this.gameService.createPlayer('player-1');
-    this.gameService.createPlayer('player-2');
-    this.gameService.createPlayer('player-3');
-    this.gameService.createPlayer('player-4');
+    this.gameService.createPlayer('J. Bond');
+    this.gameService.createPlayer('Fire');
+    this.gameService.createPlayer('Lady B.');
+    this.gameService.createPlayer('Skull King');
   }
 
 }

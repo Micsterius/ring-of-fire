@@ -100,7 +100,7 @@
     <div class="move-box-container" *ngFor="let player of gameService.game.players;">
         <div class="move-box" *ngIf="player.playersTurn && !gameService.game.roundEnds">
             <div class="move-box-background"></div>
-            <span>Do you want to set money?</span>
+            <span>Play for <span class="player-color">{{player.playerName}}</span></span>
             <div>
                 <button (click)="gameService.playerSetMoney()"
                     *ngIf="!gameService.game.callIsPossible && !gameService.game.raiseIsPossible">+10</button>
