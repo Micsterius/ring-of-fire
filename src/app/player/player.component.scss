@@ -6,23 +6,39 @@
     overflow: auto;
     max-height: 1100px;
     align-items: end;
+    width: 400px;
+
+    @media (max-width: 1700px) {
+        width: 300px;
+    }
 }
 
 
 .player {
+    position: relative;
     width: 300px;
     background-color: rgb(240, 217, 175);
     opacity: 0.7;
     margin-top: 16px;
 
-    border-bottom-left-radius: 60px;
-    border-top-left-radius: 60px;
+    border-bottom-left-radius: 50px;
+    border-top-left-radius: 50px;
+
+    @media (max-width: 1700px) {
+        border-bottom-left-radius: 60px;
+        border-top-left-radius: 60px;
+    }
 
     .icon-img {
-        width: 120px;
-        height: 120px;
+        width: 70px;
+        height: 70px;
         object-fit: cover;
         border-radius: 100%;
+
+        @media (max-width: 1700px) {
+            width: 120px;
+            height: 120px;
+        }
     }
 
     span {
@@ -54,9 +70,12 @@
     width: 100%;
 }
 
-.player-infos-container{
+.player-infos-container {
     display: flex;
-    flex-direction: column;
+
+    @media (max-width: 1700px) {
+        flex-direction: column;
+    }
 }
 
 .player-name {
@@ -207,7 +226,26 @@
     display: flex;
 }
 
+.poker-chips-box-under-1700 {
+    display: none;
+
+    @media (max-width: 1700px) {
+        display: block;
+    }
+}
+
 .poker-chips {
     height: 50px;
     object-fit: cover;
+}
+
+.poker-chips-box-over-1700 {
+    position: absolute;
+    left: -100px;
+    bottom: 0;
+
+    img {
+        height: 70px;
+        width: 94px;
+    }
 }

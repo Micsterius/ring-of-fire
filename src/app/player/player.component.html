@@ -13,9 +13,13 @@
                         <div>Chips: {{ player.numberOfChips }}</div>
                     </div>
                 </div>
-                <div>
+                <div class="poker-chips-box-under-1700">
                     <img class="poker-chips" src="assets/img/chips-player/poker-chips_{{checkPlayersNumberOfChips(player.numberOfChips)}}.png">
                 </div>
+            </div>
+
+            <div class="poker-chips-box-over-1700">
+                <img src="assets/img/chips-player/poker-chips_{{checkPlayersNumberOfChips(player.numberOfChips)}}.png">
             </div>
         </div>
     </div>
