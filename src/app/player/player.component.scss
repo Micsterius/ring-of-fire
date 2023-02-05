@@ -39,6 +39,11 @@
             width: 120px;
             height: 120px;
         }
+
+        @media (max-width: 700px) {
+            width: 80px;
+            height: 80px;
+        }
     }
 
     span {
@@ -93,11 +98,6 @@
         width: 280px;
         margin-top: 12px;
 
-        img {
-            width: 60px;
-            height: 60px;
-        }
-
         span {
             font-size: 20px;
         }
@@ -113,11 +113,6 @@
         width: 220px;
         margin-top: 8px;
 
-        img {
-            width: 40px;
-            height: 40px;
-        }
-
         span {
             font-size: 16px;
         }
@@ -130,12 +125,7 @@
     }
 
     .player {
-        width: 140px;
-
-        img {
-            width: 40px;
-            height: 40px;
-        }
+        width: 150px;
 
         span {
             font-size: 16px;
@@ -172,11 +162,6 @@
         width: 220px;
         margin-top: 8px;
 
-        img {
-            width: 40px;
-            height: 40px;
-        }
-
         span {
             font-size: 16px;
         }
@@ -190,11 +175,6 @@
 
     .player {
         width: 140px;
-
-        img {
-            width: 40px;
-            height: 40px;
-        }
 
         span {
             font-size: 16px;
@@ -237,6 +217,14 @@
 .poker-chips {
     height: 50px;
     object-fit: cover;
+
+    @media (max-width: 700px) {
+        height: 30px;
+    }
+
+    @media (max-width: 450px) {
+        display: none;
+    }
 }
 
 .poker-chips-box-over-1700 {
@@ -248,16 +236,20 @@
         height: 70px;
         width: 94px;
     }
+
+    @media (max-width: 1700px) {
+        display: none;
+    }
 }
 
-.winning-coins-box{
+.winning-coins-box {
     position: relative;
     top: 0;
     bottom: 0;
     left: 0;
     width: 94px;
 
-    div{
+    div {
         position: absolute;
         top: 50%;
         left: 50%;

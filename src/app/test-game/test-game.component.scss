@@ -423,6 +423,15 @@
     @media (max-width: 1200px) {
         left: 40%;
     }
+
+    @media (max-width: 400px) {
+        width: 240px;
+    }
+
+    @media (max-width: 350px) {
+        width: 200px;
+        left: 50%;
+    }
 }
 
 .flop-cards-container {

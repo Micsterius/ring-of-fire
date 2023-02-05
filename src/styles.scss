@@ -41,14 +41,3 @@ body {
     top: 0;
 }
 
-.color-main-hover{
-    &:hover {
-        color: var(--mainColor);
-    }
-}
-
-.color-secondary-hover{
-    &:hover {
-        color: var(--secondaryColor);
-    }
-}

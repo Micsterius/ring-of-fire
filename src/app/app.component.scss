@@ -1,0 +1,16 @@
+div {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100vw;
+    max-width: 1800px;
+    height: 100vh;
+    border-left: 4px solid var(--secondaryColor);
+    border-right: 4px solid var(--secondaryColor);
+    z-index: -1;
+
+    @media (max-width: 1800px) {
+display: none;
+    }
+}
