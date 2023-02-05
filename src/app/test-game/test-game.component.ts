@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CountdownConfig } from 'ngx-countdown';
 import { AudioService } from '../shares/services/audio.service';
 import { GameServiceService } from '../shares/services/game-service.service';
@@ -21,6 +21,7 @@ export class TestGameComponent implements OnInit {
     private route: ActivatedRoute,
     public gameService: GameServiceService,
     public generalService: GeneralService,
+    private router: Router,
     public audioService: AudioService) {
 
   }
@@ -48,6 +49,10 @@ export class TestGameComponent implements OnInit {
     this.gameService.createPlayer('Fire');
     this.gameService.createPlayer('Lady B.');
     this.gameService.createPlayer('Skull King');
+  }
+
+  goBackToStartScreen(){
+    this.router.navigateByUrl('');
   }
 
 }

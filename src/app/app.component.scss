@@ -8,9 +8,9 @@ div {
     height: 100vh;
     border-left: 4px solid var(--secondaryColor);
     border-right: 4px solid var(--secondaryColor);
-    z-index: -1;
+    background-color: var(--background);
 
-    @media (max-width: 1800px) {
-display: none;
+    @media (max-width: 1799px) {
+        display: none;
     }
 }

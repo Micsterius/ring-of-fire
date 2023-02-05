@@ -1,4 +1,7 @@
 <div class="game-container">
+    <div class="home-icon" (click)="goBackToStartScreen()">
+        <mat-icon matTooltip="home" fontIcon="home"></mat-icon>
+    </div>
     <div class="app-player-container">
         <app-player [players]="gameService.game.players" class="player-position">
         </app-player>
@@ -28,7 +31,7 @@
         *ngIf="gameService.game.players.length > 1 && gameService.game.pokerGameIsStarted && generalService.windowHeight >= 750">
         <div class="player-1"
             [ngClass]="{'showCards': gameService.game.players[0].playersTurn && !gameService.game.roundEnds}">
-            <div class="mg-top12">player-1</div>
+            <div class="mg-top12">{{gameService.game.players[0].playerName}}</div>
             <div [ngClass]="{'op-05': gameService.game.players[0].folded}">
                 <img src=" assets/img/cards/{{gameService.game.players[0].playerCards[0]}}.svg">
                 <img class="second-card" src="assets/img/cards/{{gameService.game.players[0].playerCards[1]}}.svg">
@@ -36,7 +39,7 @@
         </div>
         <div class="player-2"
             [ngClass]="{'showCards': gameService.game.players[1].playersTurn && !gameService.game.roundEnds}">
-            <div class="mg-top12">player-2</div>
+            <div class="mg-top12">{{gameService.game.players[1].playerName}}</div>
             <div [ngClass]="{'op-05': gameService.game.players[1].folded}">
                 <img src=" assets/img/cards/{{gameService.game.players[1].playerCards[0]}}.svg">
                 <img class="second-card" src="assets/img/cards/{{gameService.game.players[1].playerCards[1]}}.svg">
@@ -44,7 +47,7 @@
         </div>
         <div class="player-3"
             [ngClass]="{'showCards': gameService.game.players[2].playersTurn && !gameService.game.roundEnds}">
-            <div class="mg-top12">player-3</div>
+            <div class="mg-top12">{{gameService.game.players[2].playerName}}</div>
             <div [ngClass]="{'op-05': gameService.game.players[2].folded}">
                 <img src=" assets/img/cards/{{gameService.game.players[2].playerCards[0]}}.svg">
                 <img class="second-card" src="assets/img/cards/{{gameService.game.players[2].playerCards[1]}}.svg">
@@ -52,7 +55,7 @@
         </div>
         <div class="player-4"
             [ngClass]="{'showCards': gameService.game.players[3].playersTurn && !gameService.game.roundEnds}">
-            <div class="mg-top12">player-4</div>
+            <div class="mg-top12">{{gameService.game.players[3].playerName}}</div>
             <div [ngClass]="{'op-05': gameService.game.players[3].folded}">
                 <img src=" assets/img/cards/{{gameService.game.players[3].playerCards[0]}}.svg">
                 <img class="second-card" src="assets/img/cards/{{gameService.game.players[3].playerCards[1]}}.svg">

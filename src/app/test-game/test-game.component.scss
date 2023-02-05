@@ -441,13 +441,13 @@
     height: 220px;
     width: 100%;
 
-    &:hover {
-        z-index: 6;
-    }
-
     @media (max-height: 980px) {
         bottom: 24px;
         height: 180px;
+
+        &:hover {
+            z-index: 6;
+        }
     }
 }
 
