@@ -8,6 +8,7 @@ export class AudioService {
   foldSound;
   checkSound;
   cardSound;
+  volume: number = 1;
   constructor() {
     this.createSounds();
   }
@@ -27,14 +28,22 @@ export class AudioService {
   }
 
   playMoneySound() {
-    this.moneySound.play()
+    if (this.volume != 0) this.moneySound.play()
+  }
+
+  soundOff() {
+    this.volume = 0;
+  }
+
+  soundOn() {
+    this.volume = 1;
   }
 
   playFoldSound() {
-    this.foldSound.play()
+    if (this.volume != 0) this.foldSound.play()
   }
 
   playCheckSound() {
-    this.checkSound.play()
+    if (this.volume != 0) this.checkSound.play()
   }
 }

@@ -2,6 +2,12 @@
     <div class="home-icon" (click)="goBackToStartScreen()">
         <mat-icon matTooltip="home" fontIcon="home"></mat-icon>
     </div>
+    <div *ngIf="audioService.volume == 1" class="sound-icon" (click)="audioService.soundOff()">
+        <mat-icon fontIcon="volume_up"></mat-icon>
+    </div>
+    <div *ngIf="audioService.volume == 0" class="sound-icon" (click)="audioService.soundOn()">
+        <mat-icon fontIcon="volume_off"></mat-icon>
+    </div>
     <div class="app-player-container">
         <app-player [players]="gameService.game.players" class="player-position">
         </app-player>
