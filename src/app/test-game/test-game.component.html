@@ -104,10 +104,10 @@
             <div>
                 <button (click)="gameService.playerSetMoney()"
                     *ngIf="!gameService.game.callIsPossible && !gameService.game.raiseIsPossible">+10</button>
-                <button (click)="gameService.playerCalled()" *ngIf="gameService.game.callIsPossible">Call</button>
-                <button (click)="gameService.playerRaise()" *ngIf="gameService.game.raiseIsPossible">Raise</button>
-                <button (click)="gameService.playerChecks()" *ngIf="gameService.game.checkIsPossible">Check</button>
-                <button (click)="gameService.playerFolded()">Fold <countdown class="countdown" #cd [config]="config"
+                <button (click)="gameService.playerCalled(); audioService.playMoneySound()" *ngIf="gameService.game.callIsPossible">Call</button>
+                <button (click)="gameService.playerRaise(); audioService.playMoneySound()" *ngIf="gameService.game.raiseIsPossible">Raise</button>
+                <button (click)="gameService.playerChecks(); audioService.playCheckSound()" *ngIf="gameService.game.checkIsPossible">Check</button>
+                <button (click)="gameService.playerFolded(); audioService.playFoldSound()">Fold <countdown class="countdown" #cd [config]="config"
                         (event)="gameService.handleEventTimer($event)">
                     </countdown></button>
             </div>

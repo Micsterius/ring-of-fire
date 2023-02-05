@@ -249,3 +249,22 @@
         width: 94px;
     }
 }
+
+.winning-coins-box{
+    position: relative;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 94px;
+
+    div{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #FFBA15;
+        font-weight: 600;
+        font-size: 40px;
+        line-height: 40px;
+    }
+}

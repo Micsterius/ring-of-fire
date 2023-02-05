@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogAddPlayerComponent } from 'src/app/dialog-add-player/dialog-add-player.component';
 import { Game } from 'src/models/game';
 import { Player } from 'src/models/player';
+import { AudioService } from './audio.service';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +29,7 @@ export class GameServiceService {
   constructor(
     private firestore: AngularFirestore,
     public dialog: MatDialog,
+    public audioService: AudioService
   ) { }
 
   addItem(newItem: string) {
@@ -80,8 +82,13 @@ export class GameServiceService {
   handleEventTimer(event) {
     this.timerStatus = event.action;
     if (this.timerStatus === "done") {
-      if (this.game.checkIsPossible) this.playerChecks();
-      else this.playerFolded();
+      if (this.game.checkIsPossible) {
+        this.playerChecks();
+        this.audioService.playCheckSound();
+      }
+      else {
+        this.playerFolded();
+        this.audioService.playFoldSound()};
     };
   }
 
@@ -351,12 +358,12 @@ export class GameServiceService {
       const cards = winners[i].cards;
       let cardsArray = cards.split(',');
       this.game.winningCards.push(cardsArray[0]);
-     // this.game.winningCards.push(cardsArray[1]);
       this.game.winningPlayersResult.push(winners[i].result);
     }
     this.findPlayerWithWinningCards(winners);
     this.distributeChips(winners);
     this.saveGame();
+    this.audioService.playMoneySound();
   }
 
   findPlayerWithWinningCards(winners) {

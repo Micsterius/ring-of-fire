@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { GameServiceService } from '../shares/services/game-service.service';
 
 @Component({
   selector: 'app-player',
@@ -12,7 +13,9 @@ export class PlayerComponent implements OnInit {
   //game.userImages = ['user-img-1.jpg', 'user-img-4.svg', 'user-img-3.svg', 'user-img-5.svg', 'user-img-2.svg', 'user-img-6.svg']
 
 
-  constructor() { }
+  constructor(
+    public gameService:GameServiceService
+  ) { }
 
   ngOnInit(): void {
   }

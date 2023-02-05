@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CountdownConfig } from 'ngx-countdown';
+import { AudioService } from '../shares/services/audio.service';
 import { GameServiceService } from '../shares/services/game-service.service';
 import { GeneralService } from '../shares/services/general.service';
 
@@ -19,7 +20,8 @@ export class TestGameComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     public gameService: GameServiceService,
-    public generalService: GeneralService) {
+    public generalService: GeneralService,
+    public audioService: AudioService) {
 
   }
 
