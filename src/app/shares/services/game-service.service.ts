@@ -341,6 +341,7 @@ export class GameServiceService {
 
     let response = await fetch(url);
     let a = await response.json();
+    console.log(a.winners)
     this.game.roundEnds = true;
     this.findPlayersWithTheseCards(a.winners)
   }
@@ -350,7 +351,7 @@ export class GameServiceService {
       const cards = winners[i].cards;
       let cardsArray = cards.split(',');
       this.game.winningCards.push(cardsArray[0]);
-      this.game.winningCards.push(cardsArray[1]);
+     // this.game.winningCards.push(cardsArray[1]);
       this.game.winningPlayersResult.push(winners[i].result);
     }
     this.findPlayerWithWinningCards(winners);
