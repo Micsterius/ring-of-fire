@@ -75,18 +75,23 @@
     transform: translate(-50%) rotate(105deg);
 }
 
-.start-game-button {
+.start-game-button-box {
     position: relative;
     top: 90%;
     left: 50%;
     transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.start-game-button {
+
     padding: 2px;
     border-radius: 16px;
     width: 280px;
     height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
 
     @media (max-height: 440px) {
         top: 80%;
@@ -139,16 +144,29 @@
 .text-start-screen-button {
     color: white;
     font-size: 25px;
-    position: absolute;
     width: 100%;
     height: 100%;
     line-height: 70px;
     text-align: center;
     z-index: 10;
 
+    margin-right: 8px;
+    margin-left: 8px;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.color-main-hover{
     &:hover {
         color: var(--mainColor);
-        cursor: pointer;
+    }
+}
+
+.color-secondary-hover{
+    &:hover {
+        color: var(--secondaryColor);
     }
 }
 
@@ -163,3 +181,53 @@
     }
 }
 
+.start-game-button-background-mir {
+    width: 280px;
+    height: 80px;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--background);
+}
+
+.start-game-button-background-mir::before {
+    content: "";
+    background-image: conic-gradient(var(--secondaryColor) 20deg,
+            transparent 120deg);
+    width: 150%;
+    height: 150%;
+    position: absolute;
+
+    animation: rotateMir 2s linear infinite;
+}
+
+.start-game-button-background-mir::after {
+    content: "";
+    background-image: conic-gradient(#ffffff 20deg,
+            transparent 120deg);
+    width: 270px;
+    height: 70px;
+    position: absolute;
+    background: var(--background);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes rotateMir {
+    0% {
+        transform: rotate(-180deg);
+    }
+
+    100% {
+        transform: rotate(180deg);
+    }
+}

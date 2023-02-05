@@ -102,7 +102,7 @@
             <div class="move-box-background"></div>
             <span>Play for <span class="player-color">{{player.playerName}}</span></span>
             <div>
-                <button (click)="gameService.playerSetMoney()"
+                <button (click)="gameService.playerSetMoney(); audioService.playMoneySound()"
                     *ngIf="!gameService.game.callIsPossible && !gameService.game.raiseIsPossible">+10</button>
                 <button (click)="gameService.playerCalled(); audioService.playMoneySound()" *ngIf="gameService.game.callIsPossible">Call</button>
                 <button (click)="gameService.playerRaise(); audioService.playMoneySound()" *ngIf="gameService.game.raiseIsPossible">Raise</button>

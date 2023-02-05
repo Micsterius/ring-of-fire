@@ -264,7 +264,7 @@
 
 .winning-cards {
     position: absolute;
-    background-color: #D4af37;
+    background-color: var(--secondaryColor);
     top: 50%;
     right: 10%;
     z-index: 10;

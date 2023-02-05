@@ -3,6 +3,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Game } from 'src/models/game';
+import { DialogInviteFriendsComponent } from '../dialog-invite-friends/dialog-invite-friends.component';
 import { DialogTestMmodusComponent } from '../dialog-test-mmodus/dialog-test-mmodus.component';
 
 @Component({
@@ -20,6 +21,15 @@ export class StartScreenComponent implements OnInit {
   }
 
   openDialog() {
-    let dialogRef = this.dialog.open(DialogTestMmodusComponent, {})
+    let dialogRef = this.dialog.open(DialogInviteFriendsComponent, {})
+  }
+
+  startNewTestGame() {
+    //start game
+    let game = new Game;
+    this.firestore
+      .collection('games')
+      .add({ ...game.toJson() })
+      .then((gameInfo: any) => this.router.navigateByUrl('/testgame/' + gameInfo.id));
   }
 }
