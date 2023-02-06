@@ -113,7 +113,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
 
-    color: white;
+    color: var(--secondaryColor);
     font-size: 40px;
 
     display: flex;
@@ -139,9 +139,11 @@
         width: 40px;
         height: 40px;
         font-size: 40px;
+        color: white;
 
         &:hover {
             cursor: pointer;
+            color: var(--secondaryColor);
         }
 
         @media (max-height: 480px) {

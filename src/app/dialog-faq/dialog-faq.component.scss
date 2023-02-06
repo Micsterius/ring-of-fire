@@ -70,4 +70,24 @@ h2 {
 .img-faq{
     height: 100px;
     object-fit: cover;
+
+    @media (max-width: 550px) {
+        height: 90px;
+    }
+
+    @media (max-width: 480px) {
+        height: 80px;
+    }
+
+    @media (max-width: 430px) {
+        height: 70px;
+    }
+
+    @media (max-width: 390px) {
+        height: 60px;
+    }
+
+    @media (max-width: 350px) {
+        height: 50px;
+    }
 }
