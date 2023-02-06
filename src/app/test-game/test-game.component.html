@@ -5,7 +5,7 @@
     <div *ngIf="audioService.volume == 1" class="sound-icon" (click)="audioService.soundOff()">
         <mat-icon fontIcon="volume_up"></mat-icon>
     </div>
-    <div *ngIf="audioService.volume == 1" class="faq-icon" (click)="audioService.soundOff()">
+    <div class="faq-icon" (click)="openDialogFAQ()">
         <mat-icon matTooltip="FAQ" fontIcon="help_outline"></mat-icon>
     </div>
     <div *ngIf="audioService.volume == 0" class="sound-icon" (click)="audioService.soundOn()">
@@ -112,6 +112,8 @@
             </div>
             <span>Chips in pot {{gameService.game.allChipsInPot}}</span>
         </div>
+
+
     </div>
 
     <!-- Show which player wins and how much chips he gets -->
