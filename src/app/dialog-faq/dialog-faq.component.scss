@@ -62,3 +62,12 @@ h2 {
 ::ng-deep .mat-expansion-indicator:after {
     color: var(--secondaryColor) !important;
 }
+
+::ng-deep .mat-expansion-panel:not(.mat-expanded):not([aria-disabled=true]) .mat-expansion-panel-header:hover {
+    background: var(--background);
+}
+
+.img-faq{
+    height: 100px;
+    object-fit: cover;
+}
