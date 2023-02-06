@@ -14,12 +14,12 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { GameInfoComponent } from './game-info/game-info.component';
-import {MatCardModule} from '@angular/material/card';
-import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { MatCardModule } from '@angular/material/card';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
-import { provideAuth,getAuth } from '@angular/fire/auth';
-import { provideDatabase,getDatabase } from '@angular/fire/database';
-import { provideFirestore,getFirestore } from '@angular/fire/firestore';
+import { provideAuth, getAuth } from '@angular/fire/auth';
+import { provideDatabase, getDatabase } from '@angular/fire/database';
+import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { AngularFireModule } from '@angular/fire/compat';
 import { CountdownModule } from 'ngx-countdown';
 import { GameHintsComponent } from './game-hints/game-hints.component';
@@ -28,7 +28,10 @@ import { DialogTestMmodusComponent } from './dialog-test-mmodus/dialog-test-mmod
 import { TestGameComponent } from './test-game/test-game.component';
 import { DialogInviteFriendsComponent } from './dialog-invite-friends/dialog-invite-friends.component';
 import { DialogFaqComponent } from './dialog-faq/dialog-faq.component';
-import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { SafePipe } from './safe.pipe';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatDividerModule} from '@angular/material/divider';
 
 
 @NgModule({
@@ -44,7 +47,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     DialogTestMmodusComponent,
     TestGameComponent,
     DialogInviteFriendsComponent,
-    DialogFaqComponent
+    DialogFaqComponent,
+    SafePipe
   ],
   imports: [
     BrowserModule,
@@ -57,8 +61,10 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     FormsModule,
     MatCardModule,
     BrowserModule,
-    CountdownModule, 
+    CountdownModule,
     MatTooltipModule,
+    MatExpansionModule,
+    MatDividerModule,
     AngularFireModule.initializeApp(environment.firebase),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),

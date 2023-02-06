@@ -1,1 +1,132 @@
-<p>dialog-faq works!</p>
+<!--
+    <iframe [src]="srcUrl|safe: 'resourceUrl'" height="1000" width="1400"></iframe>
+-->
+<div class="header-faq">
+    <h1>Erklärung und Allgemeine Regeln</h1>
+    <div class="close-icon" (click)="closeDialog()">
+        <mat-icon matTooltip="close" fontIcon="close"></mat-icon>
+    </div>
+</div>
+
+<div class="faq-container">
+    Texas holdem ist eine der häufigsten gespielten Varianten des Kartenspiels Poker. Jede Runde besteht aus 4 Phasen in
+    denen der Spieler entscheiden muss, ob er/sie weiterhin an der Runde teilnehmen möchte oder aussteigt.
+    <br>
+    <h2>Spielrunden</h2>
+    <h3>Runde 1</h3>
+    <p>
+        Jeder Spieler erhält 2 Karten, die er/sie verdeckt vor den anderen Spielern hält. Nun müssen die Spieler
+        entscheiden, ob
+        Sie an der Spielrunde teilnehmen wollen. Zusätzlich gibt es einen Spieler der den Mindestbeitrag für die
+        Teilnahme
+        der Runde zahlen muss. Dieser Spieler wird Big Blind genannt. Er hat in der ersten Runde als letztes die
+        Möglichkeit
+        zu handeln. Abhängig von dem Setzverhalten aller Spieler können auch alle Spieler mehrmals die Entscheidung
+        treffen
+        müssen, ob sie in der Runde weiter teilnehmen wollen.
+    </p>
+
+
+    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Beispiele
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <h4>Beispiel 1</h4>
+        <p>
+            <span>Spieler 1 setzt den Mindestbetrag von 10 (call).</span>
+            <span>Spieler 2 passt. (fold)</span>
+            <span>Spieler 3 als Small Blind musste bereits 5 Chips setzen und called. Er muss nun auf 10
+                auffüllen.</span>
+            <span>Spieler 4 als Big Blind hat bereits 10 gesetzt und kann nun entscheiden, ob er/sie bestätigt (checked)
+                oder nochmal erhöhen will. Wenn er/sie erhöht, werden die anderen Spieler gefragt, ob Sie selbst erhöhen
+                wollen oder auf den selben Betrag nachziehen möchten.</span>
+            <span>Das Ende der Runde ist erreicht, sobald nur noch 1 Spieler teilnimmt oder alle Spieler den gleichen
+                Betrag gesetzt haben.</span>
+        </p>
+
+        <h4>Beispiel 2</h4>
+        <p>
+            <span>Spieler 1 setzt einen Betrag von 20 und verdoppelt damit den Einsetz (raise).</span>
+            <span>Spieler 2 passt. (fold)</span>
+            <span>Spieler 3 als Small Blind musste bereits 5 Chips setzen, passt aber trotzdem (fold).</span>
+            <span>Spieler 4 als Big Blind hat bereits 10 gesetzt und kann nun entscheiden, ob er/sie mitgeht und auf 20
+                auffüllt (call), nochmal erhöhen will (re-raise) oder aussteigt (fold).</span>
+            <span>Das Ende der Runde ist erreicht, sobald nur noch 1 Spieler teilnimmt oder alle Spieler den gleichen
+                Betrag gesetzt haben.</span>
+        </p>
+
+        <h4>Beispiel 3</h4>
+        <p>
+            <span>Spieler 1 passt. (fold)</span>
+            <span>Spieler 2 passt. (fold)</span>
+            <span>Spieler 3 als Small Blind musste bereits 5 Chips setzen, passt aber trotzdem (fold).</span>
+            <span>Spieler 4 gewinnt automatisch als letzter verbleibender Spieler.</span>
+        </p>
+    </mat-expansion-panel>
+
+
+    <h3>Runde 2</h3>
+    <p>
+        Zusätzlich zu den eigenen 2 Karten werden nun 3 Karten offen hingelegt. Dies wird als Flop bezeichnet. Die
+        Spieler prüfen nun, ob die eigenen Karten mit den 3 zusätzlichen Karten eine gute Gewinnkombination ermöglichen.
+        Entsprechend wird gesetzt. Grundsätzlich ist in jeder Runde auch ein Bluff möglich. Durch das Setzverhalten kann
+        man den Spielern auch signalisieren, ob man eine hohe oder niedrige Gewinnwahrscheinlichkeit für sich selbst
+        sieht.
+    </p>
+
+    <h3>Runde 3</h3>
+    <p>
+        Zusätzlich zu den 3 offen liegenden Karten wird eine weiter Karte hingelegt. Diese heißt Turn. Nun werden die
+        Spieler wieder nacheinander entscheiden, ob sie Geld setzen möchten wollen oder nicht.
+    </p>
+    <h3>Runde 4</h3>
+    <p>
+        Zusätzlich zu den 4 offen liegenden Karten wird eine weiter Karte hingelegt. Diese heißt River. Dies ist die
+        letzte Runde. Nun setzen alle verbliebenen Spieler solange, bis alle den gleichen Betrag eingezahlt haben oder
+        nur noch ein Spieler übrig ist. <br>
+        Aus den eigenen 2 Karten und den 5 offen liegenden Karten werden nun 5 Karten ausgewählt, die das beste Blatt
+        des Spielers ergeben. Dabei können 2, 1 oder garkeine Karte des Spielers enthalten sein. Der Spieler mit den
+        besten 5 Karten gewinnt.
+    </p>
+
+    <h2>Rangfolge der Pokerhänder</h2>
+    <h3>High Card</h3>
+    <p>Wenn Sie keine andere Wertung erreichen, wird die höchste Karte berücksichtigt. Hat keiner der
+        anderen Spieler eine bessere Kombination, gewinnt derjenige mit der höchsten Karte. Der niedrigste Wert ist die
+        2 und der höchste das Ass.</p>
+    <mat-divider></mat-divider>
+    <h3>Paar</h3>
+    <p>Ein Paar bedeutet, dass ein Spieler 2 Karten mit dem selben Wert hat. (bspw. Herz Dame und Pik Dame)</p>
+    <mat-divider></mat-divider>
+    <h3>Zwei Paare</h3>
+    <p>Zwei Paare bedeutet, dass ein Spieler 2 mal zwei Karten mit dem selben Wert hat. (bspw. Herz Dame, Pik Dame,
+        Kreuz 8 und Herz 8)</p>
+    <mat-divider></mat-divider>
+    <h3>Drilling</h3>
+    <p>Ein Drilling bedeutet, dass ein Spieler 3 Karten mit dem selben Wert hat. (bspw. Herz 7, Kreuz 7 und Pik 7)</p>
+    <mat-divider></mat-divider>
+    <h3>Straße</h3>
+    <p>Eine Straße bedeutet, dass ein Spieler 5 aufeinanderfolgende Karten hat. Dabei kann dass Ass die erste oder die
+        letzte Karte sein. Ein Sprung über das Ass ist nicht möglich. Daher wäre König, Ass, 2, 3, 4 nicht gültig. Die
+        Farben spielen keine Rolle</p>
+    <mat-divider></mat-divider>
+    <h3>Flush</h3>
+    <p>Bei einem Flush hat der Spieler 5 Karten der selben Farbe.</p>
+    <mat-divider></mat-divider>
+    <h3>Full House</h3>
+    <p>Bei einem Full House hat der Spieler ein Paar und einen Drilling.</p>
+    <mat-divider></mat-divider>
+    <h3>Vierling</h3>
+    <p>Ein Vierling bedeutet, dass ein Spieler 4 Karten mit dem selben Wert hat. (bspw. Herz 9, Kreuz 9, Karo 9 und Pik
+        9)</p>
+    <mat-divider></mat-divider>
+    <h3>Straight Flush</h3>
+    <p>Ein Straight Flush bedeutet, dass ein Spieler eine Straße hat, bei dem alle 5 Karten die selbe Farbe haben (bspw.
+        Herz 7, Herz 8, Herz 9, Herz 10 und Herz Bube)</p>
+    <mat-divider></mat-divider>
+    <h3>Royal Flush</h3>
+    <p>Ein Royal Flush bedeutet, dass ein Spieler due höchste Straße hat, bei dem alle 5 Karten die selbe Farbe haben
+        (bspw. Herz 10, Herz Bube, Herz Dame, Herz König und Herz Ass)</p>
+</div>

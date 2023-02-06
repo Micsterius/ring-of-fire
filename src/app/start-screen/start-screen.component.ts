@@ -3,6 +3,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Game } from 'src/models/game';
+import { DialogFaqComponent } from '../dialog-faq/dialog-faq.component';
 import { DialogInviteFriendsComponent } from '../dialog-invite-friends/dialog-invite-friends.component';
 import { DialogTestMmodusComponent } from '../dialog-test-mmodus/dialog-test-mmodus.component';
 
@@ -20,8 +21,12 @@ export class StartScreenComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  openDialog() {
+  openDialogFriends() {
     let dialogRef = this.dialog.open(DialogInviteFriendsComponent, {})
+  }
+
+  openDialogFAQ() {
+    let dialogRef = this.dialog.open(DialogFaqComponent, {})
   }
 
   startNewTestGame() {

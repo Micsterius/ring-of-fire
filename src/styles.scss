@@ -111,3 +111,61 @@ body {
         color: var(--secondaryColor);
     }  
 }
+
+
+.close-icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 1111;
+    
+    mat-icon {
+        color: white;
+        font-size: 30px;
+        width: 30px;
+        height: 30px;
+        padding: 5px;
+
+        &:hover {
+            color: var(--mainColor);
+        }
+    }
+
+    &:hover {
+        cursor: pointer;
+        border: 1px solid var(--mainColor);
+        color: var(--mainColor);
+    }  
+}
+
+//scroll bar
+
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: white;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: var(--secondaryColor);
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--mainColor);
+    opacity: 0.8;
+  }

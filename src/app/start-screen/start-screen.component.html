@@ -7,7 +7,7 @@
         <img class="img-start-screen4" src="assets/img/cards/card_cover.png">
         <div class="title">
             <span>Texas holdem</span>
-            <mat-icon matTooltip="FAQ" fontIcon="help_outline"></mat-icon>
+            <mat-icon matTooltip="FAQ" (click)="openDialogFAQ()" fontIcon="help_outline"></mat-icon>
         </div>
     </div>
     <div class="start-game-button-box">
@@ -17,7 +17,7 @@
             </div>
         </div>
         <div class="start-game-button">
-            <div (click)="openDialog()" class="start-game-button-background-mir">
+            <div (click)="openDialogFriends()" class="start-game-button-background-mir">
                 <div class="text-start-screen-button color-secondary-hover">Invite friends</div>
             </div>
         </div>
