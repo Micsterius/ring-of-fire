@@ -6,7 +6,7 @@
         <mat-icon fontIcon="volume_up"></mat-icon>
     </div>
     <div class="faq-icon" (click)="openDialogFAQ()">
-        <mat-icon matTooltip="FAQ" fontIcon="help_outline"></mat-icon>
+        <mat-icon matTooltip="FAQ" fontIcon="question_mark"></mat-icon>
     </div>
     <div *ngIf="audioService.volume == 0" class="sound-icon" (click)="audioService.soundOn()">
         <mat-icon fontIcon="volume_off"></mat-icon>
@@ -121,6 +121,7 @@
         <div *ngFor="let name of gameService.game.winningPlayersName;">
             <span>Player {{name}} wons {{gameService.game.coinsWhichGetWinner}} Chips</span>
         </div>
+        <div class="next-round-btn" (click)="gameService.startNextRound()">Next round</div>
     </div>
 
 </div>

@@ -409,15 +409,29 @@
     border-radius: 16px;
     z-index: 2;
     width: 280px;
-    height: 48px;
+    height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
 
     span {
         color: var(--mainColor);
         font-size: 25px;
         font-weight: 500;
+    }
+
+    .next-round-btn {
+        background-color: var(--background);
+        color: white;
+        padding: 4px;
+        border-radius: 8px;
+        border: 1px solid var(--mainColor);
+    
+        &:hover {
+            color: var(--secondaryColor);
+            cursor: pointer;
+        }
     }
 
     @media (max-width: 1200px) {
@@ -460,3 +474,4 @@
         opacity: 0.7;
     }
 }
+

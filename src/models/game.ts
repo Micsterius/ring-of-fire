@@ -26,10 +26,8 @@ export class Game {
     public callIsPossible: boolean = true;
     public coinsWhichGetWinner: number = 0;
     public winningCards: string[] = [];
-    public ipAddress: any [] = [];
+    public ipAddress: any[] = [];
     public developerMode: boolean = false;
-    
-    
 
     constructor() {
         for (let i = 2; i < 11; i++) {
@@ -83,9 +81,7 @@ export class Game {
             developerMode: this.developerMode
         }
     }
-
 }
-
 
 function createArrayPlayers(players) {
     let arr = []
@@ -122,6 +118,5 @@ function shuffle(stack: string[]) {
         [stack[currentIndex], stack[randomIndex]] = [
             stack[randomIndex], stack[currentIndex]];
     }
-
     return stack;
 }

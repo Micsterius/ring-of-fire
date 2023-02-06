@@ -6,6 +6,7 @@ import { Game } from 'src/models/game';
 import { DialogFaqComponent } from '../dialog-faq/dialog-faq.component';
 import { DialogInviteFriendsComponent } from '../dialog-invite-friends/dialog-invite-friends.component';
 import { DialogTestMmodusComponent } from '../dialog-test-mmodus/dialog-test-mmodus.component';
+import { GeneralService } from '../shares/services/general.service';
 
 @Component({
   selector: 'app-start-screen',
@@ -14,9 +15,10 @@ import { DialogTestMmodusComponent } from '../dialog-test-mmodus/dialog-test-mmo
 })
 export class StartScreenComponent implements OnInit {
 
-  constructor(private firestore: AngularFirestore, 
+  constructor(private firestore: AngularFirestore,
     private router: Router,
-    public dialog: MatDialog,) { }
+    public dialog: MatDialog,
+    private generalService: GeneralService) { }
 
   ngOnInit(): void {
   }
@@ -36,5 +38,6 @@ export class StartScreenComponent implements OnInit {
       .collection('games')
       .add({ ...game.toJson() })
       .then((gameInfo: any) => this.router.navigateByUrl('/testgame/' + gameInfo.id));
+    this.generalService.testModus = true;
   }
 }

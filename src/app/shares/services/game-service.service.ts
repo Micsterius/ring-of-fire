@@ -5,6 +5,7 @@ import { DialogAddPlayerComponent } from 'src/app/dialog-add-player/dialog-add-p
 import { Game } from 'src/models/game';
 import { Player } from 'src/models/player';
 import { AudioService } from './audio.service';
+import { GeneralService } from './general.service';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +30,8 @@ export class GameServiceService {
   constructor(
     private firestore: AngularFirestore,
     public dialog: MatDialog,
-    public audioService: AudioService
+    public audioService: AudioService,
+    private generalService: GeneralService
   ) { }
 
   addItem(newItem: string) {
@@ -88,7 +90,8 @@ export class GameServiceService {
       }
       else {
         this.playerFolded();
-        this.audioService.playFoldSound()};
+        this.audioService.playFoldSound()
+      };
     };
   }
 
@@ -339,7 +342,7 @@ export class GameServiceService {
     }
     this.findWinCardCombination(cardsOfPlayers)
     this.saveGame();
-    setTimeout(() => this.startNextRound(), 5000);
+    if (!this.generalService.testModus) setTimeout(() => this.startNextRound(), 5000);
   }
 
   async findWinCardCombination(cardsOfPlayers) {
