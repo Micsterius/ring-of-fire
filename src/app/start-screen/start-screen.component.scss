@@ -123,6 +123,16 @@
 
     span {
         margin-right: 40px;
+        min-width: 200px;
+
+        @media (max-width: 500px) {
+            min-width: 160px;
+            margin-right: 24px;
+        }
+
+        @media (max-width: 400px) {
+            min-width: 160px;
+        }
     }
 
     mat-icon {
@@ -166,6 +176,14 @@
         border-radius: 8px;
     }
 
+    @media (max-width: 750px) {
+        font-size: 30px;
+    }
+
+    @media (max-width: 500px) {
+        font-size: 24px;
+    }
+
 }
 
 .start-game-button-box {
@@ -196,6 +214,21 @@
     @media (max-height: 440px) {
         top: 80%;
     }
+
+    @media (max-width: 900px) {
+        width: 240px;
+        height: 60px;
+    }
+
+    @media (max-width: 750px) {
+        width: 190px;
+        height: 50px;
+    }
+
+    @media (max-width: 400px) {
+        width: 150px;
+        height: 40px;
+    }
 }
 
 .start-game-button-background {
@@ -213,7 +246,20 @@
     justify-content: center;
     background: var(--background);
 
+    @media (max-width: 900px) {
+        width: 240px;
+        height: 60px;
+    }
 
+    @media (max-width: 750px) {
+        width: 190px;
+        height: 50px;
+    }
+
+    @media (max-width: 400px) {
+        width: 150px;
+        height: 40px;
+    }
 }
 
 .start-game-button-background::before {
@@ -239,6 +285,21 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
+    @media (max-width: 900px) {
+        width: 230px;
+        height: 50px;
+    }
+
+    @media (max-width: 750px) {
+        width: 180px;
+        height: 40px;
+    }
+
+    @media (max-width: 400px) {
+        width: 140px;
+        height: 30px;
+    }
 }
 
 .text-start-screen-button {
@@ -255,6 +316,20 @@
 
     &:hover {
         cursor: pointer;
+    }
+
+    @media (max-width: 900px) {
+        line-height: 60px;
+    }
+
+    @media (max-width: 750px) {
+        line-height: 50px;
+        font-size: 18px;
+    }
+
+    @media (max-width: 400px) {
+        line-height: 40px;
+        font-size: 16px;
     }
 }
 
@@ -295,6 +370,21 @@
     align-items: center;
     justify-content: center;
     background: var(--background);
+
+    @media (max-width: 900px) {
+        width: 240px;
+        height: 60px;
+    }
+
+    @media (max-width: 750px) {
+        width: 190px;
+        height: 50px;
+    }
+
+    @media (max-width: 400px) {
+        width: 150px;
+        height: 40px;
+    }
 }
 
 .start-game-button-background-mir::before {
@@ -320,6 +410,21 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
+    @media (max-width: 900px) {
+        width: 230px;
+        height: 50px;
+    }
+
+    @media (max-width: 750px) {
+        width: 180px;
+        height: 40px;
+    }
+
+    @media (max-width: 400px) {
+        width: 140px;
+        height: 30px;
+    }
 }
 
 @keyframes rotateMir {
