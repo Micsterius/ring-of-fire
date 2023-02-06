@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { Game } from 'src/models/game';
 import { DialogFaqComponent } from '../dialog-faq/dialog-faq.component';
 import { DialogInviteFriendsComponent } from '../dialog-invite-friends/dialog-invite-friends.component';
-import { DialogTestMmodusComponent } from '../dialog-test-mmodus/dialog-test-mmodus.component';
 import { GeneralService } from '../shares/services/general.service';
 
 @Component({
