@@ -85,7 +85,7 @@ body {
 
     position: absolute;
     top: 24px;
-    left: 54px;
+    left: 124px;
 
     display: flex;
     align-items: center;
@@ -168,4 +168,36 @@ body {
   ::-webkit-scrollbar-thumb:hover {
     background: var(--mainColor);
     opacity: 0.8;
+  }
+
+  .faq-icon{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+
+    position: absolute;
+    top: 24px;
+    left: 54px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 1111;
+
+    mat-icon {
+        color: white;
+        font-size: 50px;
+        width: 50px;
+        height: 50px;
+        padding: 5px;
+
+        &:hover {
+            color: var(--secondaryColor);
+        }
+    }
+
+    &:hover {
+        cursor: pointer;
+    }  
   }

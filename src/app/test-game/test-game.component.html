@@ -5,6 +5,9 @@
     <div *ngIf="audioService.volume == 1" class="sound-icon" (click)="audioService.soundOff()">
         <mat-icon fontIcon="volume_up"></mat-icon>
     </div>
+    <div *ngIf="audioService.volume == 1" class="faq-icon" (click)="audioService.soundOff()">
+        <mat-icon matTooltip="FAQ" fontIcon="help_outline"></mat-icon>
+    </div>
     <div *ngIf="audioService.volume == 0" class="sound-icon" (click)="audioService.soundOn()">
         <mat-icon fontIcon="volume_off"></mat-icon>
     </div>
@@ -97,11 +100,14 @@
             <div>
                 <button (click)="gameService.playerSetMoney(); audioService.playMoneySound()"
                     *ngIf="!gameService.game.callIsPossible && !gameService.game.raiseIsPossible">+10</button>
-                <button (click)="gameService.playerCalled(); audioService.playMoneySound()" *ngIf="gameService.game.callIsPossible">Call</button>
-                <button (click)="gameService.playerRaise(); audioService.playMoneySound()" *ngIf="gameService.game.raiseIsPossible">Raise</button>
-                <button (click)="gameService.playerChecks(); audioService.playCheckSound()" *ngIf="gameService.game.checkIsPossible">Check</button>
-                <button (click)="gameService.playerFolded(); audioService.playFoldSound()">Fold <countdown class="countdown" #cd [config]="config"
-                        (event)="gameService.handleEventTimer($event)">
+                <button (click)="gameService.playerCalled(); audioService.playMoneySound()"
+                    *ngIf="gameService.game.callIsPossible">Call</button>
+                <button (click)="gameService.playerRaise(); audioService.playMoneySound()"
+                    *ngIf="gameService.game.raiseIsPossible">Raise</button>
+                <button (click)="gameService.playerChecks(); audioService.playCheckSound()"
+                    *ngIf="gameService.game.checkIsPossible">Check</button>
+                <button (click)="gameService.playerFolded(); audioService.playFoldSound()">Fold <countdown
+                        class="countdown" #cd [config]="config" (event)="gameService.handleEventTimer($event)">
                     </countdown></button>
             </div>
             <span>Chips in pot {{gameService.game.allChipsInPot}}</span>
