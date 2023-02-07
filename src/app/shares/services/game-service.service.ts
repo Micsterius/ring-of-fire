@@ -537,11 +537,7 @@ export class GameServiceService {
       if (!name) {
         return
       }
-      if (this.ipAddressIsAlreadyInGame(this.ipAddress) && !this.game.developerMode && name) {
-        this.sameIpAddress = true;
-        setTimeout(() => this.sameIpAddress = false, 15000);
-      }
-      if (this.nameWithMinOneCharacterIsGiven(name) && !this.ipAddressIsAlreadyInGame(this.ipAddress) && !this.proofIfNameAlreadyExist(name) && this.numberOfPlayersIsUnderSix() || this.game.developerMode && !this.proofIfNameAlreadyExist(name) && this.numberOfPlayersIsUnderSix()) {
+      if (this.nameWithMinOneCharacterIsGiven(name) && !this.proofIfNameAlreadyExist(name) && this.numberOfPlayersIsUnderSix()) {
         this.game.ipAddress.push(this.ipAddress)
         this.createPlayer(name)
         this.saveGame();
@@ -584,6 +580,8 @@ export class GameServiceService {
     return this.game.players.length <= 6;
   }
 
+  //not necessary if only play with friends. In case of open tables, it should be implemented against cheating
+  /*
   async getIPAddress() {
     let url = 'https://api.ipify.org/?format=json';
     let response = await fetch(url);
@@ -596,6 +594,8 @@ export class GameServiceService {
   ipAddressIsAlreadyInGame(ipAddressOfCurrentPlayer) {
     return this.game.ipAddress.some((ip) => ip == ipAddressOfCurrentPlayer);
   }
+
+  */
 
   saveGame() {
     this.firestore
