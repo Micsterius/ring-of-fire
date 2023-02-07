@@ -1,43 +1,51 @@
 <div class="invite-friends-container">
-    <div class="friend-box"><span>friend 1</span>
-        <form class="example-form">
+
+    <form class="example-form" (submit)="createArrayOfFriendsMails()" ngNativeValidate #myForm>
+        <div class="friend-box" *ngFor="let mail of mailFields">
+            <span>friend</span>
             <mat-form-field class="example-full-width">
                 <mat-label class="label">E-Mail</mat-label>
-                <input class="color-white" matInput>
+                <input #mail class="color-white" matInput [formControl]="email" type="email" required>
+                <mat-error *ngIf="email.invalid">{{getErrorMessageMail()}}</mat-error>
             </mat-form-field>
-        </form>
-    </div>
-    <div class="friend-box"><span>friend 2</span>
-        <form class="example-form">
+        </div>
+        <div class="icon-invite-friends">
+            <mat-icon *ngIf="mailFields.length < 5" matTooltip="Add field" fontIcon="add"
+                (click)="addMailField()"></mat-icon>
+            <mat-icon *ngIf="mailFields.length > 1" matTooltip="Remove field" fontIcon="remove" (click)="deleteMailField()"></mat-icon>
+        </div>
+
+        <!--
+                    <div class="friend-box"><span>friend 2</span>
             <mat-form-field class="example-full-width">
                 <mat-label class="label">E-Mail</mat-label>
-                <input class="color-white" matInput>
+                <input #mailFieldTwo class="color-white" matInput [formControl]="email" type="email">
+                <mat-error *ngIf="email.invalid">{{getErrorMessageMail()}}</mat-error>
             </mat-form-field>
-        </form>
-    </div>
-    <div class="friend-box"><span>friend 3</span>
-        <form class="example-form">
+        </div>
+        <div class="friend-box"><span>friend 3</span>
             <mat-form-field class="example-full-width">
                 <mat-label class="label">E-Mail</mat-label>
-                <input class="color-white" matInput>
+                <input #mailFieldThree class="color-white" matInput [formControl]="email" type="email">
+                <mat-error *ngIf="email.invalid">{{getErrorMessageMail()}}</mat-error>
             </mat-form-field>
-        </form>
-    </div>
-    <div class="friend-box"><span>friend 4</span>
-        <form class="example-form">
+        </div>
+        <div class="friend-box"><span>friend 4</span>
             <mat-form-field class="example-full-width">
                 <mat-label class="label">E-Mail</mat-label>
-                <input class="color-white" matInput>
+                <input #mailFieldFour class="color-white" matInput [formControl]="email" type="email">
+                <mat-error *ngIf="email.invalid">{{getErrorMessageMail()}}</mat-error>
             </mat-form-field>
-        </form>
-    </div>
-    <div class="friend-box"><span>friend 5</span>
-        <form class="example-form">
+        </div>
+        <div class="friend-box"><span>friend 5</span>
             <mat-form-field class="example-full-width">
                 <mat-label class="label">E-Mail</mat-label>
-                <input class="color-white" matInput>
+                <input #mailFieldFive class="color-white" matInput [formControl]="email" type="email">
+                <mat-error *ngIf="email.invalid">{{getErrorMessageMail()}}</mat-error>
             </mat-form-field>
-        </form>
-    </div>
-    <div class="invitation-send-btn">Send invitation</div>
+        </div>
+        -->
+
+        <button class="invitation-send-btn" type="submit" #buttonInviteFriends>Send invitation</button>
+    </form>
 </div>

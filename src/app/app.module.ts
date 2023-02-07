@@ -12,7 +12,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { DialogAddPlayerComponent } from './dialog-add-player/dialog-add-player.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
-import { FormsModule } from '@angular/forms';
 import { GameInfoComponent } from './game-info/game-info.component';
 import { MatCardModule } from '@angular/material/card';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
@@ -31,6 +30,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { SafePipe } from './safe.pipe';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatDividerModule} from '@angular/material/divider';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 
 @NgModule({
@@ -57,12 +58,14 @@ import {MatDividerModule} from '@angular/material/divider';
     MatDialogModule,
     MatInputModule,
     FormsModule,
+    ReactiveFormsModule,
     MatCardModule,
     BrowserModule,
     CountdownModule,
     MatTooltipModule,
     MatExpansionModule,
     MatDividerModule,
+    MatFormFieldModule,
     AngularFireModule.initializeApp(environment.firebase),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),

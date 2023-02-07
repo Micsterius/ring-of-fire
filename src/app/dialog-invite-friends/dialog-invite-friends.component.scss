@@ -8,6 +8,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    text-align: center;
 
     span {
         color: var(--secondaryColor);
@@ -35,11 +36,29 @@
         padding: 8px;
         font-size: 16px;
         border-radius: 12px;
+        background-color: var(--background);
+        width: 100%;
 
         &:hover {
             cursor: pointer;
             color: var(--mainColor);
             border: 1px solid gray;
         }
+    }
+}
+
+.icon-invite-friends{
+    display: flex;
+    justify-content: space-evenly;
+
+    mat-icon {
+        color: white;
+        border: 1px solid var(--mainColor);
+        border-radius: 50%;
+        height: 40px;
+        width: 40px;
+        font-size: 40px;
+        margin-top: 12px;
+        margin-bottom: 12px;
     }
 }
