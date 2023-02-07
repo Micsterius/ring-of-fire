@@ -9,6 +9,7 @@
     align-items: center;
     justify-content: center;
     text-align: center;
+    max-height: 80vh;
 
     span {
         color: var(--secondaryColor);
@@ -61,4 +62,8 @@
         margin-top: 12px;
         margin-bottom: 12px;
     }
+}
+
+.form-container{
+    overflow: auto;
 }

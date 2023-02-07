@@ -1,8 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { FormControl, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Game } from 'src/models/game';
+import { DialogFaqComponent } from '../dialog-faq/dialog-faq.component';
 
 @Component({
   selector: 'app-dialog-invite-friends',
@@ -20,11 +22,12 @@ export class DialogInviteFriendsComponent implements OnInit {
   @ViewChild('mailFieldFour') mailFieldFour!: ElementRef;
   @ViewChild('mailFieldFive') mailFieldFive!: ElementRef;
   url;
-  mailFields = ['0'];
+  mailFields = [''];
 
   constructor(
     private firestore: AngularFirestore,
-    private router: Router) { }
+    private router: Router,
+    public dialogRef: MatDialogRef<DialogFaqComponent>) { }
 
   ngOnInit(): void {
   }
@@ -38,20 +41,61 @@ export class DialogInviteFriendsComponent implements OnInit {
       .then((gameInfo: any) => this.router.navigateByUrl('/game/' + gameInfo.id));
   }
 
-  createArrayOfFriendsMails() {
+  sendMails() {
+    this.startNewGame()
+    let mailFieldOne = this.mailFieldOne.nativeElement
+   // let mailFieldTwo = this.mailFieldTwo.nativeElement
+   // let mailFieldThree = this.mailFieldThree.nativeElement
+   // let mailFieldFour = this.mailFieldFour.nativeElement
+   // let mailFieldFive = this.mailFieldFive.nativeElement
+    if (this.mailFields.length == 1) this.sendMail(mailFieldOne);
+   // if (this.mailFields.length == 2) this.sendTwoMails(mailFieldOne, mailFieldTwo);
+   // if (this.mailFields.length == 3) this.sendThreeMails(mailFieldOne, mailFieldTwo, mailFieldThree);
+   // if (this.mailFields.length == 4) this.sendFourMails(mailFieldOne, mailFieldTwo, mailFieldThree, mailFieldFour)
+   // if (this.mailFields.length == 5) this.sendFiveMails(mailFieldOne, mailFieldTwo, mailFieldThree, mailFieldFour, mailFieldFive)
+
+   this.closeDialog();
+  }
+
+  closeDialog() {
+    this.dialogRef.close();
+  }
+
+  sendTwoMails(mailFieldOne, mailFieldTwo) {
+    this.sendMail(mailFieldOne);
+    this.sendMail(mailFieldTwo)
+  }
+
+  sendThreeMails(mailFieldOne, mailFieldTwo, mailFieldThree) {
+    this.sendMail(mailFieldOne);
+    this.sendMail(mailFieldTwo);
+    this.sendMail(mailFieldThree);
+  }
+
+  sendFourMails(mailFieldOne, mailFieldTwo, mailFieldThree, mailFieldFour) {
+    this.sendMail(mailFieldOne);
+    this.sendMail(mailFieldTwo);
+    this.sendMail(mailFieldThree);
+    this.sendMail(mailFieldFour);
+  }
+
+  sendFiveMails(mailFieldOne, mailFieldTwo, mailFieldThree, mailFieldFour, mailFieldFive) {
+    this.sendMail(mailFieldOne);
+    this.sendMail(mailFieldTwo);
+    this.sendMail(mailFieldThree);
+    this.sendMail(mailFieldFour);
+    this.sendMail(mailFieldFive);
   }
 
   addMailField() {
-    let nbr = this.mailFields.length
-    this.mailFields.push(`${nbr}`)
+    this.mailFields.push('')
   }
 
   deleteMailField() {
     this.mailFields.pop()
   }
 
-  async sendMail() {
-    let mailField = this.mailFieldOne.nativeElement
+  async sendMail(mailField) {
     let buttonInviteFriends = this.buttonInviteFriends.nativeElement
     this.disableContactForm(mailField, buttonInviteFriends)
     await this.giveMessageToServer(mailField)
@@ -65,10 +109,12 @@ export class DialogInviteFriendsComponent implements OnInit {
 
   async giveMessageToServer(mailField) {
     let fd = new FormData();
-    fd.append('url', this.url)
+    let url = location.pathname
+    fd.append('url', url)
+    fd.append('message', `Do you want to join my poker game? ${url}`)
     fd.append('mail', mailField.value)
 
-    await fetch('https://michael-strauss.developerakademie.net/my-website/send_mail/send_mail.php', {
+    await fetch('https://michael-strauss.developerakademie.net/texas-holdem/send_mail/send_mail.php', {
       method: 'POST',
       body: fd
     });
