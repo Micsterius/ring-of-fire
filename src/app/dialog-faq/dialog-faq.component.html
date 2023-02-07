@@ -2,160 +2,152 @@
     <iframe [src]="srcUrl|safe: 'resourceUrl'" height="1000" width="1400"></iframe>
 -->
 <div class="header-faq">
-    <h1>Erklärung und Allgemeine Regeln</h1>
+    <h1>Explanation and General Rules</h1>
     <div class="close-icon" (click)="closeDialog()">
         <mat-icon matTooltip="close" fontIcon="close"></mat-icon>
     </div>
 </div>
 
 <div class="faq-container">
-    Texas holdem ist eine der häufigsten gespielten Varianten des Kartenspiels Poker. Jede Runde besteht aus 4 Phasen in
-    denen der Spieler entscheiden muss, ob er/sie weiterhin an der Runde teilnehmen möchte oder aussteigt.
+    Texas holdem is one of the most commonly played variants of the card game poker. Each round consists of 4 phases in
+    which the player has to decide whether he/she wants to continue participating in the round or opt out (fold).
     <br>
-    <h2>Spielrunden</h2>
-    <h3>Runde 1</h3>
+    <h2>Rounds</h2>
+    <h3>Round 1</h3>
     <p>
-        Jeder Spieler erhält 2 Karten, die er/sie verdeckt vor den anderen Spielern hält. Nun müssen die Spieler
-        entscheiden, ob
-        Sie an der Spielrunde teilnehmen wollen. Zusätzlich gibt es einen Spieler der den Mindestbeitrag für die
-        Teilnahme
-        der Runde zahlen muss. Dieser Spieler wird Big Blind genannt. Er hat in der ersten Runde als letztes die
-        Möglichkeit
-        zu handeln. Abhängig von dem Setzverhalten aller Spieler können auch alle Spieler mehrmals die Entscheidung
-        treffen
-        müssen, ob sie in der Runde weiter teilnehmen wollen.
+        Each player receives 2 cards, which he/she holds face down in front of the other players. Now the players have
+        to
+        decide whether:
+        You want to participate in the game round. In addition, there is a player who pays the minimum contribution for
+        the
+        Participation
+        of the round. This player is called Big Blind. In the first round, he was the last to win the
+        Possibility
+        act. Depending on the betting behavior of all players, all players can also make the decision several times.
+        meeting
+        must decide whether they want to continue participating in the round.
     </p>
 
 
     <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
         <mat-expansion-panel-header>
             <mat-panel-title>
-                Beispiele
+                Examples
             </mat-panel-title>
         </mat-expansion-panel-header>
         <div class="example-container">
-            <h4>Beispiel 1</h4>
+            <h4>Example 1</h4>
             <p>
-                <span> <span class="example-player-text">Spieler 1</span> setzt den Mindestbetrag von 10
+                <span> <span class="example-player-text">Player 1</span> sets the minimum amount of 10
                     (call).</span><br>
-                <span> <span class="example-player-text">Spieler 2</span> passt. (fold)</span><br>
-                <span> <span class="example-player-text">Spieler 3</span> als Small Blind musste bereits 5 Chips setzen
-                    und called. Er muss nun auf 10
-                    auffüllen.</span><br>
-                <span> <span class="example-player-text">Spieler 4</span> als Big Blind hat bereits 10 gesetzt und kann
-                    nun entscheiden, ob er/sie
-                    bestätigt
-                    (checked)
-                    oder nochmal erhöhen will. Wenn er/sie erhöht, werden die anderen Spieler gefragt, ob Sie selbst
-                    erhöhen
-                    wollen oder auf den selben Betrag nachziehen möchten.</span><br>
-                <span>Das Ende der Runde ist erreicht, sobald nur noch 1 Spieler teilnimmt oder alle Spieler den
-                    gleichen
-                    Betrag gesetzt haben.</span>
+                <span> <span class="example-player-text">Player 2</span> exit game round. (fold)</span><br>
+                <span> <span class="example-player-text">Player 3</span> as a small blind already had to bet 5 chips.
+                    Now he called and has to go to 10
+                    fill.</span><br>
+                <span> <span class="example-player-text">Player 4</span> as a big blind has already set 10 and can
+                    Now decide whether he/she confirmed (checked) or wants to increase it again. If he/she increases,
+                    the other players will be asked if you increase
+                    or want to follow suit for the same amount.</span><br>
+                <span>The end of the round is reached as soon as only 1 player participates or all players
+                    set the same amount.</span>
             </p>
 
-            <h4>Beispiel 2</h4>
+            <h4>Player 2</h4>
             <p>
-                <span> <span class="example-player-text">Spieler 1</span> setzt einen Betrag von 20 und verdoppelt damit
-                    den Einsetz (raise).</span><br>
-                <span> <span class="example-player-text">Spieler 2</span> passt. (fold)</span><br>
-                <span> <span class="example-player-text">Spieler 3</span> als Small Blind musste bereits 5 Chips setzen,
-                    passt aber trotzdem
-                    (fold).</span><br>
-                <span> <span class="example-player-text">Spieler 4</span> als Big Blind hat bereits 10 gesetzt und kann
-                    nun entscheiden, ob er/sie mitgeht
-                    und
-                    auf 20
-                    auffüllt (call), nochmal erhöhen will (re-raise) oder aussteigt (fold).</span><br>
-                <span>Das Ende der Runde ist erreicht, sobald nur noch 1 Spieler teilnimmt oder alle Spieler den
-                    gleichen
-                    Betrag gesetzt haben.</span>
+                <span> <span class="example-player-text">Player 1</span> sets an amount of 20, doubling
+                the bet (raise).</span><br>
+                <span> <span class="example-player-text">Player 2</span> exit game round. (fold)</span><br>
+                <span> <span class="example-player-text">Player 3</span> as a small blind already had to bet 5 chips.
+                Nevertheless exit game round (fold).</span><br>
+                <span> <span class="example-player-text">Player 4</span> as a big blind has already set 10 and can
+                now decide whether he/she goes with you bet 10 to set in total 20 (call), wants to increase again (re-raise) or gets out (fold).</span><br>
+                <span>The end of the round is reached as soon as only 1 player participates or all players
+                    set the same amount.</span>
             </p>
 
             <h4>Beispiel 3</h4>
             <p>
-                <span> <span class="example-player-text">Spieler 1</span> passt. (fold)</span> <br>
-                <span> <span class="example-player-text">Spieler 2</span> passt. (fold)</span> <br>
-                <span> <span class="example-player-text">Spieler 3</span> als Small Blind musste bereits 5 Chips setzen,
-                    passt aber trotzdem
-                    (fold).</span>
+                <span> <span class="example-player-text">Player 1</span> exit game round. (fold)</span> <br>
+                <span> <span class="example-player-text">Player 2</span> exit game round. (fold)</span> <br>
+                <span> <span class="example-player-text">Player 3</span> as a small blind already had to bet 5 chips.
+                Nevertheless exit game round (fold).</span>
                 <br>
-                <span> <span class="example-player-text">Spieler 4</span> gewinnt automatisch als letzter verbleibender
-                    Spieler.</span>
+                <span> <span class="example-player-text">Player 4</span> automatically wins as the last remaining
+                player.</span>
             </p>
         </div>
     </mat-expansion-panel>
 
 
-    <h3>Runde 2</h3>
+    <h3>Round 2</h3>
     <p>
-        Zusätzlich zu den eigenen 2 Karten werden nun 3 Karten offen hingelegt. Dies wird als Flop bezeichnet. Die
-        Spieler prüfen nun, ob die eigenen Karten mit den 3 zusätzlichen Karten eine gute Gewinnkombination ermöglichen.
-        Entsprechend wird gesetzt. Grundsätzlich ist in jeder Runde auch ein Bluff möglich. Durch das Setzverhalten kann
-        man den Spielern auch signalisieren, ob man eine hohe oder niedrige Gewinnwahrscheinlichkeit für sich selbst
-        sieht.
+        In addition to your own 2 cards, 3 cards are now laid face up. This is called a flop. The
+        Players now check whether their own cards with the 3 additional cards allow a good winning combination.
+        Accordingly is set. Basically, a bluff is also possible in every round. Due to the setting behavior,
+        you also signal to the players whether you have a high or low probability of winning for yourself
+        sees.
     </p>
 
-    <h3>Runde 3</h3>
+    <h3>Round 3</h3>
     <p>
-        Zusätzlich zu den 3 offen liegenden Karten wird eine weiter Karte hingelegt. Diese heißt Turn. Nun werden die
-        Spieler wieder nacheinander entscheiden, ob sie Geld setzen möchten wollen oder nicht.
+        In addition to the 3 cards face up, another card is laid. This is called Turn. Now the
+        Players again decide one by one whether they want to bet money or not.
     </p>
-    <h3>Runde 4</h3>
+    <h3>Round 4</h3>
     <p>
-        Zusätzlich zu den 4 offen liegenden Karten wird eine weiter Karte hingelegt. Diese heißt River. Dies ist die
-        letzte Runde. Nun setzen alle verbliebenen Spieler solange, bis alle den gleichen Betrag eingezahlt haben oder
-        nur noch ein Spieler übrig ist. <br>
-        Aus den eigenen 2 Karten und den 5 offen liegenden Karten werden nun 5 Karten ausgewählt, die das beste Blatt
-        des Spielers ergeben. Dabei können 2, 1 oder garkeine Karte des Spielers enthalten sein. Der Spieler mit den
-        besten 5 Karten gewinnt.
+        In addition to the 4 cards face up, another card is laid. This is called River. This is the
+        last round. Now all remaining players bet until all have deposited the same amount or
+        there is only one player left. <br>
+        From your own 2 cards and the 5 cards face up, 5 cards are now selected, which are the best hand
+        of the player. This can include 2, 1 or no card of the players hand. The player with the
+        best 5 cards wins.
     </p>
 
-    <h2>Rangfolge der Pokerhänder</h2>
+    <h2>Rating of poker hands</h2>
     <h3>High Card</h3>
-    <p>Wenn Sie keine andere Wertung erreichen, wird die höchste Karte berücksichtigt. Hat keiner der
-        anderen Spieler eine bessere Kombination, gewinnt derjenige mit der höchsten Karte. Der niedrigste Wert ist die
-        2 und der höchste das Ass.</p>
+    <p>If you do not achieve another rating, the highest card will be considered. If none of the
+        other players a better combination, the one with the highest card wins. The lowest value is the
+        2 and the highest the ace.</p>
     <mat-divider></mat-divider>
-    <h3>Paar</h3>
-    <p>Ein Paar bedeutet, dass ein Spieler 2 Karten mit dem selben Wert hat. (bspw. Herz Dame und Pik Dame)</p>
+    <h3>Pair</h3>
+    <p>A pair means that a player has 2 cards of the same value. (e.g. Queen of Hearts and Queen of Spades)</p>
     <img class="img-faq" src="./assets/img/queen-pair.png">
     <mat-divider></mat-divider>
-    <h3>Zwei Paare</h3>
-    <p>Zwei Paare bedeutet, dass ein Spieler 2 mal zwei Karten mit dem selben Wert hat. (bspw. Herz Dame, Pik Dame,
-        Kreuz 8 und Herz 8)</p>
+    <h3>Two Pairs</h3>
+    <p>Two pairs means that a player has 2 times two cards of the same value. (e.g. Queen of Hearts, Queen of Spades,
+        Cross 8 and Heart 8)</p>
     <img class="img-faq" src="./assets/img/two-pairs.png">
     <mat-divider></mat-divider>
-    <h3>Drilling</h3>
-    <p>Ein Drilling bedeutet, dass ein Spieler 3 Karten mit dem selben Wert hat. (bspw. Herz 8, Kreuz 8 und Pik 8)</p>
+    <h3>Triplet</h3>
+    <p>A triplet means that a player has 3 cards of the same value. (e.g. Heart 8, Cross 8 and Spades 8)</p>
     <img class="img-faq" src="./assets/img/drilling.png">
     <mat-divider></mat-divider>
-    <h3>Straße</h3>
-    <p>Eine Straße bedeutet, dass ein Spieler 5 aufeinanderfolgende Karten hat. Dabei kann dass Ass die erste oder die
-        letzte Karte sein. Ein Sprung über das Ass ist nicht möglich. Daher wäre König, Ass, 2, 3, 4 nicht gültig. Die
-        Farben spielen keine Rolle</p>
+    <h3>Straight</h3>
+    <p>A straight means that a player has 5 consecutive cards. In this case, the ace can be the first or the
+        last card. A jump over the ace is not possible. Therefore, King, Ace, 2, 3, 4 would not be valid. The
+        Colors don't matter</p>
     <img class="img-faq" src="./assets/img/straight.png">
     <mat-divider></mat-divider>
     <h3>Flush</h3>
-    <p>Bei einem Flush hat der Spieler 5 Karten der selben Farbe.</p>
+    <p>In a flush, the player has 5 cards of the same suit.</p>
     <img class="img-faq" src="./assets/img/flush.png">
     <mat-divider></mat-divider>
     <h3>Full House</h3>
-    <p>Bei einem Full House hat der Spieler ein Paar und einen Drilling.</p>
+    <p>In a full house, the player has a pair and a triplet.</p>
     <img class="img-faq" src="./assets/img/full-house.png">
     <mat-divider></mat-divider>
-    <h3>Vierling</h3>
-    <p>Ein Vierling bedeutet, dass ein Spieler 4 Karten mit dem selben Wert hat. (bspw. Herz 9, Kreuz 9, Karo 9 und Pik
-        9)</p>
-        <img class="img-faq" src="./assets/img/vierling.png">
+    <h3>Quadruplet</h3>
+    <p>A quadruple means that a player has 4 cards of the same value. (e.g. Heart 8, Cross 8, Diamond 8 and Spades
+        8)</p>
+    <img class="img-faq" src="./assets/img/vierling.png">
     <mat-divider></mat-divider>
     <h3>Straight Flush</h3>
-    <p>Ein Straight Flush bedeutet, dass ein Spieler eine Straße hat, bei dem alle 5 Karten die selbe Farbe haben (bspw.
-        Herz 7, Herz 8, Herz 9, Herz 10 und Herz Bube)</p>
-        <img class="img-faq" src="./assets/img/straight-flush.png">
+    <p>A straight flush means that a player has a street where all 5 cards have the same suit (e.g.
+        Spades 7, Spades 8, Spades 9, Spades 10 and Jack of Spades)</p>
+    <img class="img-faq" src="./assets/img/straight-flush.png">
     <mat-divider></mat-divider>
     <h3>Royal Flush</h3>
-    <p>Ein Royal Flush bedeutet, dass ein Spieler due höchste Straße hat, bei dem alle 5 Karten die selbe Farbe haben
-        (bspw. Herz 10, Herz Bube, Herz Dame, Herz König und Herz Ass)</p>
-        <img class="img-faq" src="./assets/img/royal-flush.png">
+    <p>A royal flush means that a player has the highest road where all 5 cards are the same suit
+        (e.g. Spades 10, Jack of Spades, Queen of Spades, King Spades and Ace of Spades)</p>
+    <img class="img-faq" src="./assets/img/royal-flush.png">
 </div>

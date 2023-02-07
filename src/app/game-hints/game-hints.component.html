@@ -1,14 +1,5 @@
 <!-- Window with the hint that you need at least 2 players for playing poker -->
 <div class="alert-add-player height150" *ngIf="numberOfPlayers < 2">
-    <p>Please add a player. You need <br> <span>minimum 2 players</span> <br> at the table. (max 6) <br> <span
-            class="hint-start-game">Send the URL to your friends, so they can join the game.</span></p>
-</div>
-
-<div class="alert-add-player height150" *ngIf="mouseIsOverDeveloperModeBtn && !hideHintForDeveloperMode">
-    <p>You can add more than one player by open new tab with same url <br> if you click on this button</p>
-</div>
-
-<div class="alert-add-player height200 zindex3" *ngIf="sameIpAddress">
-    <p> <span>Please restart the game.</span> <br> Please click on the developer mode button, if players can have the same ip address (e.g. friends which use the
-        same hotspot/wlan). The button is only available before you create the first player.</p>
+    <p>Please click on the add button in the right corner and create a player. Wait for your friends and then, start the
+        game</p>
 </div>

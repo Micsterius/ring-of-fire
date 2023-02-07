@@ -23,6 +23,7 @@ export class DialogInviteFriendsComponent implements OnInit {
   @ViewChild('mailFieldFive') mailFieldFive!: ElementRef;
   url;
   mailFields = [''];
+  id;
 
   constructor(
     private firestore: AngularFirestore,
@@ -38,48 +39,57 @@ export class DialogInviteFriendsComponent implements OnInit {
     this.firestore
       .collection('games')
       .add({ ...game.toJson() })
-      .then((gameInfo: any) => this.router.navigateByUrl('/game/' + gameInfo.id));
+      .then((gameInfo: any) => {
+        this.id = gameInfo.id
+        this.router.navigateByUrl('/game/' + gameInfo.id)
+        this.sendMails()
+      });
   }
 
   sendMails() {
-    this.startNewGame()
-    let mailFieldOne = this.mailFieldOne.nativeElement
-   // let mailFieldTwo = this.mailFieldTwo.nativeElement
-   // let mailFieldThree = this.mailFieldThree.nativeElement
-   // let mailFieldFour = this.mailFieldFour.nativeElement
-   // let mailFieldFive = this.mailFieldFive.nativeElement
+    let mailFieldOne = this.mailFieldOne.nativeElement;
     if (this.mailFields.length == 1) this.sendMail(mailFieldOne);
-   // if (this.mailFields.length == 2) this.sendTwoMails(mailFieldOne, mailFieldTwo);
-   // if (this.mailFields.length == 3) this.sendThreeMails(mailFieldOne, mailFieldTwo, mailFieldThree);
-   // if (this.mailFields.length == 4) this.sendFourMails(mailFieldOne, mailFieldTwo, mailFieldThree, mailFieldFour)
-   // if (this.mailFields.length == 5) this.sendFiveMails(mailFieldOne, mailFieldTwo, mailFieldThree, mailFieldFour, mailFieldFive)
+    if (this.mailFields.length == 2) this.sendTwoMails(mailFieldOne);
+    if (this.mailFields.length == 3) this.sendThreeMails(mailFieldOne);
+    if (this.mailFields.length == 4) this.sendFourMails(mailFieldOne);
+    if (this.mailFields.length == 5) this.sendFiveMails(mailFieldOne);
 
-   this.closeDialog();
+    this.closeDialog();
   }
 
   closeDialog() {
     this.dialogRef.close();
   }
 
-  sendTwoMails(mailFieldOne, mailFieldTwo) {
+  sendTwoMails(mailFieldOne) {
+    let mailFieldTwo = this.mailFieldTwo.nativeElement
     this.sendMail(mailFieldOne);
     this.sendMail(mailFieldTwo)
   }
 
-  sendThreeMails(mailFieldOne, mailFieldTwo, mailFieldThree) {
+  sendThreeMails(mailFieldOne) {
+    let mailFieldTwo = this.mailFieldTwo.nativeElement
+    let mailFieldThree = this.mailFieldThree.nativeElement
     this.sendMail(mailFieldOne);
     this.sendMail(mailFieldTwo);
     this.sendMail(mailFieldThree);
   }
 
-  sendFourMails(mailFieldOne, mailFieldTwo, mailFieldThree, mailFieldFour) {
+  sendFourMails(mailFieldOne) {
+    let mailFieldTwo = this.mailFieldTwo.nativeElement
+    let mailFieldThree = this.mailFieldThree.nativeElement
+    let mailFieldFour = this.mailFieldFour.nativeElement
     this.sendMail(mailFieldOne);
     this.sendMail(mailFieldTwo);
     this.sendMail(mailFieldThree);
     this.sendMail(mailFieldFour);
   }
 
-  sendFiveMails(mailFieldOne, mailFieldTwo, mailFieldThree, mailFieldFour, mailFieldFive) {
+  sendFiveMails(mailFieldOne) {
+    let mailFieldTwo = this.mailFieldTwo.nativeElement
+    let mailFieldThree = this.mailFieldThree.nativeElement
+    let mailFieldFour = this.mailFieldFour.nativeElement
+    let mailFieldFive = this.mailFieldFive.nativeElement
     this.sendMail(mailFieldOne);
     this.sendMail(mailFieldTwo);
     this.sendMail(mailFieldThree);
@@ -96,10 +106,10 @@ export class DialogInviteFriendsComponent implements OnInit {
   }
 
   async sendMail(mailField) {
-    let buttonInviteFriends = this.buttonInviteFriends.nativeElement
-    this.disableContactForm(mailField, buttonInviteFriends)
-    await this.giveMessageToServer(mailField)
-    this.showMessageConfirmation()
+    let buttonInviteFriends = this.buttonInviteFriends.nativeElement;
+    this.disableContactForm(mailField, buttonInviteFriends);
+    await this.giveMessageToServer(mailField);
+    this.showMessageConfirmation();
     this.activateContactForm(mailField, buttonInviteFriends);
   }
 
@@ -109,7 +119,7 @@ export class DialogInviteFriendsComponent implements OnInit {
 
   async giveMessageToServer(mailField) {
     let fd = new FormData();
-    let url = location.pathname
+    let url = `https://michael-strauss.developerakademie.net/texas-holdem/game/${this.id}`
     fd.append('url', url)
     fd.append('message', `Do you want to join my poker game? ${url}`)
     fd.append('mail', mailField.value)
