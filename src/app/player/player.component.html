@@ -2,7 +2,9 @@
     <div *ngFor="let player of players; let i = index"
         [ngClass]="{'player-active': player.playersTurn, 'player-folded': player.folded, 'player': true}">
         <div class="player-box">
-            <img class="icon-img" src="assets/img/{{ player.playerImage }}">
+            <div class="icon-img">
+                <img class="icon-img" src="assets/img/{{ player.playerImage }}">
+            </div>
             <div class="player-infos-container"
                 [ngClass]="{'player-infos-show': player.playersTurn, 'player-infos': true}">
                 <div class="player-infos">
