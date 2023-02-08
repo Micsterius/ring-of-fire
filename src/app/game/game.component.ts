@@ -22,7 +22,6 @@ import { GameServiceService } from '../shares/services/game-service.service';
 })
 export class GameComponent implements OnInit {
 
-
   config: CountdownConfig = {
     leftTime: 30,
     formatDate: ({ date }) => `${date / 1000}`,
@@ -37,10 +36,20 @@ export class GameComponent implements OnInit {
 
   ngOnInit(): void {
     this.gameService.newGame();
-    this.gameService.getIPAddress();
+    //this.gameService.getIPAddress();
     this.route
       .params
       .subscribe((params) => this.gameService.startGame(params['id']));
+  }
+
+  findWinningPlayer(){
+    let winnningPlayer = [];
+    for (let i = 0; i < this.gameService.game.winningPlayersId.length; i++) {
+      const playerId = this.gameService.game.winningPlayersId[i];
+      let player = this.gameService.game.players[playerId]
+      winnningPlayer.push(player)
+    }
+    return winnningPlayer;
   }
 }
 

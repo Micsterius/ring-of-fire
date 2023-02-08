@@ -33,7 +33,7 @@ export class TestGameComponent implements OnInit {
 
   ngOnInit(): void {
     this.gameService.newGame();
-    this.gameService.getIPAddress();
+    //this.gameService.getIPAddress();
     this.route
       .params
       .subscribe((params) => this.gameService.startGame(params['id']));
@@ -67,5 +67,15 @@ export class TestGameComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       this.countdown.resume();
     });
+  }
+
+  findWinningPlayer(){
+    let winnningPlayer = [];
+    for (let i = 0; i < this.gameService.game.winningPlayersId.length; i++) {
+      const playerId = this.gameService.game.winningPlayersId[i];
+      let player = this.gameService.game.players[playerId]
+      winnningPlayer.push(player)
+    }
+    return winnningPlayer;
   }
 }

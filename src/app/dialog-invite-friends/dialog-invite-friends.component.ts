@@ -5,6 +5,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Game } from 'src/models/game';
 import { DialogFaqComponent } from '../dialog-faq/dialog-faq.component';
+import { GeneralService } from '../shares/services/general.service';
 
 @Component({
   selector: 'app-dialog-invite-friends',
@@ -28,7 +29,8 @@ export class DialogInviteFriendsComponent implements OnInit {
   constructor(
     private firestore: AngularFirestore,
     private router: Router,
-    public dialogRef: MatDialogRef<DialogFaqComponent>) { }
+    public dialogRef: MatDialogRef<DialogFaqComponent>,
+    private generalService: GeneralService) { }
 
   ngOnInit(): void {
   }
@@ -44,6 +46,7 @@ export class DialogInviteFriendsComponent implements OnInit {
         this.router.navigateByUrl('/game/' + gameInfo.id)
         this.sendMails()
       });
+    this.generalService.testModus = false;
   }
 
   sendMails() {
@@ -119,7 +122,7 @@ export class DialogInviteFriendsComponent implements OnInit {
 
   async giveMessageToServer(mailField) {
     let fd = new FormData();
-    let url = `https://michael-strauss.developerakademie.net/texas-holdem/game/${this.id}`
+    let url = `https://ring-of-fire-f1cee.web.app/game/${this.id}`
     fd.append('url', url)
     fd.append('message', `Do you want to join my poker game? ${url}`)
     fd.append('mail', mailField.value)

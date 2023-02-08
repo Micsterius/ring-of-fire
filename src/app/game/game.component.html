@@ -52,9 +52,10 @@
 
     <!-- Show winning cards -->
     <div *ngIf="gameService.game.roundEnds">
-        <div class="winning-cards" *ngIf="gameService.game.winningCards.length > 1">
-            <img src=" assets/img/cards/{{gameService.game.winningCards[0]}}.svg">
-            <img src=" assets/img/cards/{{gameService.game.winningCards[1]}}.svg">
+        <div class="winning-cards" *ngFor="let player of findWinningPlayer()">
+            <span>{{player.playerName}}</span>
+            <img src=" assets/img/cards/{{player.playerCards[0]}}.svg">
+            <img src=" assets/img/cards/{{player.playerCards[1]}}.svg">
         </div>
     </div>
 
