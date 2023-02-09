@@ -32,6 +32,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatDividerModule} from '@angular/material/divider';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import { DialogGameEndComponent } from './dialog-game-end/dialog-game-end.component';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     TestGameComponent,
     DialogInviteFriendsComponent,
     DialogFaqComponent,
-    SafePipe
+    SafePipe,
+    DialogGameEndComponent
   ],
   imports: [
     BrowserModule,

@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { DialogAddPlayerComponent } from 'src/app/dialog-add-player/dialog-add-player.component';
+import { DialogGameEndComponent } from 'src/app/dialog-game-end/dialog-game-end.component';
 import { Game } from 'src/models/game';
 import { Player } from 'src/models/player';
 import { AudioService } from './audio.service';
@@ -31,7 +33,8 @@ export class GameServiceService {
     private firestore: AngularFirestore,
     public dialog: MatDialog,
     public audioService: AudioService,
-    private generalService: GeneralService
+    private generalService: GeneralService,
+    private router: Router
   ) { }
 
   addItem(newItem: string) {
@@ -387,6 +390,8 @@ export class GameServiceService {
   }
 
   startNextRound() {
+    this.checkWhichPlayerHaveEnoughMoneyForBigBlind();
+    this.saveGame(); // finish game in case of only one player left
     this.clearAllPlayersSetMoney();
     this.setAllPlayerTurnFalse();
     this.setAllPlayersFoldStatusFalseAndSetMoneyToZero();
@@ -399,6 +404,29 @@ export class GameServiceService {
     this.fillFlop();
     this.setBlinds();
     this.saveGame();
+  }
+
+  checkWhichPlayerHaveEnoughMoneyForBigBlind() {
+    this.game.roundEnds = false; // have to be included here, else it coudn't find the winning player after a player left the game
+    let playerStillOnTable = [];
+    for (let i = 0; i < this.game.players.length; i++) {
+      const player = this.game.players[i];
+      if (player.numberOfChips >= 10) {
+        playerStillOnTable.push(player)
+      }
+    }
+    this.game.players = playerStillOnTable;
+    if (this.game.players.length == 1) {
+      this.openDialogGameEnds();
+      console.log('Hello world')
+    }
+  }
+
+  openDialogGameEnds(): void {
+    const dialogRef = this.dialog.open(DialogGameEndComponent);
+    dialogRef.afterClosed().subscribe((name: string) => {
+      this.router.navigateByUrl('')
+    });
   }
 
   NewStack() {
@@ -469,7 +497,6 @@ export class GameServiceService {
     this.game.flop = [];
     this.game.arrayForFirstRound = [];
     this.game.bigBlindPlayerCheckedInTheFirstRound = false;
-    this.game.roundEnds = false;
     this.game.winningPlayersName = [];
     this.game.winningPlayersResult = [];
     this.game.coinsWhichGetWinner = 0;
@@ -507,11 +534,11 @@ export class GameServiceService {
    */
   getHighestJackpot() {
     let allPlayersJackpots = this.game.players.map((player) => player.setMoney)
-    let temporary = -1;
+    let highestJackpot = -1;
     allPlayersJackpots.forEach((setMoney) => {
-      if (temporary < setMoney) temporary = setMoney;
+      if (highestJackpot < setMoney) highestJackpot = setMoney;
     })
-    return temporary
+    return highestJackpot
   }
 
   giveCardsToPlayers() {
