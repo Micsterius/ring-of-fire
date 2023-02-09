@@ -32,7 +32,7 @@
     <!-- Start game button -->
     <div class="start-game-button"
         *ngIf="!gameService.game.pokerGameIsStarted && gameService.game.players.length > 1 && gameService.playerIsCreated">
-        <button (click)="gameService.startPokerGame()">Start Game</button>
+        <button (click)="gameService.startPokerGame()">Give Cards</button>
     </div>
 
     <!-- Show all cards -->

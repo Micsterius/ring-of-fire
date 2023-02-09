@@ -37,7 +37,7 @@
     <!-- Start game button -->
     <div class="start-game-button"
         *ngIf="!gameService.game.pokerGameIsStarted && gameService.game.players.length > 1 && gameService.playerIsCreated">
-        <button (click)="gameService.startPokerGame()">Start Game</button>
+        <button (click)="gameService.startPokerGame()">Give Cards</button>
     </div>
 
     <!-- Show your own cards -->
@@ -51,11 +51,13 @@
     </div>
 
     <!-- Show winning cards -->
-    <div *ngIf="gameService.game.roundEnds">
-        <div class="winning-cards" *ngFor="let player of findWinningPlayer()">
+    <div class="winning-cards" *ngIf="gameService.game.roundEnds">
+        <div class="winning-cards-box" *ngFor="let player of findWinningPlayer()">
             <span>{{player.playerName}}</span>
-            <img src=" assets/img/cards/{{player.playerCards[0]}}.svg">
-            <img src=" assets/img/cards/{{player.playerCards[1]}}.svg">
+            <div>
+                <img src=" assets/img/cards/{{player.playerCards[0]}}.svg">
+                <img src=" assets/img/cards/{{player.playerCards[1]}}.svg">
+            </div>
         </div>
     </div>
 
