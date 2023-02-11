@@ -229,6 +229,12 @@ export class GameServiceService {
     this.goToNextPlayer();
   }
 
+  checkNecessaryNumberOfCoinsToCall() {
+   let nbrOfChipsToCall = this.getHighestJackpot() - this.currentPlayer().setMoney;
+   if (nbrOfChipsToCall > this.currentPlayer().numberOfChips) return false;
+   else return true;
+  }
+
   playerSetMoney() {
     this.game.arrayOfPlayerWhoChecked.length = 0;
     this.currentPlayer().setMoney += 10;
@@ -262,6 +268,18 @@ export class GameServiceService {
     this.game.playerInGame.splice(this.game.playerInGame.indexOf(this.currentPlayer().playerId), 1)
     this.checkNumberOfFoldedPlayers();
     this.saveGame();
+  }
+
+  playerGoesAllIn() {
+    this.game.arrayOfPlayerWhoChecked.length = 0;
+    this.currentPlayer().setMoney += this.currentPlayer().numberOfChips;
+    this.game.allChipsInPot += this.currentPlayer().numberOfChips;
+    this.currentPlayer().numberOfChips = 0;
+    this.game.raiseIsPossible = true;
+    this.currentPlayer().playersTurn = false;
+    this.game.arrayOfPlayerWhoCalled.push(this.currentPlayer().playerId);
+    this.saveGame();
+    this.goToNextPlayer();
   }
 
   checkNumberOfFoldedPlayers() {
