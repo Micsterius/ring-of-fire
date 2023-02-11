@@ -78,4 +78,11 @@ export class TestGameComponent implements OnInit {
     }
     return winnningPlayer;
   }
+
+  showRound(){
+    if (this.gameService.game.showFlop && !this.gameService.game.showTurn) return '2';
+    if (this.gameService.game.showTurn && !this.gameService.game.showRiver) return '3';
+    if (this.gameService.game.showRiver) return '4';
+    else return '1';
+  }
 }

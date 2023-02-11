@@ -8,6 +8,7 @@ import { Component, OnInit, Input, HostListener  } from '@angular/core';
 export class CardsOfTableComponent implements OnInit {
   @Input() cards: string [];
   @Input() showFlop: boolean;
+  @Input() roundNbr: string;
 
   windowWidth: number;
   windowHeight: number;

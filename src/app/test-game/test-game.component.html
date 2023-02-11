@@ -19,7 +19,7 @@
     <div class="field">
         <!-- Flop/Turn/River cards -->
         <app-cards-of-table [showFlop]="gameService.game.showFlop" class="flop-cards-container"
-            [cards]="gameService.game.flop">
+            [cards]="gameService.game.flop" [roundNbr]="showRound()">
         </app-cards-of-table>
     </div>
 

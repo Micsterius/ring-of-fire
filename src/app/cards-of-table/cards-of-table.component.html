@@ -1,44 +1,63 @@
-<div class="flop-container">
-    <div class="flop" *ngIf="windowWidth >= 700">
-        <img [ngStyle]="{ 'left.px' : +i*5}" *ngFor="let c of [0,1,2,3,4]; let i = index;"
-            src="assets/img/cards/card_cover.png">
+<div class="cards-container">
+    <div class="round-box"><span>Round</span>{{roundNbr}}</div>
+    <div class="flop-container">
+        <div class="flop">
+            <img [ngStyle]="{ 'left.px' : +i*5}" *ngFor="let c of [0,1,2,3,4]; let i = index;"
+                src="assets/img/cards/card_cover.png">
+        </div>
+
+        <div *ngIf="windowWidth >= 1000 && showFlop" class="flop-cards">
+            <img [ngStyle]="{ 'left.px' : i*145}" *ngFor="let cardOfTable of cards; let i = index"
+                src="assets/img/cards/{{cardOfTable}}.svg">
+        </div>
+
+        <div *ngIf="windowWidth >= 830 && windowWidth < 1000 && showFlop" class="flop-cards">
+            <img [ngStyle]="{ 'left.px' : i*100}" *ngFor="let cardOfTable of cards; let i = index"
+                src="assets/img/cards/{{cardOfTable}}.svg">
+        </div>
+
+        <div *ngIf="windowWidth < 830 && windowWidth > 730  && showFlop" class="flop-cards">
+            <img *ngFor="let cardOfTable of cards; let i = index" [ngStyle]="{ 'left.px' : i*80}"
+                src="assets/img/cards/{{cardOfTable}}.svg">
+        </div>
+
+        <div *ngIf="windowWidth <= 730 && windowWidth > 710  && showFlop" class="flop-cards">
+            <img *ngFor="let cardOfTable of cards; let i = index" [ngStyle]="{ 'left.px' : i*135, 'top.px' : 45}"
+                src="assets/img/cards/{{cardOfTable}}.svg">
+        </div>
+        <div *ngIf="windowWidth <= 710 && windowWidth > 680  && showFlop" class="flop-cards">
+            <img *ngFor="let cardOfTable of cards; let i = index" [ngStyle]="{ 'left.px' : i*125, 'top.px' : 45}"
+                src="assets/img/cards/{{cardOfTable}}.svg">
+        </div>
+        <div *ngIf="windowWidth <= 680 && windowWidth > 620  && showFlop" class="flop-cards">
+            <img *ngFor="let cardOfTable of cards; let i = index" [ngStyle]="{ 'left.px' : i*100, 'top.px' : 45}"
+                src="assets/img/cards/{{cardOfTable}}.svg">
+        </div>
+        <div *ngIf="windowWidth <= 620 && windowWidth > 540  && showFlop" class="flop-cards">
+            <img *ngFor="let cardOfTable of cards; let i = index" [ngStyle]="{ 'left.px' : i*80, 'top.px' : 45}"
+                src="assets/img/cards/{{cardOfTable}}.svg">
+        </div>
+        <div *ngIf="windowWidth <= 540 && windowWidth > 460  && showFlop" class="flop-cards">
+            <img *ngFor="let cardOfTable of cards; let i = index" [ngStyle]="{ 'left.px' : i*65, 'top.px' : 45}"
+                src="assets/img/cards/{{cardOfTable}}.svg">
+        </div>
     </div>
 
-    <div *ngIf="windowWidth >= 1000 && showFlop" class="flop-cards">
-        <img [ngStyle]="{ 'left.px' : i*145}" *ngFor="let cardOfTable of cards; let i = index"
-            src="assets/img/cards/{{cardOfTable}}.svg">
+
+    <div *ngIf="windowWidth <= 460 && windowWidth > 350  && showFlop">
+        <div *ngFor="let cardOfTable of cards; let i = index" class="flop-cards"
+            [ngStyle]="{ 'left.px' : i*45, 'top.px' : i*45}">
+            <img src="assets/img/cards/{{cardOfTable}}.svg">
+        </div>
+    </div>
+    <div *ngIf="windowWidth <= 350 && windowWidth > 250  && showFlop">
+        <div *ngFor="let cardOfTable of cards; let i = index" class="flop-cards"
+            [ngStyle]="{ 'left.px' : i*35, 'top.px' : i*45}">
+            <img src="assets/img/cards/{{cardOfTable}}.svg">
+        </div>
     </div>
 
-    <div *ngIf="windowWidth >= 790 && windowWidth < 1000 && showFlop" class="flop-cards">
-        <img [ngStyle]="{ 'left.px' : i*100}" *ngFor="let cardOfTable of cards; let i = index"
-            src="assets/img/cards/{{cardOfTable}}.svg">
+    <div *ngIf="windowWidth <= 250">
+        <p class="color-white">Sorry, your screenwidth is to small. Try it in landscapemode and refresh the game.</p>
     </div>
-
-    <div *ngIf="windowWidth < 790 && windowWidth > 500  && showFlop" class="flop-cards">
-        <img *ngFor="let cardOfTable of cards; let i = index" [ngStyle]="{ 'left.px' : i*80}"
-            src="assets/img/cards/{{cardOfTable}}.svg">
-    </div>
-
-    <div *ngIf="windowWidth <= 500 && windowWidth > 460  && showFlop" class="flop-cards">
-        <img *ngFor="let cardOfTable of cards; let i = index" [ngStyle]="{ 'left.px' : i*70}"
-            src="assets/img/cards/{{cardOfTable}}.svg">
-    </div>
-</div>
-
-
-<div *ngIf="windowWidth <= 460 && windowWidth > 350  && showFlop">
-    <div *ngFor="let cardOfTable of cards; let i = index" class="flop-cards"
-        [ngStyle]="{ 'left.px' : i*45, 'top.px' : i*45}">
-        <img src="assets/img/cards/{{cardOfTable}}.svg">
-    </div>
-</div>
-<div *ngIf="windowWidth <= 350 && windowWidth > 250  && showFlop">
-    <div *ngFor="let cardOfTable of cards; let i = index" class="flop-cards"
-        [ngStyle]="{ 'left.px' : i*35, 'top.px' : i*45}">
-        <img src="assets/img/cards/{{cardOfTable}}.svg">
-    </div>
-</div>
-
-<div *ngIf="windowWidth <= 250">
-    <p class="color-white">Sorry, your screenwidth is to small. Try it in landscapemode and refresh the game.</p>
 </div>

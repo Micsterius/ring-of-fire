@@ -229,7 +229,7 @@ body {
     }
 
     img {
-        width: calc(var(--standardCardWith) * 1.3);
+        width: var(--standardCardWith);
 
         @media (max-width: 650px) {
             width: calc(var(--standardCardWith) * 1.1);
