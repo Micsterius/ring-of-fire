@@ -39,8 +39,6 @@ export class GameServiceService {
 
   addItem(newItem: string) {
     this.playersName = newItem;
-    console.log(this.playersName);
-    console.log(newItem);
   }
 
   startGame(gameId) {
@@ -123,7 +121,8 @@ export class GameServiceService {
         "playersTurn": gamePlayers.shift(),
         "numberOfChips": gamePlayers.shift(),
         "folded": gamePlayers.shift(),
-        "setMoney": gamePlayers.shift()
+        "setMoney": gamePlayers.shift(),
+        "setMoneyTotal": gamePlayers.shift()
       }
       let player = new Player(playerInfo)
       temporaryArrayOfAllPlayers.push(player)
@@ -160,6 +159,7 @@ export class GameServiceService {
     }
     this.game.players[a].setMoney += 5;
     this.game.players[a].numberOfChips -= 5;
+    this.game.players[a].setMoneyTotal += 5;
     this.game.allChipsInPot += 5;
   }
 
@@ -171,6 +171,7 @@ export class GameServiceService {
     }
     this.game.players[a].setMoney += 10;
     this.game.players[a].numberOfChips -= 10;
+    this.game.players[a].setMoneyTotal += 10;
     this.game.allChipsInPot += 10;
     this.game.playerWithBigBlindId = a;
   }
@@ -221,6 +222,7 @@ export class GameServiceService {
     this.game.arrayForFirstRound.push(this.currentPlayer().playerId) // only necessary for the first round
     this.currentPlayer().numberOfChips -= this.getHighestJackpot() - this.currentPlayer().setMoney;
     this.game.allChipsInPot += this.getHighestJackpot() - this.currentPlayer().setMoney;
+    this.currentPlayer().setMoneyTotal += this.getHighestJackpot() - this.currentPlayer().setMoney;
     this.currentPlayer().setMoney += this.getHighestJackpot() - this.currentPlayer().setMoney;
     this.game.raiseIsPossible = true;
     this.currentPlayer().playersTurn = false;
@@ -230,14 +232,15 @@ export class GameServiceService {
   }
 
   checkNecessaryNumberOfCoinsToCall() {
-   let nbrOfChipsToCall = this.getHighestJackpot() - this.currentPlayer().setMoney;
-   if (nbrOfChipsToCall > this.currentPlayer().numberOfChips) return false;
-   else return true;
+    let nbrOfChipsToCall = this.getHighestJackpot() - this.currentPlayer().setMoney;
+    if (nbrOfChipsToCall > this.currentPlayer().numberOfChips) return false;
+    else return true;
   }
 
   playerSetMoney() {
     this.game.arrayOfPlayerWhoChecked.length = 0;
     this.currentPlayer().setMoney += 10;
+    this.currentPlayer().setMoneyTotal += 10;
     this.currentPlayer().numberOfChips -= 10;
     this.game.allChipsInPot += 10;
     this.game.callIsPossible = true;
@@ -254,6 +257,7 @@ export class GameServiceService {
     this.game.allChipsInPot += currentHighestJackpotOfOnePlayer * 2;
     this.game.raiseIsPossible = true;
     this.currentPlayer().setMoney += currentHighestJackpotOfOnePlayer * 2;
+    this.currentPlayer().setMoneyTotal += currentHighestJackpotOfOnePlayer * 2;
     this.currentPlayer().playersTurn = false;
     //restart to count which player calls
     this.game.arrayOfPlayerWhoCalled.length = 0;
@@ -273,6 +277,7 @@ export class GameServiceService {
   playerGoesAllIn() {
     this.game.arrayOfPlayerWhoChecked.length = 0;
     this.currentPlayer().setMoney += this.currentPlayer().numberOfChips;
+    this.currentPlayer().setMoneyTotal += this.currentPlayer().numberOfChips
     this.game.allChipsInPot += this.currentPlayer().numberOfChips;
     this.currentPlayer().numberOfChips = 0;
     this.game.raiseIsPossible = true;
@@ -372,7 +377,6 @@ export class GameServiceService {
 
     let response = await fetch(url);
     let a = await response.json();
-    console.log(a.winners)
     this.game.roundEnds = true;
     this.findPlayersWithTheseCards(a.winners)
   }
@@ -411,6 +415,7 @@ export class GameServiceService {
     this.checkWhichPlayerHaveEnoughMoneyForBigBlind();
     this.saveGame(); // finish game in case of only one player left
     this.clearAllPlayersSetMoney();
+    this.clearAllPlayersSetMoneyTotal();
     this.setAllPlayerTurnFalse();
     this.setAllPlayersFoldStatusFalseAndSetMoneyToZero();
     this.game.currentPlayerId = this.findPlayerWhichStartsNextRound();
@@ -422,6 +427,13 @@ export class GameServiceService {
     this.fillFlop();
     this.setBlinds();
     this.saveGame();
+  }
+
+  clearAllPlayersSetMoneyTotal(){
+    for (let i = 0; i < this.game.players.length; i++) {
+      const player = this.game.players[i];
+      player.setMoneyTotal = 0
+    }
   }
 
   checkWhichPlayerHaveEnoughMoneyForBigBlind() {
@@ -436,7 +448,6 @@ export class GameServiceService {
     this.game.players = playerStillOnTable;
     if (this.game.players.length == 1) {
       this.openDialogGameEnds();
-      console.log('Hello world')
     }
   }
 
@@ -608,6 +619,7 @@ export class GameServiceService {
       "numberOfChips": 200,
       "folded": false,
       "setMoney": 0,
+      'setMoneyTotal': 0,
       "userImage": this.game.userImages[id]
     }
     return playerInfo

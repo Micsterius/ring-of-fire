@@ -100,6 +100,7 @@ function createArrayPlayers(players) {
         arr.push(player.numberOfChips);
         arr.push(player.folded);
         arr.push(player.setMoney);
+        arr.push(player.setMoneyTotal);
     }
     return arr;
 }

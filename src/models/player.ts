@@ -7,6 +7,7 @@ export class Player {
     public numberOfChips:number = 100;
     public folded:boolean = false;
     public setMoney:number = 0;
+    public setMoneyTotal:number = 0;
 
     constructor(playerInfo) {
         this.playerName = playerInfo.name;
@@ -17,6 +18,7 @@ export class Player {
         this.numberOfChips = playerInfo.numberOfChips;
         this.folded = playerInfo.folded;
         this.setMoney = playerInfo.setMoney;
+        this.setMoneyTotal = playerInfo.setMoneyTotal;
     }
 
     public playerToJson() {
@@ -28,7 +30,8 @@ export class Player {
             playersTurn: this.playerImage,
             numberOfChips: this.playerId,
             folded: this.folded,
-            setMoney: this.setMoney
+            setMoney: this.setMoney,
+            setMoneyTotal: this.setMoney
         }
     }
 }

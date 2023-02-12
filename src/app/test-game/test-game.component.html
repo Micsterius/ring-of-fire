@@ -114,7 +114,7 @@
                 <button (click)="gameService.playerSetMoney(); audioService.playMoneySound()"
                     *ngIf="!gameService.game.callIsPossible && !gameService.game.raiseIsPossible && player.numberOfChips >= 10">+10</button>
                 <button (click)="gameService.playerCalled(); audioService.playMoneySound()"
-                    *ngIf="gameService.game.callIsPossible && gameService.checkNecessaryNumberOfCoinsToCall()">Call</button>
+                    *ngIf="gameService.game.callIsPossible && gameService.checkNecessaryNumberOfCoinsToCall() && player.numberOfChips >= 5">Call</button>
                 <button (click)="gameService.playerGoesAllIn(); audioService.playMoneySound()"
                     *ngIf="player.numberOfChips > 0">All In</button>
                 <button (click)="gameService.playerRaise(); audioService.playMoneySound()"
